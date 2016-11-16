@@ -19,11 +19,9 @@
 
 8.效果图：
 
- ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/2.jpg)
- 
- ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/3.jpg)
- 
-  ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/4.jpg)
- ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/5.jpg)
-  ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/6.jpg)
-   ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/7.jpg)
+ ![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081734_f50ccb20_1110335.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081747_e412ab52_1110335.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081802_2f2bf64c_1110335.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081810_cbd63187_1110335.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081820_97a18226_1110335.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081830_8767776b_1110335.jpeg "在这里输入图片标题")
