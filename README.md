@@ -66,7 +66,7 @@ mvn clean install
 30. 实现Mysql数据库的主从复制、读写分离、分表分库、负载均衡和高可用（未开源）
 31. 搭建高可用redis集群实现分布式缓存（未开源）
 32. [Spring整合SolrJ实现全文检索](https://gitee.com/shenzhanwang/Spring-solr)
-### 特别篇：分布式事务和并发控制
+#### 特别篇：分布式事务和并发控制
 33. 基于可靠消息最终一致性实现分布式事务（activeMQ）（未开源）
 34. 使用TCC框架实现分布式事务（dubbo版）（未开源）
 35. 使用TCC框架实现分布式事务（Spring Cloud版）（未开源）
