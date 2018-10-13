@@ -54,7 +54,7 @@ mvn clean install
 19. 使用ETL工具Kettle的实例（未开源）
 20. Git指南和分支管理策略（未开源）
 #### 高级篇：架构之美
-21. [搭建zookeeper集群提供目录服务](https://gitee.com/shenzhanwang/zookeeperjiqundajian)
+21. [zookeeper原理、架构、使用场景和可视化](https://gitee.com/shenzhanwang/zookeeper-practice)
 22. 使用ubuntu+apache+SVN+SVNadmin+maven+Nexus+Hudson搭建持续集成环境（未开源）
 23. 使用jenkins+centos+git+maven搭建持续集成环境自动化部署分布式服务（未开源）
 24. Spring框架整合dubbo框架实现分布式服务治理（SOA架构）（未开源）
@@ -71,8 +71,10 @@ mvn clean install
 34. 使用TCC框架实现分布式事务（dubbo版）（未开源）
 35. 使用TCC框架实现分布式事务（Spring Cloud版）（未开源）
 36. 决战高并发：数据库锁机制和事务隔离级别的使用（未开源）
-37. 决战高并发：Java多线程编程实例（未开源）
-38. 决战高并发：使用netty实现高性能NIO通信（未开源）
+37. 决战高并发：使用redis实现分布式锁（未开源）
+38. 决战高并发：使用zookeeper实现分布式锁（未开源）
+39. 决战高并发：Java多线程编程实例（未开源）
+40. 决战高并发：使用netty实现高性能NIO通信（未开源）
 
 ### 捐赠区
 ![输入图片说明](https://images.gitee.com/uploads/images/2018/0719/154323_12a5c89c_1110335.jpeg "mm_facetoface_collect_qrcode_1531986023521.jpg")
