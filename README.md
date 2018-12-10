@@ -55,11 +55,11 @@ mvn clean install
 20. Git指南和分支管理策略（未开源）
 #### 高级篇：架构之美
 21. [zookeeper原理、架构、使用场景和可视化](https://gitee.com/shenzhanwang/zookeeper-practice)
-22. 使用ubuntu+apache+SVN+SVNadmin+maven+Nexus+Hudson搭建持续集成环境（未开源）
-23. 使用jenkins+centos+git+maven搭建持续集成环境自动化部署分布式服务（未开源）
-24. Spring框架整合dubbo框架实现分布式服务治理（SOA架构）（未开源）
-25. Spring框架整合dubbox实现微服务架构（MSA架构）（未开源）
-26. 使用Spring Cloud实现微服务架构（MSA架构）（未开源）
+22. Spring框架整合dubbo框架实现分布式服务治理（SOA架构）（未开源）
+23. Spring框架整合dubbox实现微服务架构（MSA架构）（未开源）
+24. 使用Spring Cloud实现微服务架构（MSA架构）（未开源）
+25. 使用jenkins+centos+git+maven搭建持续集成环境自动化部署分布式服务（未开源）
+26. 使用docker+compose+jenkins+gitlab+spring cloud实现微服务的编排、持续集成和动态扩容（未开源）
 27. 使用FastDFS搭建分布式文件系统（高可用、负载均衡）（未开源）
 28. 搭建高可用nginx集群和Tomcat负载均衡（未开源）
 29. 搭建可扩展的ActiveMQ高可用集群（未开源）
