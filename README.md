@@ -48,7 +48,7 @@ mvn clean install
 11. [Spring连接图存数据库Neo4j实现增删改查](https://gitee.com/shenzhanwang/Spring-neo4j)
 12. [Spring平台整合消息队列ActiveMQ实现发布订阅、生产者消费者模型（JMS）](https://gitee.com/shenzhanwang/Spring-activeMQ)
 13. [Spring整合消息队列RabbitMQ实现四种消息模式（AMQP）](https://gitee.com/shenzhanwang/Spring-rabbitMQ)
-14. Spring框架的session模块实现集中式session管理（未开源）
+14. Spring框架的session模块实现集中式session管理（[购买](https://www.fageka.com/store/item/s/id/fwW1QEK2848.html)）
 15. [Spring整合websocket实现即时通讯](https://gitee.com/shenzhanwang/Spring-websocket)
 16. 使用Spring boot整合mybatis,rabbitmq,redis,mongodb实现增删改查（未开源）
 17. [Spring MVC整合FastDFS客户端实现文件上传](https://gitee.com/shenzhanwang/Spring-fastdfs)
