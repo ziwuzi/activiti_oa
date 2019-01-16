@@ -50,7 +50,7 @@ mvn clean install
 13. [Spring整合消息队列RabbitMQ实现四种消息模式（AMQP）](https://gitee.com/shenzhanwang/Spring-rabbitMQ)
 14. Spring框架的session模块实现集中式session管理（[购买](https://www.fageka.com/store/item/s/id/fwW1QEK2848.html)）
 15. [Spring整合websocket实现即时通讯](https://gitee.com/shenzhanwang/Spring-websocket)
-16. 使用Spring boot整合mybatis,rabbitmq,redis,mongodb实现增删改查（未开源）
+16. 使用Spring boot整合mybatis,rabbitmq,redis,mongodb实现增删改查（[购买](https://www.fageka.com/store/item/s/id/0feQDHL1913.html)）
 17. [Spring MVC整合FastDFS客户端实现文件上传](https://gitee.com/shenzhanwang/Spring-fastdfs)
 18. 23种设计模式，源码、注释、使用场景（未开源）
 19. 使用ETL工具Kettle的实例（未开源）
