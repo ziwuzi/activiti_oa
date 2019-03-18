@@ -37,26 +37,26 @@ public class SystemServiceImpl implements SystemService{
 	@Autowired
 	UserRoleMapper userRoleMapper;
 	
-	public List<User> getallusers() {
+	public List<User> getAllUsers() {
 		return usermapper.getusers();
 	}
-	public List<User> getpageusers(int pagenum, int pagesize) {
+	public List<User> getPageUsers(int pagenum, int pagesize) {
 		PageHelper.startPage(pagenum,pagesize);  
 		List<User> l=usermapper.getusers();
 		return l;
 	}
-	public User getUserByid(int id) {
+	public User getUserById(int id) {
 		User u=usermapper.getUserByid(id);
 		return u;
 	}
 	public List<Role> getRoles() {
 		return rolemapper.getRoles();
 	}
-	public void deleteuser(int uid) {
+	public void deleteUser(int uid) {
 		usermapper.deleteuser(uid);
 		usermapper.deleteuserrole(uid);
 	}
-	public void adduser(User user, String[] rolenames) {
+	public void addUser(User user, String[] rolenames) {
 		usermapper.adduser(user);
 		for(String rolename:rolenames){
 			Role role=rolemapper.getRoleidbyName(rolename);
@@ -66,10 +66,10 @@ public class SystemServiceImpl implements SystemService{
 			rolemapper.adduserrole(ur);
 		}
 	}
-	public void adduser(User user) {
+	public void addUser(User user) {
 		usermapper.adduser(user);
 	}
-	public void updateuser(int uid,User user, String[] rolenames) {
+	public void updateUser(int uid, User user, String[] rolenames) {
 		if(rolenames==null){
 			user.setUid(uid);
 			usermapper.updateuser(user);
@@ -89,18 +89,18 @@ public class SystemServiceImpl implements SystemService{
 		}
 		
 	}
-	public List<Role> getpageRoleinfo(int pagenum, int pagesize) {
+	public List<Role> getPageRoleInfo(int pagenum, int pagesize) {
 		PageHelper.startPage(pagenum,pagesize);  
 		List<Role> l=rolemapper.getRoleinfo();
 		return l;
 	}
-	public List<Role> getRoleinfo() {
+	public List<Role> getRoleInfo() {
 		return rolemapper.getRoleinfo();
 	}
 	public List<Permission> getPermisions() {
 		return permissionmapper.getPermissions();
 	}
-	public void addrole(Role role, String[] permissionnames) {
+	public void addRole(Role role, String[] permissionnames) {
 		rolemapper.addRole(role);
 		for(String permissionname:permissionnames){
 			Permission p=permissionmapper.getPermissionByname(permissionname);
@@ -110,18 +110,18 @@ public class SystemServiceImpl implements SystemService{
 			rolemapper.addRolePermission(rp);
 		}
 	}
-	public void deleterole(int rid) {
+	public void deleteRole(int rid) {
 		rolemapper.deleterole(rid);
 		rolemapper.deleterole_permission(rid);
 		rolemapper.deleteuser_role(rid);
 	}
-	public Role getRolebyid(int rid) {
+	public Role getRoleById(int rid) {
 		return rolemapper.getRolebyid(rid);
 	}
-	public void deleterolepermission(int rid) {
+	public void deleteRolePermission(int rid) {
 		rolemapper.deleterole_permission(rid);
 	}
-	public void updaterole(int rid, String[] permissionnames) {
+	public void updateRole(int rid, String[] permissionnames) {
 		Role role=rolemapper.getRolebyid(rid);
 		for(String permissionname:permissionnames){
 			Permission p=permissionmapper.getPermissionByname(permissionname);
@@ -138,16 +138,16 @@ public class SystemServiceImpl implements SystemService{
 	public void addPermission(String permissionname) {
 		permissionmapper.addpermission(permissionname);
 	}
-	public void deletepermission(int pid) {
+	public void deletePermission(int pid) {
 		permissionmapper.deletepermission(pid);
 		permissionmapper.deleteRole_permission(pid);
 	}
-	public int getUidByusername(String username) {
+	public int getUidByUsername(String username) {
 		return usermapper.getUidByusername(username);
 	}
 	
 	@Override
-	public List<UserRole> listRolesByUserid(int userid) {
+	public List<UserRole> listRolesByUserId(int userid) {
 		return userRoleMapper.listUserRoleByUid(userid);
 	}
 	

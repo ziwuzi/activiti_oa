@@ -21,7 +21,6 @@ import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,11 +28,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import pagemodel.DataGrid;
 import pagemodel.HistoryProcess;
-import pagemodel.LeaveTask;
 import pagemodel.MSG;
 import pagemodel.PurchaseTask;
 import pagemodel.RunningProcess;
-import po.LeaveApply;
 import po.PurchaseApply;
 import po.Role;
 import po.User;
@@ -167,8 +164,8 @@ public class PurchaseController {
 		grid.setRows(new ArrayList<PurchaseTask>());
 		//先做权限检查，对于没有采购经理角色的用户,直接返回空
 		String userid=(String) session.getAttribute("username");
-		int uid=systemservice.getUidByusername(userid);
-		User user=systemservice.getUserByid(uid);
+		int uid=systemservice.getUidByUsername(userid);
+		User user=systemservice.getUserById(uid);
 		List<User_role> userroles=user.getUser_roles();
 		if(userroles==null||userroles.size()==0)
 			return grid;
@@ -316,8 +313,8 @@ public class PurchaseController {
 		grid.setRows(new ArrayList<PurchaseTask>());
 		//先做权限检查，对于没有财务管理员角色的用户,直接返回空
 		String userid=(String) session.getAttribute("username");
-		int uid=systemservice.getUidByusername(userid);
-		User user=systemservice.getUserByid(uid);
+		int uid=systemservice.getUidByUsername(userid);
+		User user=systemservice.getUserById(uid);
 		List<User_role> userroles=user.getUser_roles();
 		if(userroles==null||userroles.size()==0)
 			return grid;
@@ -383,8 +380,8 @@ public class PurchaseController {
 		grid.setRows(new ArrayList<PurchaseTask>());
 		//先做权限检查，对于没有总经理角色的用户,直接返回空
 		String userid=(String) session.getAttribute("username");
-		int uid=systemservice.getUidByusername(userid);
-		User user=systemservice.getUserByid(uid);
+		int uid=systemservice.getUidByUsername(userid);
+		User user=systemservice.getUserById(uid);
 		List<User_role> userroles=user.getUser_roles();
 		if(userroles==null||userroles.size()==0)
 			return grid;
@@ -448,8 +445,8 @@ public class PurchaseController {
 		grid.setRows(new ArrayList<PurchaseTask>());
 		//先做权限检查，对于没有出纳角色的用户,直接返回空
 		String userid=(String) session.getAttribute("username");
-		int uid=systemservice.getUidByusername(userid);
-		User user=systemservice.getUserByid(uid);
+		int uid=systemservice.getUidByUsername(userid);
+		User user=systemservice.getUserById(uid);
 		List<User_role> userroles=user.getUser_roles();
 		if(userroles==null||userroles.size()==0)
 			return grid;

@@ -18,7 +18,6 @@ import po.Permission;
 import po.Role;
 import po.User;
 import po.UserRole;
-import po.User_role;
 import service.SystemService;
 
 @Controller
@@ -44,8 +43,8 @@ public class SystemController {
 	@RequestMapping(value="/userlist",method=RequestMethod.GET)
 	@ResponseBody
 	DataGrid<Userinfo> userList(@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
-		int total=systemservice.getallusers().size();
-		List<User> userlist=systemservice.getpageusers(current,rowCount);
+		int total=systemservice.getAllUsers().size();
+		List<User> userlist=systemservice.getPageUsers(current,rowCount);
 		List<Userinfo> users=new ArrayList<Userinfo>();
 		for(User user:userlist){
 			Userinfo u=new Userinfo();
@@ -56,11 +55,11 @@ public class SystemController {
 			u.setTel(user.getTel());
 			u.setUsername(user.getUsername());
 			String rolename="";
-			List<UserRole> ur = systemservice.listRolesByUserid(userid);
+			List<UserRole> ur = systemservice.listRolesByUserId(userid);
 			if( ur != null && ur.size() > 0 ){
 				for( UserRole userole : ur ){
 					int roleid = userole.getRoleid();
-					Role r = systemservice.getRolebyid(roleid);
+					Role r = systemservice.getRoleById(roleid);
 					rolename=rolename+","+r.getRolename();
 				}
 				if(rolename.length()>0)
@@ -80,7 +79,7 @@ public class SystemController {
 	@RequestMapping(value="/user/{uid}",method=RequestMethod.GET)
 	@ResponseBody
 	User getUserInfo(@PathVariable("uid") int userid){
-		return systemservice.getUserByid(userid);
+		return systemservice.getUserById(userid);
 	}
 	
 	@RequestMapping(value="/rolelist",method=RequestMethod.GET)
@@ -92,8 +91,8 @@ public class SystemController {
 	@RequestMapping(value="/roles",method=RequestMethod.GET)
 	@ResponseBody
 	DataGrid<Role> getAllRoles(@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
-		List<Role> roles=systemservice.getRoleinfo();
-		List<Role> rows=systemservice.getpageRoleinfo(current, rowCount);
+		List<Role> roles=systemservice.getRoleInfo();
+		List<Role> rows=systemservice.getPageRoleInfo(current, rowCount);
 		DataGrid<Role> grid=new DataGrid<Role>();
 		grid.setCurrent(current);
 		grid.setRowCount(rowCount);
@@ -104,22 +103,22 @@ public class SystemController {
 	
 	@RequestMapping(value="/deleteuser/{uid}",method=RequestMethod.GET)
 	String deleteUser(@PathVariable("uid")int uid){
-		systemservice.deleteuser(uid);
+		systemservice.deleteUser(uid);
 		return "system/useradmin";
 	}
 	
 	@RequestMapping(value="/adduser",method=RequestMethod.POST)
 	String addUser(@ModelAttribute("user")User user,@RequestParam(value="rolename[]",required = false)String[] rolename){
 		if(rolename==null)
-			systemservice.adduser(user);
+			systemservice.addUser(user);
 		else
-			systemservice.adduser(user, rolename);
+			systemservice.addUser(user, rolename);
 		return "forward:/useradmin";
 	}
 	
 	@RequestMapping(value="/updateuser/{uid}",method=RequestMethod.POST)
 	String updateUser(@PathVariable("uid")int uid,@ModelAttribute("user")User user,@RequestParam(value="rolename[]",required = false)String[] rolename){
-		systemservice.updateuser(uid, user, rolename);
+		systemservice.updateUser(uid, user, rolename);
 		return "system/useradmin";
 	}
 	
@@ -134,26 +133,26 @@ public class SystemController {
 	String addRole(@RequestParam("rolename") String rolename,@RequestParam(value="permissionname[]")String[] permissionname){
 		Role r=new Role();
 		r.setRolename(rolename);
-		systemservice.addrole(r, permissionname);
+		systemservice.addRole(r, permissionname);
 		return "forward:/roleadmin";
 	}
 	
 	@RequestMapping(value="/deleterole/{rid}",method=RequestMethod.GET)
 	String deleteRole(@PathVariable("rid")int rid){
-		systemservice.deleterole(rid);
+		systemservice.deleteRole(rid);
 		return "system/roleadmin";
 	}
 	
 	@RequestMapping(value="roleinfo/{rid}",method=RequestMethod.GET)
 	@ResponseBody
 	Role getRoleByRid(@PathVariable("rid")int rid){
-		return systemservice.getRolebyid(rid);
+		return systemservice.getRoleById(rid);
 	}
 	
 	@RequestMapping(value="updaterole/{rid}",method=RequestMethod.POST)
 	String updateRole(@PathVariable("rid")int rid,@RequestParam(value="permissionname[]")String[] permissionnames){
-		systemservice.deleterolepermission(rid);
-		systemservice.updaterole(rid, permissionnames);
+		systemservice.deleteRolePermission(rid);
+		systemservice.updateRole(rid, permissionnames);
 		return "system/roleadmin";
 	}
 	
@@ -180,7 +179,7 @@ public class SystemController {
 	
 	@RequestMapping(value="deletepermission/{pid}",method=RequestMethod.GET)
 	String deletePermission(@PathVariable("pid") int pid){
-		systemservice.deletepermission(pid);
+		systemservice.deletePermission(pid);
 		return "system/permissionadmin";
 	}
 }

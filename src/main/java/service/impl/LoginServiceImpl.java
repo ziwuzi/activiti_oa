@@ -16,7 +16,7 @@ import service.LoginService;
 public class LoginServiceImpl implements LoginService{
 	@Autowired
 	LoginMapper loginmapper;
-	public String getpwdbyname(String name) {
+	public String getPwdByName(String name) {
 		User s=loginmapper.getpwdbyname(name);
 		if(s!=null)
 		return s.getPassword();

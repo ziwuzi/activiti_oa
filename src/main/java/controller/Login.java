@@ -21,7 +21,7 @@ public class Login {
 			return "failcode";
 		if(username==null)
 			return "login";
-		String realpwd=loginservice.getpwdbyname(username);
+		String realpwd=loginservice.getPwdByName(username);
 		if(realpwd!=null&&pwd.equals(realpwd))
 		{
 			httpSession.setAttribute("username", username);
