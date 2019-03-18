@@ -15,7 +15,7 @@ public class Login {
 	LoginService loginservice;
 	
 	@RequestMapping("/loginvalidate")
-	public String loginvalidate(@RequestParam("username") String username,@RequestParam("pic") String pic,@RequestParam("password") String pwd,HttpSession httpSession){
+	public String loginValidate(@RequestParam("username") String username,@RequestParam("pic") String pic,@RequestParam("password") String pwd,HttpSession httpSession){
 		String picode=(String) httpSession.getAttribute("rand");
 		if(!picode.equalsIgnoreCase(pic))
 			return "failcode";

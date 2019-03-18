@@ -59,17 +59,17 @@ public class PurchaseController {
 	PurchaseService purchaseservice;
 	
 	@RequestMapping("/purchase")
-	String purchase(){
+	String purChase(){
 		return "purchase/purchaseapply";
 	}
 	
 	@RequestMapping("/historypurchaseprocess")
-	String historypurchaseprocess(){
+	String historyPurchaseProcess(){
 		return "purchase/historypurchaseprocess";
 	}
 	
 	@RequestMapping("/purchasemanager")
-	String purchasemanager(){
+	String purchaseManager(){
 		return "purchase/purchasemanager";
 	}
 	
@@ -89,18 +89,18 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/updateapply")
-	String updateapply(){
+	String updateApply(){
 		return "purchase/updateapply";
 	}
 	
 	@RequestMapping("/receiveitem")
-	String receiveitem(){
+	String receiveItem(){
 		return "purchase/receiveitem";
 	}
 	
 	@RequestMapping("startpurchase")
 	@ResponseBody
-	String startpurchase(@RequestParam("itemlist")String itemlist,@RequestParam("total")float total,HttpSession session){
+	String startPurchase(@RequestParam("itemlist")String itemlist,@RequestParam("total")float total,HttpSession session){
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String, Object>();
 		variables.put("starter", userid);
@@ -116,7 +116,7 @@ public class PurchaseController {
 	//我发起的采购流程
 	@RequestMapping("mypurchaseprocess")
 	@ResponseBody
-	public DataGrid<RunningProcess> mypurchaseprocess(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	public DataGrid<RunningProcess> myPurchaseProcess(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
 		ProcessInstanceQuery query = runservice.createProcessInstanceQuery();
@@ -153,13 +153,13 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/mypurchase")
-	String mypurchase(){
+	String myPurchase(){
 		return "purchase/mypurchase";
 	}
 	
 	@RequestMapping("/puchasemanagertasklist")
 	@ResponseBody
-	DataGrid<PurchaseTask> puchasemanagertasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	DataGrid<PurchaseTask> puchaseManagerTaskList(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		DataGrid<PurchaseTask> grid=new DataGrid<PurchaseTask>();
 		grid.setRowCount(rowCount);
 		grid.setCurrent(current);
@@ -212,7 +212,7 @@ public class PurchaseController {
 	
 	@RequestMapping("task/purchasemanagercomplete/{taskid}")
 	@ResponseBody
-	public MSG purchasemanagercomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
+	public MSG purchaseManagerComplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String purchaseauditi=req.getParameter("purchaseauditi");
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String,Object>();
@@ -224,7 +224,7 @@ public class PurchaseController {
 	
 	@RequestMapping("updatepurchaseapply")
 	@ResponseBody
-	public DataGrid<PurchaseTask> updateapply(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	public DataGrid<PurchaseTask> updateApply(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
 		TaskQuery query=taskservice.createTaskQuery().processDefinitionKey("purchase").taskCandidateOrAssigned(userid).taskDefinitionKey("updateapply");
@@ -258,7 +258,7 @@ public class PurchaseController {
 	
 	@RequestMapping("task/updateapplycomplete/{taskid}")
 	@ResponseBody
-	public MSG updateapplycomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
+	public MSG updateApplyComplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String updateapply=req.getParameter("updateapply");
 		String userid=(String) session.getAttribute("username");
 		if(updateapply.equals("true")){
@@ -308,7 +308,7 @@ public class PurchaseController {
 	
 	@RequestMapping("/financetasklist")
 	@ResponseBody
-	DataGrid<PurchaseTask> financetasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	DataGrid<PurchaseTask> financeTaskList(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		DataGrid<PurchaseTask> grid=new DataGrid<PurchaseTask>();
 		grid.setRowCount(rowCount);
 		grid.setCurrent(current);
@@ -361,7 +361,7 @@ public class PurchaseController {
 	
 	@RequestMapping("task/financecomplete/{taskid}")
 	@ResponseBody
-	public MSG financecomplete(HttpSession session,@RequestParam("total")String total,@PathVariable("taskid") String taskid,HttpServletRequest req){
+	public MSG financeComplete(HttpSession session,@RequestParam("total")String total,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String finance=req.getParameter("finance");
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String,Object>();
@@ -375,7 +375,7 @@ public class PurchaseController {
 	
 	@RequestMapping("/managertasklist")
 	@ResponseBody
-	DataGrid<PurchaseTask> managertasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	DataGrid<PurchaseTask> managerTaskList(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		DataGrid<PurchaseTask> grid=new DataGrid<PurchaseTask>();
 		grid.setRowCount(rowCount);
 		grid.setCurrent(current);
@@ -428,7 +428,7 @@ public class PurchaseController {
 	
 	@RequestMapping("task/managercomplete/{taskid}")
 	@ResponseBody
-	public MSG managercomplete(HttpSession session,@RequestParam("total")String total,@PathVariable("taskid") String taskid,HttpServletRequest req){
+	public MSG managerComplete(HttpSession session,@RequestParam("total")String total,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String manager=req.getParameter("manager");
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String,Object>();
@@ -440,7 +440,7 @@ public class PurchaseController {
 	
 	@RequestMapping("/paytasklist")
 	@ResponseBody
-	DataGrid<PurchaseTask> paytasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	DataGrid<PurchaseTask> payTaskList(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		DataGrid<PurchaseTask> grid=new DataGrid<PurchaseTask>();
 		grid.setRowCount(rowCount);
 		grid.setCurrent(current);
@@ -493,7 +493,7 @@ public class PurchaseController {
 	
 	@RequestMapping("task/paycomplete/{taskid}")
 	@ResponseBody
-	public MSG paycomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
+	public MSG payComplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String userid=(String) session.getAttribute("username");
 		taskservice.claim(taskid, userid);
 		taskservice.complete(taskid);
@@ -503,7 +503,7 @@ public class PurchaseController {
 	
 	@RequestMapping("/receivetasklist")
 	@ResponseBody
-	DataGrid<PurchaseTask> receivetasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	DataGrid<PurchaseTask> receiveTaskList(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
 		TaskQuery query=taskservice.createTaskQuery().processDefinitionKey("purchase").taskCandidateOrAssigned(userid).taskDefinitionKey("receiveitem");
@@ -537,7 +537,7 @@ public class PurchaseController {
 	
 	@RequestMapping("task/receivecomplete/{taskid}")
 	@ResponseBody
-	public MSG receivecomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
+	public MSG receiveComplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String userid=(String) session.getAttribute("username");
 		taskservice.claim(taskid, userid);
 		taskservice.complete(taskid);

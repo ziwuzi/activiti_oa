@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class Pic {
 @RequestMapping(value="/authImg")
-public String getpic(){
+public String getPic(){
 	return "authImg";
 }
 }
