@@ -20,13 +20,24 @@
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close"
 		p:driverClass="com.mysql.jdbc.Driver"
-		p:jdbcUrl="jdbc:mysql://192.168.194.128:3306/activiti"
+		p:jdbcUrl="jdbc:mysql://localhost:3306/activiti?useSSL=false&amp;characterEncoding=utf-8"
 		p:user="root"
-		p:password="1234"
+		p:password="root"
 		p:maxPoolSize="40"
 		p:minPoolSize="2"
 		p:initialPoolSize="2"
 		p:maxIdleTime="30"/>
+
+	<!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"-->
+		  <!--destroy-method="close"-->
+		  <!--p:driverClass="org.h2.Driver"-->
+		  <!--p:jdbcUrl="jdbc:h2:file:./h2/code-generator;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE"-->
+		  <!--p:user="root"-->
+		  <!--p:password="root"-->
+		  <!--p:maxPoolSize="40"-->
+		  <!--p:minPoolSize="2"-->
+		  <!--p:initialPoolSize="2"-->
+		  <!--p:maxIdleTime="30"/>-->
     
     <!-- mybatis文件配置，扫描所有mapper文件 -->
       <bean id="sqlSessionFactory"

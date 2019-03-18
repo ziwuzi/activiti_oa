@@ -2,7 +2,6 @@ package controller;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +80,7 @@ public class ActivitiController {
 	}
 	
 	@RequestMapping("/uploadworkflow")
-	public String fileupload(@RequestParam MultipartFile uploadfile,HttpServletRequest request){
+	public String fileUpload(@RequestParam MultipartFile uploadfile, HttpServletRequest request){
 		try{
 			MultipartFile file=uploadfile;
 			String filename=file.getOriginalFilename();
@@ -95,7 +94,7 @@ public class ActivitiController {
 	
 	@RequestMapping(value="/getprocesslists")
 	@ResponseBody
-	public DataGrid<Process> getlist(@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	public DataGrid<Process> getList(@RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		List<ProcessDefinition> list=rep.createProcessDefinitionQuery().listPage(firstrow, rowCount);
 		int total=rep.createProcessDefinitionQuery().list().size();
@@ -129,7 +128,7 @@ public class ActivitiController {
 	}
 	
 	@RequestMapping("/deletedeploy")
-	public String deletedeploy(@RequestParam("deployid") String deployid) throws Exception{
+	public String deleteDeploy(@RequestParam("deployid") String deployid) throws Exception{
 		rep.deleteDeployment(deployid,true);
 		return "activiti/processlist";
 	}
@@ -140,7 +139,7 @@ public class ActivitiController {
 	} 
 	
 	@RequestMapping("/deptleaderaudit")
-	public String mytask(){
+	public String myTask(){
 		return "activiti/deptleaderaudit"; 
 	}
 	
@@ -160,17 +159,17 @@ public class ActivitiController {
 	}
 	
 	@RequestMapping("/reportback")
-	public String reprotback(){
+	public String reprotBack(){
 		return "activiti/reportback"; 
 	}
 	
 	@RequestMapping("/modifyapply")
-	public String modifyapply(){
+	public String modifyApply(){
 		return "activiti/modifyapply"; 
 	}
 	@RequestMapping(value="/startleave",method=RequestMethod.POST)
 	@ResponseBody
-	public String start_leave(LeaveApply apply,HttpSession session){
+	public String startLeave(LeaveApply apply, HttpSession session){
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String, Object>();
 		variables.put("applyuserid", userid);
@@ -181,7 +180,7 @@ public class ActivitiController {
 	
 	@RequestMapping(value="/depttasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public DataGrid<LeaveTask> getdepttasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	public DataGrid<LeaveTask> getDeptTaskList(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
 		grid.setRowCount(rowCount);
 		grid.setCurrent(current);
@@ -215,8 +214,8 @@ public class ActivitiController {
 				return grid;
 			}else{
 				int firstrow=(current-1)*rowCount;
-				List<LeaveApply> results=leaveservice.getpagedepttask(userid,firstrow,rowCount);
-				int totalsize=leaveservice.getalldepttask(userid);
+				List<LeaveApply> results=leaveservice.getPageDeptTask(userid,firstrow,rowCount);
+				int totalsize=leaveservice.getAllDeptTask(userid);
 				List<LeaveTask> tasks=new ArrayList<LeaveTask>();
 				for(LeaveApply apply:results){
 					LeaveTask task=new LeaveTask();
@@ -244,7 +243,7 @@ public class ActivitiController {
 	
 	@RequestMapping(value="/hrtasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public DataGrid<LeaveTask> gethrtasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	public DataGrid<LeaveTask> getHrTaskList(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
 		grid.setRowCount(rowCount);
 		grid.setCurrent(current);
@@ -278,8 +277,8 @@ public class ActivitiController {
 				return grid;
 			}else{
 		int firstrow=(current-1)*rowCount;
-		List<LeaveApply> results=leaveservice.getpagehrtask(userid,firstrow,rowCount);
-		int totalsize=leaveservice.getallhrtask(userid);
+		List<LeaveApply> results=leaveservice.getPageHrTask(userid,firstrow,rowCount);
+		int totalsize=leaveservice.getAllHrTask(userid);
 		List<LeaveTask> tasks=new ArrayList<LeaveTask>();
 		for(LeaveApply apply:results){
 			LeaveTask task=new LeaveTask();
@@ -307,11 +306,11 @@ public class ActivitiController {
 	
 	@RequestMapping(value="/xjtasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public String getXJtasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	public String getXJTaskList(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
-		List<LeaveApply> results=leaveservice.getpageXJtask(userid,firstrow,rowCount);
-		int totalsize=leaveservice.getallXJtask(userid);
+		List<LeaveApply> results=leaveservice.getPageXJTask(userid,firstrow,rowCount);
+		int totalsize=leaveservice.getAllXJTask(userid);
 		List<LeaveTask> tasks=new ArrayList<LeaveTask>();
 		for(LeaveApply apply:results){
 			LeaveTask task=new LeaveTask();
@@ -340,11 +339,11 @@ public class ActivitiController {
 	
 	@RequestMapping(value="/updatetasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public String getupdatetasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	public String getUpdateTaskList(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
-		List<LeaveApply> results=leaveservice.getpageupdateapplytask(userid,firstrow,rowCount);
-		int totalsize=leaveservice.getallupdateapplytask(userid);
+		List<LeaveApply> results=leaveservice.getPageUpdateApplyTask(userid,firstrow,rowCount);
+		int totalsize=leaveservice.getAllUpdateApplyTask(userid);
 		List<LeaveTask> tasks=new ArrayList<LeaveTask>();
 		for(LeaveApply apply:results){
 			LeaveTask task=new LeaveTask();
@@ -372,10 +371,10 @@ public class ActivitiController {
 	
 	@RequestMapping(value="/dealtask")
 	@ResponseBody
-	public String taskdeal(@RequestParam("taskid") String taskid,HttpServletResponse response){
+	public String taskDeal(@RequestParam("taskid") String taskid, HttpServletResponse response){
 		Task task=taskservice.createTaskQuery().taskId(taskid).singleResult();
 		ProcessInstance process=runservice.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-		LeaveApply leave=leaveservice.getleave(new Integer(process.getBusinessKey()));
+		LeaveApply leave=leaveservice.getLeave(new Integer(process.getBusinessKey()));
 		return JSON.toJSONString(leave);
 	}
 	
@@ -386,7 +385,7 @@ public class ActivitiController {
 	
 	@RequestMapping(value="/task/deptcomplete/{taskid}")
 	@ResponseBody
-	public String deptcomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
+	public String deptComplete(HttpSession session, @PathVariable("taskid") String taskid, HttpServletRequest req){
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String,Object>();
 		String approve=req.getParameter("deptleaderapprove");
@@ -398,7 +397,7 @@ public class ActivitiController {
 	
 	@RequestMapping(value="/task/hrcomplete/{taskid}")
 	@ResponseBody
-	public String hrcomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
+	public String hrComplete(HttpSession session, @PathVariable("taskid") String taskid, HttpServletRequest req){
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String,Object>();
 		String approve=req.getParameter("hrapprove");
@@ -410,23 +409,23 @@ public class ActivitiController {
 	
 	@RequestMapping(value="/task/reportcomplete/{taskid}")
 	@ResponseBody
-	public String reportbackcomplete(@PathVariable("taskid") String taskid,HttpServletRequest req){
+	public String reportBackComplete(@PathVariable("taskid") String taskid, HttpServletRequest req){
 		String realstart_time=req.getParameter("realstart_time");
 		String realend_time=req.getParameter("realend_time");
-		leaveservice.completereportback(taskid,realstart_time,realend_time);
+		leaveservice.completeReportBack(taskid,realstart_time,realend_time);
 		return JSON.toJSONString("success");
 	}
 	
 	@RequestMapping(value="/task/updatecomplete/{taskid}")
 	@ResponseBody
-	public String updatecomplete(@PathVariable("taskid") String taskid,@ModelAttribute("leave") LeaveApply leave,@RequestParam("reapply") String reapply){
-		leaveservice.updatecomplete(taskid,leave,reapply);
+	public String updateComplete(@PathVariable("taskid") String taskid, @ModelAttribute("leave") LeaveApply leave, @RequestParam("reapply") String reapply){
+		leaveservice.updateComplete(taskid,leave,reapply);
 		return JSON.toJSONString("success");
 	}
 	
 	@RequestMapping("involvedprocess")//参与的正在运行的请假流程
 	@ResponseBody
-	public DataGrid<RunningProcess> allexeution(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	public DataGrid<RunningProcess> allExeution(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
 		ProcessInstanceQuery query = runservice.createProcessInstanceQuery();
@@ -461,7 +460,7 @@ public class ActivitiController {
 		for(HistoricProcessInstance history:info){
 			HistoryProcess his=new HistoryProcess();
 			String bussinesskey=history.getBusinessKey();
-			LeaveApply apply=leaveservice.getleave(Integer.parseInt(bussinesskey));
+			LeaveApply apply=leaveservice.getLeave(Integer.parseInt(bussinesskey));
 			his.setLeaveapply(apply);
 			his.setBusinessKey(bussinesskey);
 			his.setProcessDefinitionId(history.getProcessDefinitionId());
@@ -484,27 +483,27 @@ public class ActivitiController {
 	
 	@RequestMapping("/processinfo")
 	@ResponseBody
-	public List<HistoricActivityInstance> processinfo(@RequestParam("instanceid")String instanceid){
+	public List<HistoricActivityInstance> processInfo(@RequestParam("instanceid")String instanceid){
 		  List<HistoricActivityInstance> his = histiryservice.createHistoricActivityInstanceQuery().processInstanceId(instanceid).orderByHistoricActivityInstanceStartTime().asc().list();
 		  return his;
 	}
 	
 	@RequestMapping("/processhis")
 	@ResponseBody
-	public List<HistoricActivityInstance> processhis(@RequestParam("ywh")String ywh){
+	public List<HistoricActivityInstance> processHis(@RequestParam("ywh")String ywh){
 		  String instanceid=histiryservice.createHistoricProcessInstanceQuery().processDefinitionKey("purchase").processInstanceBusinessKey(ywh).singleResult().getId();
 		  System.out.println(instanceid);
 		  List<HistoricActivityInstance> his = histiryservice.createHistoricActivityInstanceQuery().processInstanceId(instanceid).orderByHistoricActivityInstanceStartTime().asc().list();
 		  return his;
 	}
 	
-	@RequestMapping("myleaveprocess")
-	String myleaveprocess(){
-		return "activiti/myleaveprocess";
+	@RequestMapping("myLeaveProcess")
+	String myLeaveProcess(){
+		return "activiti/myLeaveProcess";
 	}
 	
 	@RequestMapping("traceprocess/{executionid}")
-	public void traceprocess(@PathVariable("executionid")String executionid,HttpServletResponse response) throws Exception{
+	public void traceProcess(@PathVariable("executionid")String executionid, HttpServletResponse response) throws Exception{
 		ProcessInstance process=runservice.createProcessInstanceQuery().processInstanceId(executionid).singleResult();
 		BpmnModel bpmnmodel=rep.getBpmnModel(process.getProcessDefinitionId());
 		List<String> activeActivityIds=runservice.getActiveActivityIds(executionid);
@@ -525,14 +524,14 @@ public class ActivitiController {
 		IOUtils.copy(in, output);
 	}
 	
-	@RequestMapping("myleaves")
-	String myleaves(){
-		return "activiti/myleaves";
+	@RequestMapping("myLeaves")
+	String myLeaves(){
+		return "activiti/myLeaves";
 	}
 	
 	@RequestMapping("setupprocess")
 	@ResponseBody
-	public DataGrid<RunningProcess> setupprocess(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	public DataGrid<RunningProcess> setupProcess(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
 		ProcessInstanceQuery query = runservice.createProcessInstanceQuery();
@@ -545,7 +544,7 @@ public class ActivitiController {
 			process.setBusinesskey(p.getBusinessKey());
 			process.setExecutionid(p.getId());
 			process.setProcessInstanceid(p.getProcessInstanceId());
-			LeaveApply l=leaveservice.getleave(Integer.parseInt(p.getBusinessKey()));
+			LeaveApply l=leaveservice.getLeave(Integer.parseInt(p.getBusinessKey()));
 			if(l.getUser_id().equals(userid))
 			list.add(process);
 			else

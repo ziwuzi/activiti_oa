@@ -18,15 +18,15 @@
             <groupId>javax.servlet</groupId>  
             <artifactId>javax.servlet-api</artifactId>  
             <version>3.1-b09</version>  
-            <scope>provided</scope>  
-        </dependency>  
-        <!-- MySQL驱动 -->  
-        <dependency>  
-            <groupId>mysql</groupId>  
-            <artifactId>mysql-connector-java</artifactId>  
-            <version>5.1.30</version>  
-        </dependency>  
-        <!-- mchange C3P0 数据源-->  
+            <scope>provided</scope>
+        </dependency>
+	    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	    <dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.47</version>
+		</dependency>
+        <!-- mchange C3P0 数据源-->
         <dependency>  
             <groupId>com.mchange</groupId>  
             <artifactId>c3p0</artifactId>  
@@ -179,7 +179,13 @@
 		    <artifactId>jstl</artifactId>
 		    <version>1.2</version>
 		</dependency>
-	    
+	  <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+	  <dependency>
+		  <groupId>com.h2database</groupId>
+		  <artifactId>h2</artifactId>
+		  <version>1.4.199</version>
+		  <scope>test</scope>
+	  </dependency>
   </dependencies>
   <build>
     <finalName>Spring-activiti</finalName>
