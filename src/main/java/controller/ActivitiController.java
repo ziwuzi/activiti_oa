@@ -497,9 +497,9 @@ public class ActivitiController {
 		  return his;
 	}
 	
-	@RequestMapping("myLeaveProcess")
+	@RequestMapping("myleaveprocess")
 	String myLeaveProcess(){
-		return "activiti/myLeaveProcess";
+		return "activiti/myleaveprocess";
 	}
 	
 	@RequestMapping("traceprocess/{executionid}")
@@ -524,9 +524,9 @@ public class ActivitiController {
 		IOUtils.copy(in, output);
 	}
 	
-	@RequestMapping("myLeaves")
+	@RequestMapping("myleaves")
 	String myLeaves(){
-		return "activiti/myLeaves";
+		return "activiti/myleaves";
 	}
 	
 	@RequestMapping("setupprocess")
