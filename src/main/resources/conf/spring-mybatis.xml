@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:p="http://www.springframework.org/schema/p"
-  xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:aop="http://www.springframework.org/schema/aop"
-  xmlns:tx="http://www.springframework.org/schema/tx"
-  xmlns:util="http://www.springframework.org/schema/util"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:util="http://www.springframework.org/schema/util" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.2.xsd
@@ -15,30 +15,35 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
     http://www.springframework.org/schema/util 
-    http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+    http://www.springframework.org/schema/util/spring-util-3.2.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close"
-		p:driverClass="com.mysql.jdbc.Driver"
-		p:jdbcUrl="jdbc:mysql://localhost:3306/activiti?useSSL=false&amp;characterEncoding=utf-8"
-		p:user="root"
-		p:password="root"
-		p:maxPoolSize="40"
-		p:minPoolSize="2"
-		p:initialPoolSize="2"
-		p:maxIdleTime="30"/>
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"-->
+		<!--destroy-method="close"-->
+		<!--p:driverClass="com.mysql.jdbc.Driver"-->
+		<!--p:jdbcUrl="jdbc:mysql://localhost:3306/activiti?useSSL=false&amp;characterEncoding=utf-8"-->
+		<!--p:user="root"-->
+		<!--p:password="root"-->
+		<!--p:maxPoolSize="40"-->
+		<!--p:minPoolSize="2"-->
+		<!--p:initialPoolSize="2"-->
+		<!--p:maxIdleTime="30"/>-->
 
-	<!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"-->
-		  <!--destroy-method="close"-->
-		  <!--p:driverClass="org.h2.Driver"-->
-		  <!--p:jdbcUrl="jdbc:h2:file:./h2/code-generator;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE"-->
-		  <!--p:user="root"-->
-		  <!--p:password="root"-->
-		  <!--p:maxPoolSize="40"-->
-		  <!--p:minPoolSize="2"-->
-		  <!--p:initialPoolSize="2"-->
-		  <!--p:maxIdleTime="30"/>-->
-    
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		  destroy-method="close"
+		  p:driverClass="org.h2.Driver"
+		  p:jdbcUrl="jdbc:h2:file:~/.h2/activiti;AUTO_SERVER=TRUE;MODE=MYSQL;DB_CLOSE_DELAY=-1"
+		  p:user="root"
+		  p:password="root"
+		  p:maxPoolSize="40"
+		  p:minPoolSize="2"
+		  p:initialPoolSize="2"
+		  p:maxIdleTime="30"/>
+
+    <!-- 初始化数据表结构 -->
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="NONE" enabled="true">
+        <jdbc:script location="classpath:conf/activiti_h2.sql" encoding="UTF-8"/>
+    </jdbc:initialize-database>
+
     <!-- mybatis文件配置，扫描所有mapper文件 -->
       <bean id="sqlSessionFactory"
           class="org.mybatis.spring.SqlSessionFactoryBean"
