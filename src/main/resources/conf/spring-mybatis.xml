@@ -40,7 +40,7 @@
 		  p:maxIdleTime="30"/>
 
     <!-- 初始化数据表结构 -->
-    <jdbc:initialize-database data-source="dataSource" ignore-failures="NONE" enabled="true">
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="NONE" enabled="false">
         <jdbc:script location="classpath:conf/activiti_h2.sql" encoding="UTF-8"/>
     </jdbc:initialize-database>
 
