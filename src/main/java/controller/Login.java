@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import po.User;
 import service.LoginService;
 
 
@@ -21,9 +22,10 @@ public class Login {
 			return "failcode";
 		if(username==null)
 			return "login";
-		String realpwd=loginservice.getPwdByName(username);
-		if(realpwd!=null&&pwd.equals(realpwd))
+		User user=loginservice.getUser(username);
+		if(user.getPassword()!=null&&pwd.equals(user.getPassword()))
 		{
+			httpSession.setAttribute("user",user);
 			httpSession.setAttribute("username", username);
 			return "index";
 		}else
@@ -37,6 +39,7 @@ public class Login {
 	
 	@RequestMapping("/logout")
 	public String logout(HttpSession httpSession){
+		httpSession.removeAttribute("user");
 		httpSession.removeAttribute("username");
 		return "login";
 	}

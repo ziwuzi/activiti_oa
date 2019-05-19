@@ -24,4 +24,8 @@ public class LoginServiceImpl implements LoginService{
 		return null;
 	}
 
+	public User getUser(String name) {
+		return loginmapper.getpwdbyname(name);
+	}
+
 }

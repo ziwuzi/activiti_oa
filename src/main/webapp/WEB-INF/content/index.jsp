@@ -110,7 +110,17 @@
 						<li><a class="ajax-link" href="leaveapply">请假OA</a></li>
 						<li><a class="ajax-link" href="purchase">物资采购</a></li>
 					</ul>
-				</li>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <span class="hidden-xs">日报管理</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="ajax-link" href="my_daily">我的日报</a></li>
+						<li><a class="ajax-link" href="to_add_daily">新增日报</a></li>
+                    </ul>
+                </li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle">
 						<i class="fa  fa-bell"></i>
