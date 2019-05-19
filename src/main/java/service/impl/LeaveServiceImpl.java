@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import mapper.LeaveApplyMapper;
 
@@ -188,5 +189,9 @@ public class LeaveServiceImpl implements LeaveService{
 	        }  
 	    }  
 	    return highFlows;  
-	}  
+	}
+
+	public static void main(String args[]){
+		Boolean test = Pattern.matches(". 1$","3 1");
+	}
 }

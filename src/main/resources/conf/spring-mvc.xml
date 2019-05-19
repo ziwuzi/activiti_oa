@@ -40,7 +40,7 @@
         <mvc:exclude-mapping path="/login" />  
         <mvc:exclude-mapping path="/authImg"/>
         <mvc:exclude-mapping path="/plugins/bootstrap/bootstrap.css"/>
-        <mvc:exclude-mapping path="/css/style_v1.css"/>
+        <mvc:exclude-mapping path="/css/style_v2.css"/>
         <mvc:exclude-mapping path="/loginvalidate"/>
         <bean class="interceptor.LoginIntercepter"></bean>    
     </mvc:interceptor>  

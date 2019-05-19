@@ -216,23 +216,7 @@ public class ActivitiController {
 				int firstrow=(current-1)*rowCount;
 				List<LeaveApply> results=leaveservice.getPageDeptTask(userid,firstrow,rowCount);
 				int totalsize=leaveservice.getAllDeptTask(userid);
-				List<LeaveTask> tasks=new ArrayList<LeaveTask>();
-				for(LeaveApply apply:results){
-					LeaveTask task=new LeaveTask();
-					task.setApply_time(apply.getApply_time());
-					task.setUser_id(apply.getUser_id());
-					task.setEnd_time(apply.getEnd_time());
-					task.setId(apply.getId());
-					task.setLeave_type(apply.getLeave_type());
-					task.setProcess_instance_id(apply.getProcess_instance_id());
-					task.setProcessdefid(apply.getTask().getProcessDefinitionId());
-					task.setReason(apply.getReason());
-					task.setStart_time(apply.getStart_time());
-					task.setTaskcreatetime(apply.getTask().getCreateTime());
-					task.setTaskid(apply.getTask().getId());
-					task.setTaskname(apply.getTask().getName());
-					tasks.add(task);
-				}
+				List<LeaveTask> tasks = getLeaveTasks(results);
 				grid.setRowCount(rowCount);
 				grid.setCurrent(current);
 				grid.setTotal(totalsize);
@@ -279,24 +263,8 @@ public class ActivitiController {
 		int firstrow=(current-1)*rowCount;
 		List<LeaveApply> results=leaveservice.getPageHrTask(userid,firstrow,rowCount);
 		int totalsize=leaveservice.getAllHrTask(userid);
-		List<LeaveTask> tasks=new ArrayList<LeaveTask>();
-		for(LeaveApply apply:results){
-			LeaveTask task=new LeaveTask();
-			task.setApply_time(apply.getApply_time());
-			task.setUser_id(apply.getUser_id());
-			task.setEnd_time(apply.getEnd_time());
-			task.setId(apply.getId());
-			task.setLeave_type(apply.getLeave_type());
-			task.setProcess_instance_id(apply.getProcess_instance_id());
-			task.setProcessdefid(apply.getTask().getProcessDefinitionId());
-			task.setReason(apply.getReason());
-			task.setStart_time(apply.getStart_time());
-			task.setTaskcreatetime(apply.getTask().getCreateTime());
-			task.setTaskid(apply.getTask().getId());
-			task.setTaskname(apply.getTask().getName());
-			tasks.add(task);
-		}
-		grid.setRowCount(rowCount);
+				List<LeaveTask> tasks = getLeaveTasks(results);
+				grid.setRowCount(rowCount);
 		grid.setCurrent(current);
 		grid.setTotal(totalsize);
 		grid.setRows(tasks);
@@ -311,23 +279,7 @@ public class ActivitiController {
 		String userid=(String) session.getAttribute("username");
 		List<LeaveApply> results=leaveservice.getPageXJTask(userid,firstrow,rowCount);
 		int totalsize=leaveservice.getAllXJTask(userid);
-		List<LeaveTask> tasks=new ArrayList<LeaveTask>();
-		for(LeaveApply apply:results){
-			LeaveTask task=new LeaveTask();
-			task.setApply_time(apply.getApply_time());
-			task.setUser_id(apply.getUser_id());
-			task.setEnd_time(apply.getEnd_time());
-			task.setId(apply.getId());
-			task.setLeave_type(apply.getLeave_type());
-			task.setProcess_instance_id(apply.getProcess_instance_id());
-			task.setProcessdefid(apply.getTask().getProcessDefinitionId());
-			task.setReason(apply.getReason());
-			task.setStart_time(apply.getStart_time());
-			task.setTaskcreatetime(apply.getTask().getCreateTime());
-			task.setTaskid(apply.getTask().getId());
-			task.setTaskname(apply.getTask().getName());
-			tasks.add(task);
-		}
+		List<LeaveTask> tasks = getLeaveTasks(results);
 		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
 		grid.setRowCount(rowCount);
 		grid.setCurrent(current);
@@ -335,8 +287,8 @@ public class ActivitiController {
 		grid.setRows(tasks);
 		return JSON.toJSONString(grid);
 	}
-	
-	
+
+
 	@RequestMapping(value="/updatetasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String getUpdateTaskList(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
@@ -344,9 +296,19 @@ public class ActivitiController {
 		String userid=(String) session.getAttribute("username");
 		List<LeaveApply> results=leaveservice.getPageUpdateApplyTask(userid,firstrow,rowCount);
 		int totalsize=leaveservice.getAllUpdateApplyTask(userid);
-		List<LeaveTask> tasks=new ArrayList<LeaveTask>();
-		for(LeaveApply apply:results){
-			LeaveTask task=new LeaveTask();
+		List<LeaveTask> tasks = getLeaveTasks(results);
+		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
+		grid.setRowCount(rowCount);
+		grid.setCurrent(current);
+		grid.setTotal(totalsize);
+		grid.setRows(tasks);
+		return JSON.toJSONString(grid);
+	}
+
+	private List<LeaveTask> getLeaveTasks(List<LeaveApply> results) {
+		List<LeaveTask> tasks = new ArrayList<LeaveTask>();
+		for (LeaveApply apply : results) {
+			LeaveTask task = new LeaveTask();
 			task.setApply_time(apply.getApply_time());
 			task.setUser_id(apply.getUser_id());
 			task.setEnd_time(apply.getEnd_time());
@@ -361,14 +323,9 @@ public class ActivitiController {
 			task.setTaskname(apply.getTask().getName());
 			tasks.add(task);
 		}
-		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
-		grid.setRowCount(rowCount);
-		grid.setCurrent(current);
-		grid.setTotal(totalsize);
-		grid.setRows(tasks);
-		return JSON.toJSONString(grid);
+		return tasks;
 	}
-	
+
 	@RequestMapping(value="/dealtask")
 	@ResponseBody
 	public String taskDeal(@RequestParam("taskid") String taskid, HttpServletResponse response){

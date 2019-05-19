@@ -16,7 +16,7 @@
 		<link href="plugins/xcharts/xcharts.min.css" rel="stylesheet">
 		<link href="plugins/select2/select2.css" rel="stylesheet">
 		<link href="plugins/justified-gallery/justifiedGallery.css" rel="stylesheet">
-		<link href="css/style_v1.css" rel="stylesheet">
+		<link href="css/style_v2.css" rel="stylesheet">
 		<link href="css/jquery.bootgrid.min.css" rel="stylesheet">
 		<link href="plugins/chartist/chartist.min.css" rel="stylesheet">
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
