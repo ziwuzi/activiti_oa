@@ -117,8 +117,9 @@
                         <span class="hidden-xs">日报管理</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="ajax-link" href="my_daily">我的日报</a></li>
-						<li><a class="ajax-link" href="to_add_daily">新增日报</a></li>
+                        <li><a class="ajax-link" href="daily/my_daily">我的日报</a></li>
+						<li><a class="ajax-link" href="daily/to_add_daily">新增日报</a></li>
+						<li><a class="ajax-link" href="daily/all_daily">员工日报</a></li>
                     </ul>
                 </li>
 				<li class="dropdown">

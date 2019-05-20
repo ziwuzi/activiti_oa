@@ -21,4 +21,6 @@ public interface DailyService {
     void deleteDaily(Integer dailyId);
 
     List<TbDaily> getDailyList(int userId, int pageNum, int pageSize);
+
+    List<TbDaily> getDailyList(int pageNum, int pageSize);
 }

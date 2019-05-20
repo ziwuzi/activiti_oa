@@ -59,10 +59,10 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#btn").click(function(){
-		$.post("add_daily",$("form").serialize(),function(data){
+		$.post("daily/add_daily",$("form").serialize(),function(data){
 			if(data=="success"){
 				alert("申请成功");
-				LoadAjaxContent("my_daily");
+				LoadAjaxContent("daily/my_daily");
 			}
 		});
 	});

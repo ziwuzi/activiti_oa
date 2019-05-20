@@ -18,13 +18,26 @@
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-        select 
+        select
         <include refid="Base_Column_List" />
         from tb_daily
         where id = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="getDailyList" resultMap="BaseResultMap">
+    <select id="getAllDailyList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_daily
+        order by date desc
+    </select>
+
+    <select id="getAllDailyCount" resultType="java.lang.Integer">
+        select
+        count(*)
+        from tb_daily
+    </select>
+
+    <select id="getMyDailyList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from tb_daily
@@ -32,7 +45,7 @@
         order by date desc
     </select>
 
-    <select id="getDailyCount" resultType="java.lang.Integer">
+    <select id="getMyDailyCount" resultType="java.lang.Integer">
         select
         count(*)
         from tb_daily
@@ -45,11 +58,11 @@
     </delete>
 
     <insert id="insert" parameterType="po.TbDaily" >
-        insert into tb_daily (id, user_id, date, 
-            daily_content, plan, feedback, 
+        insert into tb_daily (id, user_id, date,
+            daily_content, plan, feedback,
             create_time, modify_time)
-        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR}, 
-            #{dailyContent,jdbcType=VARCHAR}, #{plan,jdbcType=VARCHAR}, #{feedback,jdbcType=VARCHAR}, 
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR},
+            #{dailyContent,jdbcType=VARCHAR}, #{plan,jdbcType=VARCHAR}, #{feedback,jdbcType=VARCHAR},
             #{createTime,jdbcType=VARCHAR}, #{modifyTime,jdbcType=VARCHAR})
     </insert>
 

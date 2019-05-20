@@ -17,7 +17,11 @@ public interface TbDailyMapper {
 
     int updateByPrimaryKey(TbDaily record);
 
-    List<TbDaily> getDailyList(int userId);
+    List<TbDaily> getMyDailyList(int userId);
 
-    Integer getDailyCount(int userId);
+    Integer getMyDailyCount(int userId);
+
+    List<TbDaily> getAllDailyList();
+
+    Integer getAllDailyCount();
 }

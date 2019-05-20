@@ -8,7 +8,7 @@
 		<ol class="breadcrumb pull-left">
 			<li><a href="index">首页</a></li>
 			<li><a href="#">日报管理</a></li>
-			<li><a href="#">我的日报</a></li>
+			<li><a href="#">员工日报</a></li>
 		</ol>
 	</div>
 </div>
@@ -18,7 +18,7 @@
 			<div class="box ui-draggable ui-droppable">
 				<div class="box-header">
 					<div class="box-name">
-						<i class="fa fa-coffee"></i> <span>我的日报</span>
+						<i class="fa fa-coffee"></i> <span>员工日报</span>
 					</div>
 					<div class="box-icons">
 						<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -56,7 +56,7 @@
 			navigation:2,
 			columnSelection:false,
 			ajax:true,
-			url:"daily/get_my_daily",
+			url:"daily/get_all_daily",
 			formatters: {
 				"commands": function(column, row)
 				{

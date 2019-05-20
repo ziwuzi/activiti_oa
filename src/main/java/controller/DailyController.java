@@ -25,12 +25,12 @@ public class DailyController {
 	@Autowired
 	DailyService dailyService;
 	
-	@RequestMapping("/my_daily")
+	@RequestMapping("daily/my_daily")
 	public String myDaily(){
 		return "daily/my_daily";
 	}
 
-	@RequestMapping("/get_my_daily")
+	@RequestMapping("daily/get_my_daily")
 	@ResponseBody
 	DataGrid<TbDaily> getMyDaily(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		User user=(User) session.getAttribute("user");
@@ -44,12 +44,31 @@ public class DailyController {
 		return grid;
 	}
 
-	@RequestMapping("/to_add_daily")
+	@RequestMapping("daily/all_daily")
+	public String allDaily(){
+		return "daily/all_daily";
+	}
+
+	@RequestMapping("daily/get_all_daily")
+	@ResponseBody
+	DataGrid<TbDaily> getAllDaily(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
+		User user=(User) session.getAttribute("user");
+		List<TbDaily> dailyList = dailyService.getDailyList(current,rowCount);
+		int total = dailyService.getDailyCount();
+		DataGrid<TbDaily> grid = new DataGrid<>();
+		grid.setRowCount(rowCount);
+		grid.setCurrent(current);
+		grid.setTotal(total);
+		grid.setRows(dailyList);
+		return grid;
+	}
+
+	@RequestMapping("daily/to_add_daily")
 	public String toAddDaily(){
 		return "daily/add_daily";
 	}
 
-	@RequestMapping("/add_daily")
+	@RequestMapping("daily/add_daily")
 	@ResponseBody
 	public String addDaily(@ModelAttribute("daily") TbDaily daily,HttpSession session){
 		User user=(User) session.getAttribute("user");

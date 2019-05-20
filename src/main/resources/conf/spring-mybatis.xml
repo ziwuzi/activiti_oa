@@ -17,12 +17,14 @@
     http://www.springframework.org/schema/util 
     http://www.springframework.org/schema/util/spring-util-3.2.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
+	<context:property-placeholder location="classpath:conf/jdbc.properties"/>
+
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close"
 		p:driverClass="com.mysql.jdbc.Driver"
-		p:jdbcUrl="jdbc:mysql://localhost:3306/activiti?useSSL=false&amp;characterEncoding=utf-8"
-		p:user="root"
-		p:password="168454897"
+		p:jdbcUrl="${jdbc.url}"
+		p:user="${jdbc.username}"
+		p:password="${jdbc.password}"
 		p:maxPoolSize="40"
 		p:minPoolSize="2"
 		p:initialPoolSize="2"

@@ -25,7 +25,7 @@ public class DailyServiceImpl implements DailyService {
 
     @Override
     public Integer getDailyCount(Integer userId) {
-        return dailyMapper.getDailyCount(userId);
+        return dailyMapper.getMyDailyCount(userId);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class DailyServiceImpl implements DailyService {
 
     @Override
     public Integer getDailyCount() {
-        return null;
+        return dailyMapper.getAllDailyCount();
     }
 
     @Override
@@ -56,6 +56,12 @@ public class DailyServiceImpl implements DailyService {
     @Override
     public List<TbDaily> getDailyList(int userId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        return dailyMapper.getDailyList(userId);
+        return dailyMapper.getMyDailyList(userId);
+    }
+
+    @Override
+    public List<TbDaily> getDailyList(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        return dailyMapper.getAllDailyList();
     }
 }
