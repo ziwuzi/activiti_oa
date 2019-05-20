@@ -37,31 +37,31 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_leave">
     <bpmndi:BPMNPlane bpmnElement="leave" id="BPMNPlane_leave">
       <bpmndi:BPMNShape bpmnElement="deptleaderaudit" id="BPMNShape_deptleaderaudit">
-        <omgdc:Bounds height="55.0" width="105.0" x="272.50076282709176" y="82.97999974002937"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="-52.5" y="-27.5"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
-        <omgdc:Bounds height="40.0" width="40.0" x="209.98112116309667" y="26.58017857838209"></omgdc:Bounds>
+        <omgdc:Bounds height="40.0" width="40.0" x="-20.0" y="-20.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="hraudit" id="BPMNShape_hraudit">
-        <omgdc:Bounds height="55.0" width="105.0" x="0.0" y="168.35344753123778"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="-52.5" y="-27.5"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="modifyapply" id="BPMNShape_modifyapply">
-        <omgdc:Bounds height="55.0" width="105.0" x="65.24101615352032" y="41.753472866680994"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="-52.5" y="-27.5"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
-        <omgdc:Bounds height="40.0" width="40.0" x="326.3367616459104" y="202.98197572644435"></omgdc:Bounds>
+        <omgdc:Bounds height="40.0" width="40.0" x="-20.0" y="-20.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="290.429683491143" y="277.8816882423164"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="-17.5" y="-17.5"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway3" id="BPMNShape_exclusivegateway3">
-        <omgdc:Bounds height="40.0" width="40.0" x="79.17021262929117" y="280.4183111307342"></omgdc:Bounds>
+        <omgdc:Bounds height="40.0" width="40.0" x="-20.0" y="-20.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="reportback" id="BPMNShape_reportback">
-        <omgdc:Bounds height="55.0" width="105.0" x="153.85125704003894" y="313.2189707465004"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="-52.5" y="-27.5"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="448.46375340415915" y="0.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="-17.5" y="-17.5"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
         <omgdi:waypoint x="575.0" y="247.0"></omgdi:waypoint>

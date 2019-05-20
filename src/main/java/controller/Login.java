@@ -1,22 +1,30 @@
 package controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import po.TbMenu;
 import po.User;
 import service.LoginService;
+import service.MenuService;
+
+import java.util.List;
 
 
 @Controller
 public class Login {
 	@Autowired
 	LoginService loginservice;
+	@Autowired
+	MenuService menuService;
 	
 	@RequestMapping("/loginvalidate")
-	public String loginValidate(@RequestParam("username") String username,@RequestParam("pic") String pic,@RequestParam("password") String pwd,HttpSession httpSession){
+	public String loginValidate(@RequestParam("username") String username,@RequestParam("pic") String pic,@RequestParam("password") String pwd,
+								HttpSession httpSession, HttpServletRequest request){
 		String picode=(String) httpSession.getAttribute("rand");
 		if(!picode.equalsIgnoreCase(pic))
 			return "failcode";
@@ -27,7 +35,9 @@ public class Login {
 		{
 			httpSession.setAttribute("user",user);
 			httpSession.setAttribute("username", username);
-			return "index";
+			List<List<TbMenu>> menuList = menuService.getAllMenu();
+			request.setAttribute("menuList",menuList);
+			return "index2";
 		}else
 			return "fail";
 	}
