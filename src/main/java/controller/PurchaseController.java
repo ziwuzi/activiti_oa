@@ -128,7 +128,7 @@ public class PurchaseController {
 				String sonactiveid=runservice.createExecutionQuery().parentId(father).singleResult().getActivityId();//子流程的活动节点
 				String sonexeid=runservice.createExecutionQuery().parentId(father).singleResult().getId();
 				process.setActivityid(sonactiveid);
-				//System.out.println(taskservice.createTaskQuery().executionId(sonexeid).singleResult().getName());
+				//System.out.println(taskService.createTaskQuery().executionId(sonexeid).singleResult().getName());
 			}else{
 				process.setActivityid(p.getActivityId());
 			}

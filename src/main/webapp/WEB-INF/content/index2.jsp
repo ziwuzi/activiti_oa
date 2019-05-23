@@ -101,13 +101,11 @@
 							<i class="fa fa-cog"></i>
 							<span class="hidden-xs">${menus[0].name}</span>
 						</a>
-						<c:forEach items="${menus}" var="menu" begin="1">
-							<ul class="dropdown-menu">
-								<li><a class="ajax-link" href="useradmin">用户管理</a></li>
-								<li><a class="ajax-link" href="roleadmin">角色管理</a></li>
-								<li><a class="ajax-link" href="permissionadmin">权限管理</a></li>
-							</ul>
-						</c:forEach>
+						<ul class="dropdown-menu">
+							<c:forEach items="${menus}" var="menu" begin="1">
+								<li><a class="ajax-link" href="${menu.url}">${menu.name}</a></li>
+							</c:forEach>
+						</ul>
 					</li>
 				</c:forEach>
 			</ul>

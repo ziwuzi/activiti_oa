@@ -60,25 +60,25 @@ public class ActivitiController {
 	@Autowired
 	RepositoryService rep;
 	@Autowired
-	RuntimeService runservice;
+	RuntimeService runtimeService;
 	@Autowired
-	FormService formservice;
+	FormService formService;
 	@Autowired
-	IdentityService identityservice;
+	IdentityService identityService;
 	@Autowired
-	LeaveService leaveservice;
+	LeaveService leaveService;
 	@Autowired
-	TaskService taskservice;
+	TaskService taskService;
 	@Autowired
-	HistoryService histiryservice;
+	HistoryService historyService;
 	@Autowired
-	SystemService systemservice;
-	
+	SystemService systemService;
+
 	@RequestMapping("/processlist")
 	String process(){
 		return "activiti/processlist";
 	}
-	
+
 	@RequestMapping("/uploadworkflow")
 	public String fileUpload(@RequestParam MultipartFile uploadfile, HttpServletRequest request){
 		try{
@@ -91,7 +91,7 @@ public class ActivitiController {
 		}
 		return "index";
 	}
-	
+
 	@RequestMapping(value="/getprocesslists")
 	@ResponseBody
 	public DataGrid<Process> getList(@RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
@@ -117,8 +117,8 @@ public class ActivitiController {
 		grid.setTotal(total);
 		return grid;
 	}
-	
-	
+
+
 	@RequestMapping("/showresource")
 	public void export(@RequestParam("pdid") String pdid,@RequestParam("resource") String resource,HttpServletResponse response) throws Exception{
 		ProcessDefinition def=rep.createProcessDefinitionQuery().processDefinitionId(pdid).singleResult();
@@ -126,46 +126,46 @@ public class ActivitiController {
 		ServletOutputStream output = response.getOutputStream();
 		IOUtils.copy(is, output);
 	}
-	
+
 	@RequestMapping("/deletedeploy")
 	public String deleteDeploy(@RequestParam("deployid") String deployid) throws Exception{
 		rep.deleteDeployment(deployid,true);
 		return "activiti/processlist";
 	}
-	
+
 	@RequestMapping("/runningprocess")
 	public String task(){
 		return "activiti/runningprocess";
-	} 
-	
+	}
+
 	@RequestMapping("/deptleaderaudit")
 	public String myTask(){
-		return "activiti/deptleaderaudit"; 
+		return "activiti/deptleaderaudit";
 	}
-	
+
 	@RequestMapping("/hraudit")
 	public String hr(){
-		return "activiti/hraudit"; 
+		return "activiti/hraudit";
 	}
-	
+
 	@RequestMapping("/index")
 	public String my(){
-		return "index"; 
+		return "index";
 	}
-	
+
 	@RequestMapping("/leaveapply")
 	public String leave(){
-		return "activiti/leaveapply"; 
+		return "activiti/leaveapply";
 	}
-	
+
 	@RequestMapping("/reportback")
 	public String reprotBack(){
-		return "activiti/reportback"; 
+		return "activiti/reportback";
 	}
-	
+
 	@RequestMapping("/modifyapply")
 	public String modifyApply(){
-		return "activiti/modifyapply"; 
+		return "activiti/modifyapply";
 	}
 	@RequestMapping(value="/startleave",method=RequestMethod.POST)
 	@ResponseBody
@@ -173,11 +173,11 @@ public class ActivitiController {
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String, Object>();
 		variables.put("applyuserid", userid);
-		ProcessInstance ins=leaveservice.startWorkflow(apply, userid, variables);
+		ProcessInstance ins= leaveService.startWorkflow(apply, userid, variables);
 		System.out.println("流程id"+ins.getId()+"已启动");
 		return JSON.toJSONString("sucess");
 	}
-	
+
 	@RequestMapping(value="/depttasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public DataGrid<LeaveTask> getDeptTaskList(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
@@ -188,8 +188,8 @@ public class ActivitiController {
 		grid.setRows(new ArrayList<LeaveTask>());
 		//先做权限检查，对于没有部门领导审批权限的用户,直接返回空
 		String userid=(String) session.getAttribute("username");
-		int uid=systemservice.getUidByUsername(userid);
-		User user=systemservice.getUserById(uid);
+		int uid= systemService.getUidByUsername(userid);
+		User user= systemService.getUserById(uid);
 		List<User_role> userroles=user.getUser_roles();
 		if(userroles==null)
 			return grid;
@@ -198,7 +198,7 @@ public class ActivitiController {
 			User_role ur=userroles.get(k);
 			Role r=ur.getRole();
 			int roleid=r.getRid();
-			Role role=systemservice.getRoleById(roleid);
+			Role role= systemService.getRoleById(roleid);
 			List<Role_permission> p=role.getRole_permission();
 			for(int j=0;j<p.size();j++){
 				Role_permission rp=p.get(j);
@@ -214,8 +214,8 @@ public class ActivitiController {
 				return grid;
 			}else{
 				int firstrow=(current-1)*rowCount;
-				List<LeaveApply> results=leaveservice.getPageDeptTask(userid,firstrow,rowCount);
-				int totalsize=leaveservice.getAllDeptTask(userid);
+				List<LeaveApply> results= leaveService.getPageDeptTask(userid,firstrow,rowCount);
+				int totalsize= leaveService.getAllDeptTask(userid);
 				List<LeaveTask> tasks = getLeaveTasks(results);
 				grid.setRowCount(rowCount);
 				grid.setCurrent(current);
@@ -224,7 +224,7 @@ public class ActivitiController {
 				return grid;
 			}
 	}
-	
+
 	@RequestMapping(value="/hrtasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public DataGrid<LeaveTask> getHrTaskList(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
@@ -235,8 +235,8 @@ public class ActivitiController {
 		grid.setRows(new ArrayList<LeaveTask>());
 		//先做权限检查，对于没有人事权限的用户,直接返回空
 		String userid=(String) session.getAttribute("username");
-		int uid=systemservice.getUidByUsername(userid);
-		User user=systemservice.getUserById(uid);
+		int uid= systemService.getUidByUsername(userid);
+		User user= systemService.getUserById(uid);
 		List<User_role> userroles=user.getUser_roles();
 		if(userroles==null)
 			return grid;
@@ -245,7 +245,7 @@ public class ActivitiController {
 			User_role ur=userroles.get(k);
 			Role r=ur.getRole();
 			int roleid=r.getRid();
-			Role role=systemservice.getRoleById(roleid);
+			Role role= systemService.getRoleById(roleid);
 			List<Role_permission> p=role.getRole_permission();
 			for(int j=0;j<p.size();j++){
 				Role_permission rp=p.get(j);
@@ -261,8 +261,8 @@ public class ActivitiController {
 				return grid;
 			}else{
 		int firstrow=(current-1)*rowCount;
-		List<LeaveApply> results=leaveservice.getPageHrTask(userid,firstrow,rowCount);
-		int totalsize=leaveservice.getAllHrTask(userid);
+		List<LeaveApply> results= leaveService.getPageHrTask(userid,firstrow,rowCount);
+		int totalsize= leaveService.getAllHrTask(userid);
 				List<LeaveTask> tasks = getLeaveTasks(results);
 				grid.setRowCount(rowCount);
 		grid.setCurrent(current);
@@ -271,14 +271,14 @@ public class ActivitiController {
 		return grid;
 			}
 	}
-	
+
 	@RequestMapping(value="/xjtasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String getXJTaskList(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
-		List<LeaveApply> results=leaveservice.getPageXJTask(userid,firstrow,rowCount);
-		int totalsize=leaveservice.getAllXJTask(userid);
+		List<LeaveApply> results= leaveService.getPageXJTask(userid,firstrow,rowCount);
+		int totalsize= leaveService.getAllXJTask(userid);
 		List<LeaveTask> tasks = getLeaveTasks(results);
 		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
 		grid.setRowCount(rowCount);
@@ -294,8 +294,8 @@ public class ActivitiController {
 	public String getUpdateTaskList(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
-		List<LeaveApply> results=leaveservice.getPageUpdateApplyTask(userid,firstrow,rowCount);
-		int totalsize=leaveservice.getAllUpdateApplyTask(userid);
+		List<LeaveApply> results= leaveService.getPageUpdateApplyTask(userid,firstrow,rowCount);
+		int totalsize= leaveService.getAllUpdateApplyTask(userid);
 		List<LeaveTask> tasks = getLeaveTasks(results);
 		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
 		grid.setRowCount(rowCount);
@@ -329,17 +329,17 @@ public class ActivitiController {
 	@RequestMapping(value="/dealtask")
 	@ResponseBody
 	public String taskDeal(@RequestParam("taskid") String taskid, HttpServletResponse response){
-		Task task=taskservice.createTaskQuery().taskId(taskid).singleResult();
-		ProcessInstance process=runservice.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-		LeaveApply leave=leaveservice.getLeave(new Integer(process.getBusinessKey()));
+		Task task= taskService.createTaskQuery().taskId(taskid).singleResult();
+		ProcessInstance process= runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+		LeaveApply leave= leaveService.getLeave(new Integer(process.getBusinessKey()));
 		return JSON.toJSONString(leave);
 	}
-	
+
 	@RequestMapping(value="/activiti/task-deptleaderaudit")
 	String url(){
 		return "/activiti/task-deptleaderaudit";
 	}
-	
+
 	@RequestMapping(value="/task/deptcomplete/{taskid}")
 	@ResponseBody
 	public String deptComplete(HttpSession session, @PathVariable("taskid") String taskid, HttpServletRequest req){
@@ -347,11 +347,11 @@ public class ActivitiController {
 		Map<String,Object> variables=new HashMap<String,Object>();
 		String approve=req.getParameter("deptleaderapprove");
 		variables.put("deptleaderapprove", approve);
-		taskservice.claim(taskid, userid);
-		taskservice.complete(taskid, variables);
+		taskService.claim(taskid, userid);
+		taskService.complete(taskid, variables);
 		return JSON.toJSONString("success");
 	}
-	
+
 	@RequestMapping(value="/task/hrcomplete/{taskid}")
 	@ResponseBody
 	public String hrComplete(HttpSession session, @PathVariable("taskid") String taskid, HttpServletRequest req){
@@ -359,33 +359,33 @@ public class ActivitiController {
 		Map<String,Object> variables=new HashMap<String,Object>();
 		String approve=req.getParameter("hrapprove");
 		variables.put("hrapprove", approve);
-		taskservice.claim(taskid, userid);
-		taskservice.complete(taskid, variables);
+		taskService.claim(taskid, userid);
+		taskService.complete(taskid, variables);
 		return JSON.toJSONString("success");
 	}
-	
+
 	@RequestMapping(value="/task/reportcomplete/{taskid}")
 	@ResponseBody
 	public String reportBackComplete(@PathVariable("taskid") String taskid, HttpServletRequest req){
 		String realstart_time=req.getParameter("realstart_time");
 		String realend_time=req.getParameter("realend_time");
-		leaveservice.completeReportBack(taskid,realstart_time,realend_time);
+		leaveService.completeReportBack(taskid,realstart_time,realend_time);
 		return JSON.toJSONString("success");
 	}
-	
+
 	@RequestMapping(value="/task/updatecomplete/{taskid}")
 	@ResponseBody
 	public String updateComplete(@PathVariable("taskid") String taskid, @ModelAttribute("leave") LeaveApply leave, @RequestParam("reapply") String reapply){
-		leaveservice.updateComplete(taskid,leave,reapply);
+		leaveService.updateComplete(taskid,leave,reapply);
 		return JSON.toJSONString("success");
 	}
-	
+
 	@RequestMapping("involvedprocess")//参与的正在运行的请假流程
 	@ResponseBody
 	public DataGrid<RunningProcess> allExeution(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
-		ProcessInstanceQuery query = runservice.createProcessInstanceQuery();
+		ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery();
 		int total= (int) query.count();
 		List<ProcessInstance> a = query.processDefinitionKey("leave").involvedUser(userid).listPage(firstrow, rowCount);
 		List<RunningProcess> list=new ArrayList<RunningProcess>();
@@ -404,12 +404,12 @@ public class ActivitiController {
 		grid.setRows(list);
 		return grid;
 	}
-	
+
 	@RequestMapping("/getfinishprocess")
 	@ResponseBody
 	public DataGrid<HistoryProcess> getHistory(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		String userid=(String) session.getAttribute("username");
-		HistoricProcessInstanceQuery process = histiryservice.createHistoricProcessInstanceQuery().processDefinitionKey("leave").startedBy(userid).finished();
+		HistoricProcessInstanceQuery process = historyService.createHistoricProcessInstanceQuery().processDefinitionKey("leave").startedBy(userid).finished();
 		int total= (int) process.count();
 		int firstrow=(current-1)*rowCount;
 		List<HistoricProcessInstance> info = process.listPage(firstrow, rowCount);
@@ -417,7 +417,7 @@ public class ActivitiController {
 		for(HistoricProcessInstance history:info){
 			HistoryProcess his=new HistoryProcess();
 			String bussinesskey=history.getBusinessKey();
-			LeaveApply apply=leaveservice.getLeave(Integer.parseInt(bussinesskey));
+			LeaveApply apply= leaveService.getLeave(Integer.parseInt(bussinesskey));
 			his.setLeaveapply(apply);
 			his.setBusinessKey(bussinesskey);
 			his.setProcessDefinitionId(history.getProcessDefinitionId());
@@ -430,68 +430,68 @@ public class ActivitiController {
 		grid.setRows(list);
 		return grid;
 	}
-	
-	
+
+
 	@RequestMapping("/historyprocess")
 	public String history(){
 		return "activiti/historyprocess";
 	}
-	
-	
+
+
 	@RequestMapping("/processinfo")
 	@ResponseBody
 	public List<HistoricActivityInstance> processInfo(@RequestParam("instanceid")String instanceid){
-		  List<HistoricActivityInstance> his = histiryservice.createHistoricActivityInstanceQuery().processInstanceId(instanceid).orderByHistoricActivityInstanceStartTime().asc().list();
+		  List<HistoricActivityInstance> his = historyService.createHistoricActivityInstanceQuery().processInstanceId(instanceid).orderByHistoricActivityInstanceStartTime().asc().list();
 		  return his;
 	}
-	
+
 	@RequestMapping("/processhis")
 	@ResponseBody
 	public List<HistoricActivityInstance> processHis(@RequestParam("ywh")String ywh){
-		  String instanceid=histiryservice.createHistoricProcessInstanceQuery().processDefinitionKey("purchase").processInstanceBusinessKey(ywh).singleResult().getId();
+		  String instanceid= historyService.createHistoricProcessInstanceQuery().processDefinitionKey("purchase").processInstanceBusinessKey(ywh).singleResult().getId();
 		  System.out.println(instanceid);
-		  List<HistoricActivityInstance> his = histiryservice.createHistoricActivityInstanceQuery().processInstanceId(instanceid).orderByHistoricActivityInstanceStartTime().asc().list();
+		  List<HistoricActivityInstance> his = historyService.createHistoricActivityInstanceQuery().processInstanceId(instanceid).orderByHistoricActivityInstanceStartTime().asc().list();
 		  return his;
 	}
-	
+
 	@RequestMapping("myleaveprocess")
 	String myLeaveProcess(){
 		return "activiti/myleaveprocess";
 	}
-	
+
 	@RequestMapping("traceprocess/{executionid}")
 	public void traceProcess(@PathVariable("executionid")String executionid, HttpServletResponse response) throws Exception{
-		ProcessInstance process=runservice.createProcessInstanceQuery().processInstanceId(executionid).singleResult();
+		ProcessInstance process= runtimeService.createProcessInstanceQuery().processInstanceId(executionid).singleResult();
 		BpmnModel bpmnmodel=rep.getBpmnModel(process.getProcessDefinitionId());
-		List<String> activeActivityIds=runservice.getActiveActivityIds(executionid);
+		List<String> activeActivityIds= runtimeService.getActiveActivityIds(executionid);
 		DefaultProcessDiagramGenerator gen=new DefaultProcessDiagramGenerator();
-		 // 获得历史活动记录实体（通过启动时间正序排序，不然有的线可以绘制不出来）  
-	    List<HistoricActivityInstance> historicActivityInstances = histiryservice  
-	            .createHistoricActivityInstanceQuery().executionId(executionid)  
-	            .orderByHistoricActivityInstanceStartTime().asc().list();  
-	    // 计算活动线  
-	    List<String> highLightedFlows = leaveservice.getHighLightedFlows(  
-	                    (ProcessDefinitionEntity) ((RepositoryServiceImpl) rep)  
-	                            .getDeployedProcessDefinition(process.getProcessDefinitionId()),  
-	                    historicActivityInstances); 
-		
+		 // 获得历史活动记录实体（通过启动时间正序排序，不然有的线可以绘制不出来）
+	    List<HistoricActivityInstance> historicActivityInstances = historyService
+	            .createHistoricActivityInstanceQuery().executionId(executionid)
+	            .orderByHistoricActivityInstanceStartTime().asc().list();
+	    // 计算活动线
+	    List<String> highLightedFlows = leaveService.getHighLightedFlows(
+	                    (ProcessDefinitionEntity) ((RepositoryServiceImpl) rep)
+	                            .getDeployedProcessDefinition(process.getProcessDefinitionId()),
+	                    historicActivityInstances);
+
 		InputStream in=gen.generateDiagram(bpmnmodel, "png", activeActivityIds,highLightedFlows,"宋体","宋体",null,1.0);
 	    //InputStream in=gen.generateDiagram(bpmnmodel, "png", activeActivityIds);
 	    ServletOutputStream output = response.getOutputStream();
 		IOUtils.copy(in, output);
 	}
-	
+
 	@RequestMapping("myleaves")
 	String myLeaves(){
 		return "activiti/myleaves";
 	}
-	
+
 	@RequestMapping("setupprocess")
 	@ResponseBody
 	public DataGrid<RunningProcess> setupProcess(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
-		ProcessInstanceQuery query = runservice.createProcessInstanceQuery();
+		ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery();
 		int total= (int) query.count();
 		List<ProcessInstance> a = query.processDefinitionKey("leave").involvedUser(userid).listPage(firstrow, rowCount);
 		List<RunningProcess> list=new ArrayList<RunningProcess>();
@@ -501,7 +501,7 @@ public class ActivitiController {
 			process.setBusinesskey(p.getBusinessKey());
 			process.setExecutionid(p.getId());
 			process.setProcessInstanceid(p.getProcessInstanceId());
-			LeaveApply l=leaveservice.getLeave(Integer.parseInt(p.getBusinessKey()));
+			LeaveApply l= leaveService.getLeave(Integer.parseInt(p.getBusinessKey()));
 			if(l.getUser_id().equals(userid))
 			list.add(process);
 			else
@@ -514,5 +514,55 @@ public class ActivitiController {
 		grid.setRows(list);
 		return grid;
 	}
-	
+
+
+	@RequestMapping("leave/my_leave")
+	String toMyLeave(){
+		return "leave/my_leave";
+	}
+
+	@RequestMapping("leave/to_my_audit")
+	String toMyAudit(){
+		return "leave/my_audit";
+	}
+
+	@RequestMapping(value="leave/my_audit",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public DataGrid<LeaveTask> getMyAudit(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
+		DataGrid<LeaveTask> grid=new DataGrid<>(current,rowCount);
+		//先做权限检查，对于没有部门领导审批权限的用户,直接返回空
+		String userid=(String) session.getAttribute("username");
+		int uid= systemService.getUidByUsername(userid);
+		User user= systemService.getUserById(uid);
+		List<User_role> userroles=user.getUser_roles();
+		if(userroles==null)
+			return grid;
+		boolean flag=false;//默认没有权限
+		for(int k=0;k<userroles.size();k++){
+			User_role ur=userroles.get(k);
+			Role r=ur.getRole();
+			int roleid=r.getRid();
+			Role role= systemService.getRoleById(roleid);
+			List<Role_permission> p=role.getRole_permission();
+			for(int j=0;j<p.size();j++){
+				Role_permission rp=p.get(j);
+				Permission permission=rp.getPermission();
+				if(permission.getPermissionname().equals("部门领导审批") || permission.getPermissionname().equals("人事审批") )
+					flag=true;
+				else
+					continue;
+			}
+		}
+		if(flag==false)//无权限
+		{
+			return grid;
+		}else{
+			int firstRow=(current-1)*rowCount;
+			List<LeaveApply> results= leaveService.getPageTask(firstRow,rowCount);
+			int totalSize= leaveService.getPageTaskCount();
+			List<LeaveTask> tasks = getLeaveTasks(results);
+			grid = new DataGrid<>(current,rowCount,totalSize,tasks);
+			return grid;
+		}
+	}
 }

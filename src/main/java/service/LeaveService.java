@@ -23,4 +23,6 @@ public interface LeaveService {
 	public void completeReportBack(String taskid, String realstart_time, String realend_time);
 	public void updateComplete(String taskid, LeaveApply leave, String reappply);
 	public List<String> getHighLightedFlows(ProcessDefinitionEntity deployedProcessDefinition,List<HistoricActivityInstance> historicActivityInstances);
+	List<LeaveApply> getPageTask(int firstrow, int rowcount);
+	Integer getPageTaskCount();
 }
