@@ -7,7 +7,7 @@
 						</a>
 		<ol class="breadcrumb pull-left">
 			<li><a href="index">首页</a></li>
-			<li><a href="#">已结束流程数据查询</a></li>
+			<li><a href="#">人事管理</a></li>
 			<li><a href="#">我的请假历史</a></li>
 		</ol>
 	</div>

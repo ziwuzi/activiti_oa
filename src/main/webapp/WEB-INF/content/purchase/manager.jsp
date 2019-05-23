@@ -7,8 +7,7 @@
 						</a>
 		<ol class="breadcrumb pull-left">
 			<li><a href="index">首页</a></li>
-			<li><a href="#">我的待办任务</a></li>
-			<li><a href="#">请假待办</a></li>
+			<li><a href="#">物资管理</a></li>
 			<li><a href="#">总经理审批</a></li>
 		</ol>
 	</div>
