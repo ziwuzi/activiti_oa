@@ -28,7 +28,8 @@
         select
         <include refid="Base_Column_List" />
         from tb_menu
-        where parent_id = 0
+        where state = 0
+        and parent_id = 0
         order by sort
     </select>
 
@@ -36,7 +37,8 @@
         select
         <include refid="Base_Column_List" />
         from tb_menu
-        where parent_id = #{parentId,jdbcType=INTEGER}
+        where state = 0
+        and parent_id = #{parentId,jdbcType=INTEGER}
         order by sort
     </select>
 
