@@ -13,8 +13,20 @@
         <result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
     </resultMap>
 
+    <resultMap id="RoleMenuMap" type="po.query.RoleMenuQuery" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="INTEGER" />
+    </resultMap>
+
     <sql id="Base_Column_List" >
         id, parent_id, name, url, sort, state, create_time, modify_time
+    </sql>
+
+    <sql id="Role_Menu_List" >
+        id, parent_id, name, url, state
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -39,6 +51,74 @@
         from tb_menu
         where state = 0
         and parent_id = #{parentId,jdbcType=INTEGER}
+        order by sort
+    </select>
+
+    <select id="getAllRoleMenu" resultMap="RoleMenuMap">
+        select id,parent_id,name,url,state
+        from
+        (select m.id,m.parent_id,m.name,url,sort,1 state
+        from tb_menu m
+        where m.state = 0
+        and m.id
+        in (select menu_id from tb_role_menu rm
+        where role_id = #{roleId,jdbcType=INTEGER})
+        union
+        select m.id,m.parent_id,m.name,url,sort,0 state
+        from tb_menu m
+        where m.state = 0
+        and m.id
+        not in (select menu_id from tb_role_menu rm
+        where role_id = #{roleId,jdbcType=INTEGER})) t
+        where 1=1
+        <if test="isEditRole != true" >
+            and state = 1
+        </if>
+    </select>
+
+    <select id="getTopRoleMenu" resultMap="RoleMenuMap">
+        select id,parent_id,name,url,state
+        from
+            (select m.id,m.parent_id,m.name,url,sort,1 state
+            from tb_menu m
+            where m.state = 0
+            and m.id
+            in (select menu_id from tb_role_menu rm
+            where role_id = #{roleId,jdbcType=INTEGER})
+            union
+            select m.id,m.parent_id,m.name,url,sort,0 state
+            from tb_menu m
+            where m.state = 0
+            and m.id
+            not in (select menu_id from tb_role_menu rm
+            where role_id = #{roleId,jdbcType=INTEGER})) t
+		where parent_id = 0
+        <if test="isEditRole != true" >
+            and (state = 1 or 1 = #{isEditRole,jdbcType=BOOLEAN})
+        </if>
+        order by sort
+    </select>
+
+    <select id="getSubRoleMenu" resultMap="RoleMenuMap">
+        select id,parent_id,name,url,state
+        from
+            (select m.id,m.parent_id,m.name,url,sort,1 state
+            from tb_menu m
+            where m.state = 0
+            and m.id
+            in (select menu_id from tb_role_menu rm
+            where role_id = #{roleId,jdbcType=INTEGER})
+            union
+            select m.id,m.parent_id,m.name,url,sort,0 state
+            from tb_menu m
+            where m.state = 0
+            and m.id
+            not in (select menu_id from tb_role_menu rm
+            where role_id = #{roleId,jdbcType=INTEGER})) t
+		where parent_id = #{parentId,jdbcType=INTEGER}
+        <if test="isEditRole != true" >
+            and (state = 1 or 1 = #{isEditRole,jdbcType=BOOLEAN})
+        </if>
         order by sort
     </select>
 
@@ -151,4 +231,6 @@
             modify_time = #{modifyTime,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+
 </mapper>

@@ -8,7 +8,7 @@
 		<ol class="breadcrumb pull-left">
 			<li><a href="index">首页</a></li>
 			<li><a href="#">系统管理</a></li>
-			<li><a href="#">权限管理</a></li>
+			<li><a href="#">审批管理</a></li>
 		</ol>
 	</div>
 </div>       
@@ -18,7 +18,7 @@
                     <div class="box ui-draggable ui-droppable">
 				<div class="box-header">
 					<div class="box-name">
-						<i class="fa fa-coffee"></i> <span>权限管理</span>
+						<i class="fa fa-coffee"></i> <span>审批管理</span>
 					</div>
 					<div class="box-icons">
 						<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -29,7 +29,7 @@
 					<div class="no-move"></div>
 				</div>
 				<div class="box-content">
-				<button id="addpermission" type="button" class="btn btn-primary">添加新权限</button>
+				<button id="addpermission" type="button" class="btn btn-primary">添加新审批权限</button>
 					 <table id="grid-data" class="table table-condensed table-hover table-striped">
 							        <thead>
 							            <tr>

@@ -3,14 +3,10 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import pagemodel.DataGrid;
 import pagemodel.Userinfo;
@@ -18,12 +14,19 @@ import po.Permission;
 import po.Role;
 import po.User;
 import po.UserRole;
+import po.query.RoleMenuJson;
+import po.query.RoleMenuQuery;
+import service.MenuService;
 import service.SystemService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class SystemController {
 	@Autowired
 	SystemService systemservice;
+	@Autowired
+	MenuService menuService;
 	
 	@RequestMapping("/useradmin")
 	String userAdmin(){
@@ -181,5 +184,27 @@ public class SystemController {
 	String deletePermission(@PathVariable("pid") int pid){
 		systemservice.deletePermission(pid);
 		return "system/permissionadmin";
+	}
+
+	@RequestMapping(value="system/to_menu_mange",method=RequestMethod.GET)
+	String toMenuManage(){
+		return "system/menu_manage";
+	}
+
+	@RequestMapping(value="system/menu_manage",method=RequestMethod.GET)
+	@ResponseBody
+	public Object getMenuManage(@RequestParam("roleId") Integer roleId, HttpServletRequest request){
+		List<RoleMenuQuery> menuList = menuService.getRoleMenu(roleId,true);
+		List<RoleMenuJson> menuJsons = getMenuJsons(menuList);
+		return JSON.toJSON(menuJsons);
+	}
+
+	private List<RoleMenuJson> getMenuJsons(List<RoleMenuQuery> menuList) {
+		List<RoleMenuJson> menuJsons = new ArrayList<>();
+		for(RoleMenuQuery menuQuery : menuList){
+			RoleMenuJson menuJson = new RoleMenuJson(menuQuery);
+			menuJsons.add(menuJson);
+		}
+		return menuJsons;
 	}
 }

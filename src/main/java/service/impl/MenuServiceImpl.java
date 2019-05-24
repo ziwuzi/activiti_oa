@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import po.TbMenu;
+import po.query.RoleMenuQuery;
 import service.MenuService;
 
 import java.util.ArrayList;
@@ -26,6 +27,24 @@ public class MenuServiceImpl implements MenuService {
             subMenuList.add(0,menu);
             menuList.add(subMenuList);
         }
+        return menuList;
+    }
+
+    @Override
+    public List<List<RoleMenuQuery>> getMenu(Integer roleId, Boolean isEditRole) {
+        List<List<RoleMenuQuery>> menuList = new ArrayList<>();
+        List<RoleMenuQuery> topMenuList = menuMapper.getTopRoleMenu(roleId,isEditRole);
+        for(RoleMenuQuery menu : topMenuList){
+            List<RoleMenuQuery> subMenuList = menuMapper.getSubRoleMenu(roleId,menu.getId(),isEditRole);
+            subMenuList.add(0,menu);
+            menuList.add(subMenuList);
+        }
+        return menuList;
+    }
+
+    @Override
+    public List<RoleMenuQuery> getRoleMenu(Integer roleId, Boolean isEditRole) {
+        List<RoleMenuQuery> menuList = menuMapper.getAllRoleMenu(roleId,isEditRole);
         return menuList;
     }
 }
