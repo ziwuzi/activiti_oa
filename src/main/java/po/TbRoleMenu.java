@@ -23,6 +23,15 @@ public class TbRoleMenu {
      */
     private Integer menuId;
 
+    public  TbRoleMenu(){
+
+    }
+
+    public TbRoleMenu(Integer roleId, Integer menuId) {
+        this.roleId = roleId;
+        this.menuId = menuId;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -1,5 +1,6 @@
 package service.impl;
 
+import com.github.pagehelper.StringUtil;
 import mapper.TbMenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import po.TbMenu;
+import po.TbRoleMenu;
 import po.query.RoleMenuQuery;
 import service.MenuService;
 
@@ -46,5 +48,17 @@ public class MenuServiceImpl implements MenuService {
     public List<RoleMenuQuery> getRoleMenu(Integer roleId, Boolean isEditRole) {
         List<RoleMenuQuery> menuList = menuMapper.getAllRoleMenu(roleId,isEditRole);
         return menuList;
+    }
+
+    @Override
+    public void updateRoleMenu(Integer roleId, String menuString) {
+        menuMapper.deleteRoleMenu(roleId);
+        String [] menuIds = menuString.split(",");
+        for(String menuId : menuIds){
+            if(!StringUtil.isEmpty(menuId)) {
+                TbRoleMenu roleMenu = new TbRoleMenu(roleId, Integer.valueOf(menuId));
+                menuMapper.insertRoleMenu(roleMenu);
+            }
+        }
     }
 }

@@ -13,4 +13,5 @@ public interface MenuService {
 
     List<RoleMenuQuery> getRoleMenu(Integer roleId, Boolean isEditRole);
 
+    void updateRoleMenu(Integer roleId, String menuString);
 }

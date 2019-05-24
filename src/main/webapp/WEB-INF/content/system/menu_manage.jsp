@@ -18,6 +18,10 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
+            <div style="margin: 10px 10px 0 10px">
+                <button type="button" class="btn btn-primary" onclick="editRoleAdmin()">保存</button>
+                <button type="button" class="btn btn-default" onclick="backRoleAdmin()">返回</button>
+            </div>
             <div class="box ui-draggable ui-droppable">
                 <div class="box-header">
                     <div class="box-name">
@@ -32,7 +36,7 @@
                     <div class="no-move"></div>
                 </div>
                 <div class="box-content">
-                    <ul id="treeDemo" class="ztree"></ul>
+                    <ul id="zTree" class="ztree"></ul>
                 </div>
             </div>
         </div>
@@ -60,9 +64,32 @@
             url: "system/menu_manage",
             data: {"roleId" : 0},
             success:function(data) {
-                console.log(data);
-                $.fn.zTree.init($("#treeDemo"), setting, data);
+                $.fn.zTree.init($("#zTree"), setting, data);
             }
         });
     });
+
+    function backRoleAdmin() {
+        LoadAjaxContent("roleadmin");
+    }
+
+    function editRoleAdmin() {
+        let menuData = $.fn.zTree.getZTreeObj("zTree").getCheckedNodes();
+        let menuString = "";
+        for(let i = 0 ; i < menuData.length; i++){
+            menuString += menuData[i].id + ",";
+        }
+        if(menuString.length > 0){
+            menuString = menuString.substr(0,menuString.length - 1);
+        }
+        $.ajax({
+            type: 'POST',
+            url: "system/edit_role_menu",
+            data: {"roleId" : ${roleId}, "menuString" : menuString },
+            success:function() {
+                alert("保存成功");
+                LoadAjaxContent("roleadmin");
+            }
+        });
+    }
 </script>

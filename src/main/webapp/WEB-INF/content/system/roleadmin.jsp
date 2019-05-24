@@ -68,8 +68,9 @@
 		    },
 		    "commands": function(column, row)
 		    {
-		            return "<button class=\"btn btn-xs btn-default ajax-link command-run1\" data-row-id=\"" + row.rid + "\">修改</button>"+
-		            "<button class=\"btn btn-xs btn-default ajax-link\" onclick=\"deleterole("+row.rid+")\" data-row-id=\"" + row.rid + "\">删除</button>";
+		            return "<button class=\"btn btn-xs btn-default ajax-link command-run1\" data-row-id=\"" + row.rid + "\">审批修改</button>"+
+							"<button class=\"btn btn-xs btn-default ajax-link\" onclick=\"editRoleMenu("+row.rid+")\">菜单修改</button>"+
+		            		"<button class=\"btn btn-xs btn-default ajax-link\" onclick=\"deleterole("+row.rid+")\" data-row-id=\"" + row.rid + "\">删除</button>";
 		    }
 	    	}
 	    
@@ -133,9 +134,13 @@
 	             LoadAjaxContent("roleadmin");
       	 }
 		});
-	 } 
-	 
-	  $(document).ready(function(){
+	 }
+
+	function editRoleMenu(rid){
+		LoadAjaxContent("system/to_menu_mange/" + rid);
+	}
+
+	$(document).ready(function(){
 	  	$("#addrole").click(function(){
 	  		$("#roleinfo").modal();
 	  		$("form").attr("action","adduser");

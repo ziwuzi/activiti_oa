@@ -186,17 +186,25 @@ public class SystemController {
 		return "system/permissionadmin";
 	}
 
-	@RequestMapping(value="system/to_menu_mange",method=RequestMethod.GET)
-	String toMenuManage(){
+	@RequestMapping(value="system/to_menu_mange/{rid}",method=RequestMethod.GET)
+	String toMenuManage(@PathVariable("rid") int rid,HttpServletRequest request){
+		request.setAttribute("roleId",rid);
 		return "system/menu_manage";
 	}
 
 	@RequestMapping(value="system/menu_manage",method=RequestMethod.GET)
 	@ResponseBody
-	public Object getMenuManage(@RequestParam("roleId") Integer roleId, HttpServletRequest request){
+	public Object getMenuManage(@RequestParam("roleId") Integer roleId){
 		List<RoleMenuQuery> menuList = menuService.getRoleMenu(roleId,true);
 		List<RoleMenuJson> menuJsons = getMenuJsons(menuList);
 		return JSON.toJSON(menuJsons);
+	}
+
+	@RequestMapping(value="system/edit_role_menu",method=RequestMethod.POST)
+	@ResponseBody
+	public Object editMenuManage(@RequestParam("roleId") Integer roleId, @RequestParam("menuString") String menuString){
+		menuService.updateRoleMenu(roleId,menuString);
+		return JSON.toJSONString("success");
 	}
 
 	private List<RoleMenuJson> getMenuJsons(List<RoleMenuQuery> menuList) {
