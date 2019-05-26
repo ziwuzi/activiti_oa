@@ -3,6 +3,7 @@ package mapper;
 import org.apache.ibatis.annotations.Param;
 import po.TbMenu;
 import po.TbRoleMenu;
+import po.User_role;
 import po.query.RoleMenuQuery;
 
 import java.util.List;
@@ -26,9 +27,9 @@ public interface TbMenuMapper {
 
     List<RoleMenuQuery> getAllRoleMenu(@Param("roleId") Integer roleId,@Param("isEditRole") Boolean isEditRole);
 
-    List<RoleMenuQuery> getTopRoleMenu(@Param("roleId") Integer roleId,@Param("isEditRole") Boolean isEditRole);
+    List<RoleMenuQuery> getTopRoleMenu(@Param("roleList") List<User_role> roleList, @Param("isEditRole") Boolean isEditRole);
 
-    List<RoleMenuQuery> getSubRoleMenu(@Param("roleId") Integer roleId,@Param("parentId") Integer parentId,@Param("isEditRole") Boolean isEditRole);
+    List<RoleMenuQuery> getSubRoleMenu(@Param("roleList") List<User_role> roleList,@Param("parentId") Integer parentId,@Param("isEditRole") Boolean isEditRole);
 
     void deleteRoleMenu(Integer roleId);
 

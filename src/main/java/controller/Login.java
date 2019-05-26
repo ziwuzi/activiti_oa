@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import po.TbMenu;
 import po.User;
+import po.User_role;
+import po.query.RoleMenuQuery;
 import service.LoginService;
 import service.MenuService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,7 +38,8 @@ public class Login {
 		{
 			httpSession.setAttribute("user",user);
 			httpSession.setAttribute("username", username);
-			List<List<TbMenu>> menuList = menuService.getAllMenu();
+			List<User_role> roleList = user.getUser_roles();
+			List<List<RoleMenuQuery>> menuList = menuService.getMenu(roleList,false);
 			request.setAttribute("menuList",menuList);
 			return "index2";
 		}else

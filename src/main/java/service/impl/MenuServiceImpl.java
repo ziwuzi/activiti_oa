@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import po.TbMenu;
 import po.TbRoleMenu;
+import po.User_role;
 import po.query.RoleMenuQuery;
 import service.MenuService;
 
@@ -33,13 +34,15 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<List<RoleMenuQuery>> getMenu(Integer roleId, Boolean isEditRole) {
+    public List<List<RoleMenuQuery>> getMenu(List<User_role> roleList, Boolean isEditRole) {
         List<List<RoleMenuQuery>> menuList = new ArrayList<>();
-        List<RoleMenuQuery> topMenuList = menuMapper.getTopRoleMenu(roleId,isEditRole);
-        for(RoleMenuQuery menu : topMenuList){
-            List<RoleMenuQuery> subMenuList = menuMapper.getSubRoleMenu(roleId,menu.getId(),isEditRole);
-            subMenuList.add(0,menu);
-            menuList.add(subMenuList);
+        if(roleList != null && roleList.size() >0) {
+            List<RoleMenuQuery> topMenuList = menuMapper.getTopRoleMenu(roleList, isEditRole);
+            for (RoleMenuQuery menu : topMenuList) {
+                List<RoleMenuQuery> subMenuList = menuMapper.getSubRoleMenu(roleList, menu.getId(), isEditRole);
+                subMenuList.add(0, menu);
+                menuList.add(subMenuList);
+            }
         }
         return menuList;
     }

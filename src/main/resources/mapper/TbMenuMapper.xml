@@ -84,14 +84,20 @@
             where m.state = 0
             and m.id
             in (select menu_id from tb_role_menu rm
-            where role_id = #{roleId,jdbcType=INTEGER})
+            where role_id in
+            <foreach collection="roleList" item="role" index="index" open="(" close=")" separator=",">
+                #{role.role.rid,jdbcType=INTEGER}
+            </foreach>)
             union
             select m.id,m.parent_id,m.name,url,sort,0 state
             from tb_menu m
             where m.state = 0
             and m.id
             not in (select menu_id from tb_role_menu rm
-            where role_id = #{roleId,jdbcType=INTEGER})) t
+            where role_id in
+            <foreach collection="roleList" item="role" index="index" open="(" close=")" separator=",">
+                #{role.role.rid,jdbcType=INTEGER}
+            </foreach>)) t
 		where parent_id = 0
         <if test="isEditRole != true" >
             and (state = 1 or 1 = #{isEditRole,jdbcType=BOOLEAN})
@@ -107,14 +113,20 @@
             where m.state = 0
             and m.id
             in (select menu_id from tb_role_menu rm
-            where role_id = #{roleId,jdbcType=INTEGER})
+            where role_id in
+            <foreach collection="roleList" item="role" index="index" open="(" close=")" separator=",">
+                #{role.role.rid,jdbcType=INTEGER}
+            </foreach>)
             union
             select m.id,m.parent_id,m.name,url,sort,0 state
             from tb_menu m
             where m.state = 0
             and m.id
             not in (select menu_id from tb_role_menu rm
-            where role_id = #{roleId,jdbcType=INTEGER})) t
+            where role_id in
+            <foreach collection="roleList" item="role" index="index" open="(" close=")" separator=",">
+                #{role.role.rid,jdbcType=INTEGER}
+            </foreach>)) t
 		where parent_id = #{parentId,jdbcType=INTEGER}
         <if test="isEditRole != true" >
             and (state = 1 or 1 = #{isEditRole,jdbcType=BOOLEAN})

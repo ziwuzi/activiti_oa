@@ -1,5 +1,6 @@
 package service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mapper.PermissionMapper;
@@ -90,9 +91,21 @@ public class SystemServiceImpl implements SystemService{
 		
 	}
 	public List<Role> getPageRoleInfo(int pagenum, int pagesize) {
-		PageHelper.startPage(pagenum,pagesize);  
+		//PageHelper.startPage(pagenum,pagesize);
 		List<Role> l=rolemapper.getRoleinfo();
-		return l;
+		List<Role> result = new ArrayList<>();
+		int start = pagenum * pagesize - pagesize;
+		int end = pagenum * pagesize;
+		if(start > l.size()){
+			start = l.size();
+		}
+		if(end > l.size()){
+			end = l.size();
+		}
+		for(int i = start ; i < end ; i++){
+			result.add(l.get(i));
+		}
+		return result;
 	}
 	public List<Role> getRoleInfo() {
 		return rolemapper.getRoleinfo();
