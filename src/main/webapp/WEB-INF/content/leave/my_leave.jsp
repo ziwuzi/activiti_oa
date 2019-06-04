@@ -39,8 +39,8 @@
                             <th data-column-id="end_time">请假结束时间</th>
                             <th data-column-id="reason">请假原因</th>
                             <th data-column-id="taskname">任务名称</th>
-                            <th data-column-id="state">状态</th>
-                            <th data-column-id="commands">操作</th>
+                            <th data-formatter="state">状态</th>
+                            <th data-formatter="commands">操作</th>
                         </tr>
                         </thead>
                     </table>
@@ -62,7 +62,23 @@
             formatters: {
                 "commands": function(column, row)
                 {
-                    return "<button class=\"btn btn-xs btn-default ajax-link command-run1\" data-row-id=\"" + row.taskid + "\">处理</button>";
+                    let cancelBtn = "<button class=\"btn btn-xs btn-default ajax-link\" onclick=cancel(\"" + row.id + "\")>撤销</button>";
+                    let showBtn = "<button class=\"btn btn-xs btn-default ajax-link\" onclick=show(\"" + row.id + "\")>查看</button>";
+                    if(row.state == 0){
+                        return showBtn + "&nbsp;" + cancelBtn;
+                    }
+                    else{
+                        return showBtn;
+                    }
+                },
+                "state": function(column, row)
+                {
+                    switch (row.state) {
+                        case 0 : return "审核中";
+                        case 1 : return "审核通过";
+                        case 2 : return "驳回";
+                        case 3 : return "撤销";
+                    }
                 }
             }
 
@@ -73,5 +89,11 @@
         });
     });
 
+    function cancel(id){
+        $.post("leave/cancel_leave/"+id,$("form").serialize(),function(a){
+            alert("处理成功");
+            LoadAjaxContent("leave/to_my_leave");
+        });
+    }
 
 </script>

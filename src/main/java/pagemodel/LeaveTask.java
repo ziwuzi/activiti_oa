@@ -18,6 +18,7 @@ public class LeaveTask {
 	String processinstanceid;
 	String processdefid;
 	Date taskcreatetime;
+	private int state;
 	public int getId() {
 		return id;
 	}
@@ -108,6 +109,13 @@ public class LeaveTask {
 	public void setTaskcreatetime(Date taskcreatetime) {
 		this.taskcreatetime = taskcreatetime;
 	}
-	
-	
+
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
 }

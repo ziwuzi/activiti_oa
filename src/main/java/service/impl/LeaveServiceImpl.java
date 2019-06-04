@@ -45,6 +45,7 @@ public class LeaveServiceImpl implements LeaveService{
 	public ProcessInstance startWorkflow(LeaveApply apply, String userid, Map<String, Object> variables) {
 		apply.setApply_time(new Date().toString());
 		apply.setUser_id(userid);
+		apply.setState(0);
 		leaveApplyMapper.save(apply);
 		String businesskey=String.valueOf(apply.getId());//使用leaveapply表的主键作为businesskey,连接业务数据和流程数据
 		identityService.setAuthenticatedUserId(userid);
@@ -128,6 +129,7 @@ public class LeaveServiceImpl implements LeaveService{
 		LeaveApply a= leaveApplyMapper.get(Integer.parseInt(businesskey));
 		a.setReality_start_time(realstart_time);
 		a.setReality_end_time(realend_time);
+		a.setState(1);
 		leaveApplyMapper.update(a);
 		taskService.complete(taskid);
 	}
@@ -249,6 +251,27 @@ public class LeaveServiceImpl implements LeaveService{
 	@Override
 	public int getMyLeaveCount(String userName) {
 		return leaveApplyMapper.getMyLeaveCount(userName);
+	}
+
+	@Override
+	public List<LeaveApply> getAllLeaveTask(int firstRow, int rowCount) {
+		//PageHelper.startPage(pageNum,pageSize);
+		List<LeaveApply> applies = leaveApplyMapper.getAll();
+		for(LeaveApply apply : applies){
+			Task task = taskService.createTaskQuery().executionId(apply.getProcess_instance_id()).singleResult();
+			apply.setTask(task);
+		}
+		return applies;
+	}
+
+	@Override
+	public int getAllLeaveCount() {
+		return leaveApplyMapper.getAllCount();
+	}
+
+	@Override
+	public void update(LeaveApply leaveApply) {
+		leaveApplyMapper.update(leaveApply);
 	}
 
 	public static void main(String args[]){

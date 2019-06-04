@@ -33,4 +33,10 @@ public interface LeaveService {
 	List<LeaveApply> getMyLeaveTask(String userName,int pageNum,int pageSize);
 
 	int getMyLeaveCount(String userName);
+
+    List<LeaveApply> getAllLeaveTask(int firstRow, int rowCount);
+
+	int getAllLeaveCount();
+
+	void update(LeaveApply leaveApply);
 }

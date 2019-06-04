@@ -13,4 +13,8 @@ public interface LeaveApplyMapper {
 	List<LeaveApply> getByUser(String userName);
 
 	int getMyLeaveCount(String userName);
+
+	List<LeaveApply> getAll();
+
+	int getAllCount();
 }

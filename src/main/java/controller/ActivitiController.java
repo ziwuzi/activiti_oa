@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.github.pagehelper.StringUtil;
+import com.mysql.jdbc.StringUtils;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
@@ -317,6 +319,7 @@ public class ActivitiController {
 			task.setProcess_instance_id(apply.getProcess_instance_id());
 			task.setReason(apply.getReason());
 			task.setStart_time(apply.getStart_time());
+			task.setState(apply.getState());
 			if(apply.getTask() != null) {
 				task.setProcessdefid(apply.getTask().getProcessDefinitionId());
 				task.setTaskcreatetime(apply.getTask().getCreateTime());
@@ -588,14 +591,14 @@ public class ActivitiController {
 
 	@RequestMapping(value="leave/all_leave",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public DataGrid<LeaveTask> getAllAudit(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount) {
-		DataGrid<LeaveTask> grid = new DataGrid<>(current, rowCount);
-		int firstRow = (current - 1) * rowCount;
-		List<LeaveApply> results = leaveService.getAllPageTask(firstRow, rowCount);
-		int totalSize = leaveService.getAllPageTaskCount();
-		List<LeaveTask> tasks = getLeaveTasks(results);
-		grid = new DataGrid<>(current, rowCount, totalSize, tasks);
-		return grid;
+	public DataGrid<LeaveTask> getAllLeave(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount) {
+        DataGrid<LeaveTask> grid = new DataGrid<>(current, rowCount);
+        int firstRow = (current - 1) * rowCount;
+        List<LeaveApply> results = leaveService.getAllLeaveTask(firstRow, rowCount);
+        int totalSize = leaveService.getAllLeaveCount();
+        List<LeaveTask> tasks = getLeaveTasks(results);
+        grid = new DataGrid<>(current, rowCount, totalSize, tasks);
+        return grid;
 	}
 
 	@RequestMapping("leave/to_leave_chart")
@@ -609,4 +612,15 @@ public class ActivitiController {
 
 		return null;
 	}
+
+    @RequestMapping(value="leave/cancel_leave/{id}",produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public Object cancelLeave(@PathVariable("id") String id) {
+		if(!StringUtil.isEmpty(id)) {
+			LeaveApply leaveApply = leaveService.getLeave(Integer.valueOf(id));
+			leaveApply.setState(3);
+			leaveService.update(leaveApply);
+		}
+		return JSON.toJSONString("success");
+    }
 }

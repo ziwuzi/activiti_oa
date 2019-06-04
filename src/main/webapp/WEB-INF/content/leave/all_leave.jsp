@@ -37,10 +37,9 @@
                             <th data-column-id="start_time">请假开始时间</th>
                             <th data-column-id="end_time">请假结束时间</th>
                             <th data-column-id="reason">请假原因</th>
-                            <th data-column-id="taskid">任务ID</th>
                             <th data-column-id="taskname">任务名称</th>
-                            <th data-column-id="process_instance_id" >流程实例ID</th>
-                            <th data-formatter="taskcreatetime" data-column-id="taskcreatetime">任务创建时间</th>
+                            <th data-formatter="state">状态</th>
+                            <th data-formatter="commands">操作</th>
                         </tr>
                         </thead>
                     </table>
@@ -59,10 +58,21 @@
             navigation: 2,
             columnSelection: false,
             ajax: true,
-            url: "setupprocess",
+            url: "leave/all_leave",
             formatters: {
-                "commands": function (column, row) {
-                    return "<a class=\"btn btn-xs btn-default ajax-link\" target=\"_blank\" href=\"traceprocess/" + row.processInstanceid + "\">查看详情</a>";
+                "commands": function(column, row)
+                {
+                    let showBtn = "<button class=\"btn btn-xs btn-default ajax-link\" onclick=show(\"" + row.id + "\")>查看</button>";
+                    return showBtn;
+                },
+                "state": function(column, row)
+                {
+                    switch (row.state) {
+                        case 0 : return "审核中";
+                        case 1 : return "审核通过";
+                        case 2 : return "驳回";
+                        case 3 : return "撤销";
+                    }
                 }
             }
 
