@@ -16,6 +16,8 @@ public class LeaveApply implements Serializable{
 	String reality_start_time;
 	String reality_end_time;
 	Task task;
+	private String state;
+	private String auditName;
 	public int getId() {
 		return id;
 	}
@@ -82,5 +84,20 @@ public class LeaveApply implements Serializable{
 	public void setTask(Task task) {
 		this.task = task;
 	}
-	
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getAuditName() {
+		return auditName;
+	}
+
+	public void setAuditName(String auditName) {
+		this.auditName = auditName;
+	}
 }

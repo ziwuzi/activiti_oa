@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.github.pagehelper.PageHelper;
 import mapper.LeaveApplyMapper;
 
 import org.activiti.engine.IdentityService;
@@ -212,6 +213,42 @@ public class LeaveServiceImpl implements LeaveService{
 				.parameter("taskName2", "人事审批")
 				.list();
 		return tasks.size();
+	}
+
+	public List<LeaveApply> getAllPageTask(int firstrow, int rowcount) {
+		List<LeaveApply> results=new ArrayList<LeaveApply>();
+		List<Task> tasks= taskService.createNativeTaskQuery()
+				.sql("SELECT * FROM " + managementService.getTableName(Task.class) + " T WHERE T.NAME_ = #{taskName1} OR T.NAME_ = #{taskName2}")
+				.listPage(firstrow, rowcount);
+		getTask(results, tasks);
+		return results;
+	}
+
+	public Integer getAllPageTaskCount() {
+		List<Task> tasks= taskService.createNativeTaskQuery()
+				.sql("SELECT * FROM " + managementService.getTableName(Task.class) + " T WHERE T.NAME_ = #{taskName1} OR T.NAME_ = #{taskName2}")
+				.list();
+		return tasks.size();
+	}
+
+	@Override
+	public LeaveApply getLeaveByTaskId(String taskId) {
+		return leaveApplyMapper.getByTaskId(taskId);
+	}
+
+	public List<LeaveApply> getMyLeaveTask(String userName,int pageNum,int pageSize) {
+		//PageHelper.startPage(pageNum,pageSize);
+		List<LeaveApply> applies = leaveApplyMapper.getByUser(userName);
+		for(LeaveApply apply : applies){
+			Task task = taskService.createTaskQuery().executionId(apply.getProcess_instance_id()).singleResult();
+			apply.setTask(task);
+		}
+		return applies;
+	}
+
+	@Override
+	public int getMyLeaveCount(String userName) {
+		return leaveApplyMapper.getMyLeaveCount(userName);
 	}
 
 	public static void main(String args[]){

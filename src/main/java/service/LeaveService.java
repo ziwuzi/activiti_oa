@@ -25,4 +25,12 @@ public interface LeaveService {
 	public List<String> getHighLightedFlows(ProcessDefinitionEntity deployedProcessDefinition,List<HistoricActivityInstance> historicActivityInstances);
 	List<LeaveApply> getPageTask(int firstrow, int rowcount);
 	Integer getPageTaskCount();
+	List<LeaveApply> getAllPageTask(int firstrow, int rowcount);
+	Integer getAllPageTaskCount();
+
+    LeaveApply getLeaveByTaskId(String taskId);
+
+	List<LeaveApply> getMyLeaveTask(String userName,int pageNum,int pageSize);
+
+	int getMyLeaveCount(String userName);
 }

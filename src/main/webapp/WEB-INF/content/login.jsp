@@ -22,13 +22,10 @@
 <div class="container-fluid">
 	<div id="page-login" class="row">
 		<div class="col-xs-12 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-			<div class="text-right">
-				<a href="register" class="txt-default">Need an account?</a>
-			</div>
 			<div class="box">
 				<div class="box-content">
 					<div class="text-center">
-						<h3 class="page-header">Spring-activiti Login Page</h3>
+						<h3 class="page-header">OA系统登陆</h3>
 					</div>
 					<form action="loginvalidate" method="post">
 					<div class="form-group">
@@ -44,7 +41,7 @@
 						<input type="text" class="form-control" name="pic" />
 					</div>
 					<div class="text-center">
-						<button class="btn btn-primary">login</button>
+						<button class="btn btn-primary">登陆</button>
 					</div>
 					</form>
 				</div>

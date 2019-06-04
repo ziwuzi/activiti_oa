@@ -7,4 +7,17 @@
       <userTask id="ServiceTask_1" name="测试" activiti:assignee="${applyuserid}"/>
       <startEvent id="StartEvent_1" name="开始" activiti:initiator="${applyuserid}"/>
   </process>
+    <bpmndi:BPMNDiagram>
+        <bpmndi:BPMNPlane>
+            <bpmndi:BPMNShape bpmnElement="EndEvent_1">
+                <omgdc:Bounds height="48.0" width="48.0" x="0.0" y="3.552713678800501E-14"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="StartEvent_1">
+                <omgdc:Bounds height="48.0" width="48.0" x="297.1262063651366" y="0.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="ServiceTask_1">
+                <omgdc:Bounds height="48.0" width="120.0" x="112.56310318256831" y="3.552713678800501E-14"/>
+            </bpmndi:BPMNShape>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
 </definitions>

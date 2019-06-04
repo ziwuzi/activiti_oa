@@ -315,12 +315,14 @@ public class ActivitiController {
 			task.setId(apply.getId());
 			task.setLeave_type(apply.getLeave_type());
 			task.setProcess_instance_id(apply.getProcess_instance_id());
-			task.setProcessdefid(apply.getTask().getProcessDefinitionId());
 			task.setReason(apply.getReason());
 			task.setStart_time(apply.getStart_time());
-			task.setTaskcreatetime(apply.getTask().getCreateTime());
-			task.setTaskid(apply.getTask().getId());
-			task.setTaskname(apply.getTask().getName());
+			if(apply.getTask() != null) {
+				task.setProcessdefid(apply.getTask().getProcessDefinitionId());
+				task.setTaskcreatetime(apply.getTask().getCreateTime());
+				task.setTaskid(apply.getTask().getId());
+				task.setTaskname(apply.getTask().getName());
+			}
 			tasks.add(task);
 		}
 		return tasks;
@@ -516,9 +518,22 @@ public class ActivitiController {
 	}
 
 
-	@RequestMapping("leave/my_leave")
+	@RequestMapping("leave/to_my_leave")
 	String toMyLeave(){
 		return "leave/my_leave";
+	}
+
+	@RequestMapping(value="leave/my_leave",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public DataGrid<LeaveTask> getMyLeave(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount) {
+		DataGrid<LeaveTask> grid = new DataGrid<>(current, rowCount);
+		int firstRow = (current - 1) * rowCount;
+		String userName=(String) session.getAttribute("username");
+		List<LeaveApply> results = leaveService.getMyLeaveTask(userName,firstRow, rowCount);
+		int totalSize = leaveService.getMyLeaveCount(userName);
+		List<LeaveTask> tasks = getLeaveTasks(results);
+		grid = new DataGrid<>(current, rowCount, totalSize, tasks);
+		return grid;
 	}
 
 	@RequestMapping("leave/to_my_audit")
@@ -564,5 +579,34 @@ public class ActivitiController {
 			grid = new DataGrid<>(current,rowCount,totalSize,tasks);
 			return grid;
 		}
+	}
+
+	@RequestMapping("leave/to_all_leave")
+	String toAllAudit(){
+		return "leave/all_leave";
+	}
+
+	@RequestMapping(value="leave/all_leave",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public DataGrid<LeaveTask> getAllAudit(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount) {
+		DataGrid<LeaveTask> grid = new DataGrid<>(current, rowCount);
+		int firstRow = (current - 1) * rowCount;
+		List<LeaveApply> results = leaveService.getAllPageTask(firstRow, rowCount);
+		int totalSize = leaveService.getAllPageTaskCount();
+		List<LeaveTask> tasks = getLeaveTasks(results);
+		grid = new DataGrid<>(current, rowCount, totalSize, tasks);
+		return grid;
+	}
+
+	@RequestMapping("leave/to_leave_chart")
+	String toLeaveChart(){
+		return "leave/leaveChart";
+	}
+
+	@RequestMapping(value="leave/leave_chart",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public Object getLeaveChart(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount) {
+
+		return null;
 	}
 }
