@@ -20,4 +20,10 @@ public interface TbAttenceMapper {
     List<TbAttence> getMyAttence(int userId);
 
     int getMyAttenceCount(int userId);
+
+    void delete(TbAttence attence);
+
+    List<TbAttence> getAllAttence();
+
+    int getAllAttenceCount();
 }

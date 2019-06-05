@@ -8,18 +8,43 @@
 		<ol class="breadcrumb pull-left">
 			<li><a href="index">首页</a></li>
 			<li><a href="#">考勤管理</a></li>
-			<li><a href="#">我的考勤</a></li>
+			<li><a href="#">员工考勤</a></li>
 		</ol>
 	</div>
 </div>
 <div class="container-fluid">
-
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="box ui-draggable ui-droppable">
 				<div class="box-header">
 					<div class="box-name">
-						<i class="fa fa-coffee"></i> <span>我的考勤</span>
+						<i class="fa fa-coffee"></i> <span>上传考勤数据</span>
+					</div>
+					<div class="box-icons">
+						<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+						</a> <a class="expand-link"> <i class="fa fa-expand"></i>
+					</a> <a class="close-link"> <i class="fa fa-times"></i>
+					</a>
+					</div>
+					<div class="no-move"></div>
+				</div>
+				<div class="box-content">
+					<form id="upload" action="attence/upload_attence" method="post" enctype="multipart/form-data">
+						<div class="form-group">
+							<label for="fileupload">考勤数据</label>
+							<input type="file" name="upload" class="form-control" id="fileupload">
+						</div>
+						<button type="submit" class="btn btn-primary">upload</button>
+					</form>
+				</div>
+			</div></div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box ui-draggable ui-droppable">
+				<div class="box-header">
+					<div class="box-name">
+						<i class="fa fa-coffee"></i> <span>员工考勤</span>
 					</div>
 					<div class="box-icons">
 						<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -61,7 +86,7 @@
 			navigation:2,
 			columnSelection:false,
 			ajax:true,
-			url:"attence/my_attence",
+			url:"attence/all_attence",
 			formatters: {
 				"commands": function(column, row)
 				{
@@ -73,6 +98,13 @@
 		{
 		});
 
+		$("#upload").submit(function(){
+			if($("#fileupload").val()=="")
+			{
+				alert("请选择考勤文件上传！");
+				return false;
+			}
+		});
 	});
 
 

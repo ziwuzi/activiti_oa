@@ -28,4 +28,23 @@ public class AttenceServiceImpl implements AttenceService {
     public int getMyAttenceCount(int userId) {
         return attenceMapper.getMyAttenceCount(userId);
     }
+
+    @Override
+    public void addAttence(List<TbAttence> attenceList) {
+        for(TbAttence attence : attenceList){
+            attenceMapper.delete(attence);
+            attenceMapper.insert(attence);
+        }
+    }
+
+    @Override
+    public List<TbAttence> getAllAttence(int firstRow, int rowCount) {
+        //PageHelper.startPage(firstRow,rowCount);
+        return attenceMapper.getAllAttence();
+    }
+
+    @Override
+    public int getAllAttenceCount() {
+        return attenceMapper.getAllAttenceCount();
+    }
 }

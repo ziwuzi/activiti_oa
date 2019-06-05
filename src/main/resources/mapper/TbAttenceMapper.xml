@@ -39,9 +39,27 @@
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
 
+    <select id="getAllAttence" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_attence
+    </select>
+
+    <select id="getAllAttenceCount" resultType="java.lang.Integer">
+        select
+        count(*)
+        from tb_attence
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
         delete from tb_attence
         where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="delete">
+        delete from tb_attence
+        where user_id = #{userId,jdbcType=INTEGER}
+        and date = #{date,jdbcType=VARCHAR}
     </delete>
 
     <insert id="insert" parameterType="po.TbAttence" >
