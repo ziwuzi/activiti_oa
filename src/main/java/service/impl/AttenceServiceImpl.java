@@ -30,7 +30,7 @@ public class AttenceServiceImpl implements AttenceService {
 
     @Override
     public List<TbAttence> getMyAttence(int userId, int firstRow, int rowCount) {
-        //PageHelper.startPage(firstRow,rowCount);
+        PageHelper.startPage(firstRow,rowCount);
         return attenceMapper.getMyAttence(userId);
     }
 
@@ -50,7 +50,7 @@ public class AttenceServiceImpl implements AttenceService {
 
     @Override
     public List<TbAttence> getAllAttence(int firstRow, int rowCount) {
-        //PageHelper.startPage(firstRow,rowCount);
+        PageHelper.startPage(firstRow,rowCount,false);
         return attenceMapper.getAllAttence();
     }
 

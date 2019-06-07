@@ -243,7 +243,7 @@ public class LeaveServiceImpl implements LeaveService{
 	}
 
 	public List<LeaveApply> getMyLeaveTask(String userName,int pageNum,int pageSize) {
-		//PageHelper.startPage(pageNum,pageSize);
+		PageHelper.startPage(pageNum,pageSize);
 		List<LeaveApply> applies = leaveApplyMapper.getByUser(userName);
 		for(LeaveApply apply : applies){
 			Task task = taskService.createTaskQuery().executionId(apply.getProcess_instance_id()).singleResult();
@@ -259,7 +259,7 @@ public class LeaveServiceImpl implements LeaveService{
 
 	@Override
 	public List<LeaveApply> getAllLeaveTask(int firstRow, int rowCount) {
-		//PageHelper.startPage(pageNum,pageSize);
+		PageHelper.startPage(firstRow,rowCount);
 		List<LeaveApply> applies = leaveApplyMapper.getAll();
 		for(LeaveApply apply : applies){
 			Task task = taskService.createTaskQuery().executionId(apply.getProcess_instance_id()).singleResult();

@@ -45,8 +45,7 @@ public class AttenceController {
 	public DataGrid<TbAttence> getMyAttence(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		User user = (User) session.getAttribute("user");
 		DataGrid<TbAttence> grid;
-		int firstRow = (current - 1) * rowCount;
-		List<TbAttence> results = attenceService.getMyAttence(user.getUid(),firstRow, rowCount);
+		List<TbAttence> results = attenceService.getMyAttence(user.getUid(),current, rowCount);
 		int totalSize = attenceService.getMyAttenceCount(user.getUid());
 		grid = new DataGrid<>(current, rowCount, totalSize, results);
 		return grid;
@@ -61,8 +60,7 @@ public class AttenceController {
 	@ResponseBody
 	public DataGrid<TbAttence> getAllAttence(@RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		DataGrid<TbAttence> grid;
-		int firstRow = (current - 1) * rowCount;
-		List<TbAttence> results = attenceService.getAllAttence(firstRow, rowCount);
+		List<TbAttence> results = attenceService.getAllAttence(current, rowCount);
 		int totalSize = attenceService.getAllAttenceCount();
 		grid = new DataGrid<>(current, rowCount, totalSize, results);
 		return grid;

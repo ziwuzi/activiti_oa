@@ -530,9 +530,8 @@ public class ActivitiController {
 	@ResponseBody
 	public DataGrid<LeaveTask> getMyLeave(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount) {
 		DataGrid<LeaveTask> grid = new DataGrid<>(current, rowCount);
-		int firstRow = (current - 1) * rowCount;
 		String userName=(String) session.getAttribute("username");
-		List<LeaveApply> results = leaveService.getMyLeaveTask(userName,firstRow, rowCount);
+		List<LeaveApply> results = leaveService.getMyLeaveTask(userName,current, rowCount);
 		int totalSize = leaveService.getMyLeaveCount(userName);
 		List<LeaveTask> tasks = getLeaveTasks(results);
 		grid = new DataGrid<>(current, rowCount, totalSize, tasks);
@@ -593,8 +592,7 @@ public class ActivitiController {
 	@ResponseBody
 	public DataGrid<LeaveTask> getAllLeave(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount) {
         DataGrid<LeaveTask> grid = new DataGrid<>(current, rowCount);
-        int firstRow = (current - 1) * rowCount;
-        List<LeaveApply> results = leaveService.getAllLeaveTask(firstRow, rowCount);
+        List<LeaveApply> results = leaveService.getAllLeaveTask(current, rowCount);
         int totalSize = leaveService.getAllLeaveCount();
         List<LeaveTask> tasks = getLeaveTasks(results);
         grid = new DataGrid<>(current, rowCount, totalSize, tasks);
