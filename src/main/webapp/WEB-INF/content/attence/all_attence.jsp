@@ -65,7 +65,7 @@
 							<th data-column-id="offTime">下班时间</th>
 							<th data-column-id="status">考勤状态</th>
 							<th data-column-id="leaveInfo">请假信息</th>
-							<th data-column-id="workState">是否为工作日</th>
+							<th data-formatter="weekday">星期</th>
 							<th data-column-id="remark">备注</th>
 						</tr>
 						</thead>
@@ -88,9 +88,10 @@
 			ajax:true,
 			url:"attence/all_attence",
 			formatters: {
-				"commands": function(column, row)
+				"weekday": function(column, row)
 				{
-					return "<a class=\"btn btn-xs btn-default ajax-link\" target=\"_blank\" href=\"traceprocess/" + row.processInstanceid + "\">查看详情</a>";
+					let weekdays = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+					return weekdays[row.weekday];
 				}
 			}
 

@@ -8,14 +8,15 @@
         <result column="date" property="date" jdbcType="VARCHAR" />
         <result column="start_time" property="startTime" jdbcType="VARCHAR" />
         <result column="off_time" property="offTime" jdbcType="VARCHAR" />
-        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
         <result column="leave_info" property="leaveInfo" jdbcType="VARCHAR" />
         <result column="work_state" property="workState" jdbcType="INTEGER" />
+        <result column="weekday" property="weekday" javaType="INTEGER" />
         <result column="remark" property="remark" jdbcType="VARCHAR" />
     </resultMap>
 
     <sql id="Base_Column_List" >
-        id, user_id, date, start_time, off_time, status, leave_info, work_state, remark
+        id, user_id, date, start_time, off_time, status, leave_info, work_state, weekday, remark
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -65,11 +66,11 @@
     <insert id="insert" parameterType="po.TbAttence" >
         insert into tb_attence (id, user_id, date, 
             start_time, off_time, status, 
-            leave_info, work_state, remark
+            leave_info, work_state, weekday, remark
             )
         values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR}, 
-            #{startTime,jdbcType=VARCHAR}, #{offTime,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-            #{leaveInfo,jdbcType=VARCHAR}, #{workState,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+            #{startTime,jdbcType=VARCHAR}, #{offTime,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+            #{leaveInfo,jdbcType=VARCHAR}, #{workState,jdbcType=INTEGER},#{weekday,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
             )
     </insert>
 
@@ -100,6 +101,9 @@
             <if test="workState != null" >
                 work_state,
             </if>
+            <if test="weekday != null" >
+                weekday,
+            </if>
             <if test="remark != null" >
                 remark,
             </if>
@@ -121,13 +125,16 @@
                 #{offTime,jdbcType=VARCHAR},
             </if>
             <if test="status != null" >
-                #{status,jdbcType=INTEGER},
+                #{status,jdbcType=VARCHAR},
             </if>
             <if test="leaveInfo != null" >
                 #{leaveInfo,jdbcType=VARCHAR},
             </if>
             <if test="workState != null" >
                 #{workState,jdbcType=INTEGER},
+            </if>
+            <if test="weekday != null" >
+                #{weekday,jdbcType=INTEGER},
             </if>
             <if test="remark != null" >
                 #{remark,jdbcType=VARCHAR},
@@ -151,13 +158,16 @@
                 off_time = #{offTime,jdbcType=VARCHAR},
             </if>
             <if test="status != null" >
-                status = #{status,jdbcType=INTEGER},
+                status = #{status,jdbcType=VARCHAR},
             </if>
             <if test="leaveInfo != null" >
                 leave_info = #{leaveInfo,jdbcType=VARCHAR},
             </if>
             <if test="workState != null" >
                 work_state = #{workState,jdbcType=INTEGER},
+            </if>
+            <if test="weekday != null" >
+                #{weekday,jdbcType=INTEGER},
             </if>
             <if test="remark != null" >
                 remark = #{remark,jdbcType=VARCHAR},
@@ -172,9 +182,10 @@
             date = #{date,jdbcType=VARCHAR},
             start_time = #{startTime,jdbcType=VARCHAR},
             off_time = #{offTime,jdbcType=VARCHAR},
-            status = #{status,jdbcType=INTEGER},
+            status = #{status,jdbcType=VARCHAR},
             leave_info = #{leaveInfo,jdbcType=VARCHAR},
             work_state = #{workState,jdbcType=INTEGER},
+            weekday = #{weekday,jdbcType=INTEGER},
             remark = #{remark,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>

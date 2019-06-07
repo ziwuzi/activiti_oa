@@ -8,6 +8,7 @@ import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 
 import po.LeaveApply;
+import po.TbAttence;
 
 public interface LeaveService {
 	public ProcessInstance startWorkflow(LeaveApply apply,String userid,Map<String,Object> variables);
@@ -39,4 +40,6 @@ public interface LeaveService {
 	int getAllLeaveCount();
 
 	void update(LeaveApply leaveApply);
+
+    LeaveApply getLeaveByAttence(TbAttence attence);
 }

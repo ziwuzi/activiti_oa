@@ -3,7 +3,7 @@ package po;
 /**
  * 
  * 
- * @author wcyong
+ * @author zhengwzh
  * 
  * @date 2019-06-04
  */
@@ -36,7 +36,7 @@ public class TbAttence {
     /**
      * 考勤状态
      */
-    private Integer status;
+    private String status;
 
     /**
      * 请假信息
@@ -52,6 +52,11 @@ public class TbAttence {
      * 备注
      */
     private String remark;
+
+    /**
+     * 星期几
+     */
+    private Integer weekday;
 
     public Integer getId() {
         return id;
@@ -93,11 +98,11 @@ public class TbAttence {
         this.offTime = offTime == null ? null : offTime.trim();
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -123,5 +128,13 @@ public class TbAttence {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getWeekday() {
+        return weekday;
+    }
+
+    public void setWeekday(Integer weekday) {
+        this.weekday = weekday;
     }
 }

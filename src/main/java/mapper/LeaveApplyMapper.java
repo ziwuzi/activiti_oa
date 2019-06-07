@@ -1,6 +1,8 @@
 package mapper;
 
+import org.apache.ibatis.annotations.Param;
 import po.LeaveApply;
+import po.TbAttence;
 
 import java.util.List;
 
@@ -17,4 +19,6 @@ public interface LeaveApplyMapper {
 	List<LeaveApply> getAll();
 
 	int getAllCount();
+
+    LeaveApply getByAttence(@Param("userId")Integer userId,@Param("date")String date);
 }

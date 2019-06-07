@@ -75,7 +75,7 @@ public class AttenceController {
 	 */
 	@RequestMapping("attence/upload_attence")
 	@ResponseBody
-	public String upAttenceExcel(@RequestParam("upload") MultipartFile upload) throws IOException, InvalidFormatException {
+	public String upAttenceExcel(@RequestParam("upload") MultipartFile upload) throws IOException, InvalidFormatException, ParseException {
 
 		// 玄学加速
 		Thread.currentThread().setPriority(10);
@@ -95,6 +95,7 @@ public class AttenceController {
 			TbAttence attence = new TbAttence();
 			attence.setUserId(Integer.valueOf(row.getCell(0).getStringCellValue()));
 			attence.setDate(date);
+			attence.setWeekday(DateTool.getWeekOfDate(DateTool.strintToDate1(date)));
 			attence.setStartTime(row.getCell(2).getStringCellValue());
 			attence.setOffTime(row.getCell(3).getStringCellValue());
 

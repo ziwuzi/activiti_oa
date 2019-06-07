@@ -1,5 +1,6 @@
 package service.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,7 +28,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import po.LeaveApply;
+import po.TbAttence;
 import service.LeaveService;
+import util.DateTool;
+
 @Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT,timeout=5)
 @Service
 public class LeaveServiceImpl implements LeaveService{
@@ -272,6 +276,17 @@ public class LeaveServiceImpl implements LeaveService{
 	@Override
 	public void update(LeaveApply leaveApply) {
 		leaveApplyMapper.update(leaveApply);
+	}
+
+	@Override
+	public LeaveApply getLeaveByAttence(TbAttence attence) {
+		String date = "0000-00-00";
+		try {
+			date = DateTool.strintToDateString2(attence.getDate());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return leaveApplyMapper.getByAttence(attence.getUserId(),date);
 	}
 
 	public static void main(String args[]){
