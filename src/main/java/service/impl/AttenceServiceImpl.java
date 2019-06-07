@@ -1,7 +1,6 @@
 package service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.StringUtil;
 import mapper.TbAttenceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import po.LeaveApply;
 import po.TbAttence;
+import po.query.AttenceData;
 import service.AttenceService;
 import service.LeaveService;
 
@@ -57,6 +57,48 @@ public class AttenceServiceImpl implements AttenceService {
     @Override
     public int getAllAttenceCount() {
         return attenceMapper.getAllAttenceCount();
+    }
+
+    @Override
+    public List<AttenceData> getAttenceDatas(String status, String start, String end) {
+        return attenceMapper.getAttenceDatas(status, start, end);
+    }
+
+    @Override
+    public List<AttenceData> getAllAttenceDatas(String start, String end) {
+        List<AttenceData> lateDate = attenceMapper.getAttenceDatas("迟到",start,end);
+        List<AttenceData> earlyDate = attenceMapper.getAttenceDatas("早退",start,end);
+        List<AttenceData> startErrDate = attenceMapper.getAttenceDatas("上班异常",start,end);
+        List<AttenceData> offErrDate = attenceMapper.getAttenceDatas("下班异常",start,end);
+        List<AttenceData> attenceDataList = new ArrayList<>();
+        for (int i = 0; i < lateDate.size(); i++) {
+            AttenceData attenceData = new AttenceData();
+            attenceData.setUserName(lateDate.get(i).getUserName());
+            attenceData.setLateCount(lateDate.get(i).getCount());
+            attenceData.setEarlyCount(earlyDate.get(i).getCount());
+            attenceData.setStartErrCount(startErrDate.get(i).getCount());
+            attenceData.setOffErrCount(offErrDate.get(i).getCount());
+            attenceDataList.add(attenceData);
+        }
+        return attenceDataList;
+    }
+
+    @Override
+    public AttenceData getUserAttenceData(String start, String end, String name) {
+        AttenceData lateDate = attenceMapper.getUserAttenceData("迟到",start,end,name);
+        if(lateDate == null){
+            return null;
+        }
+        AttenceData earlyDate = attenceMapper.getUserAttenceData("早退",start,end,name);
+        AttenceData startErrDate = attenceMapper.getUserAttenceData("上班异常",start,end,name);
+        AttenceData offErrDate = attenceMapper.getUserAttenceData("下班异常",start,end,name);
+        AttenceData attenceData = new AttenceData();
+        attenceData.setUserName(lateDate.getUserName());
+        attenceData.setLateCount(lateDate.getCount());
+        attenceData.setEarlyCount(earlyDate.getCount());
+        attenceData.setStartErrCount(startErrDate.getCount());
+        attenceData.setOffErrCount(offErrDate.getCount());
+        return attenceData;
     }
 
     private void calculate(List<TbAttence> attenceList){

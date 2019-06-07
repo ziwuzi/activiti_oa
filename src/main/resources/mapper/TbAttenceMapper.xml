@@ -14,6 +14,14 @@
         <result column="weekday" property="weekday" javaType="INTEGER" />
         <result column="remark" property="remark" jdbcType="VARCHAR" />
     </resultMap>
+    <resultMap id="AttenceDataMap" type="po.query.AttenceData" >
+        <result column="username" property="userName" jdbcType="VARCHAR" />
+        <result column="count" property="count" jdbcType="INTEGER" />
+        <result column="lateCount" property="lateCount" jdbcType="INTEGER" />
+        <result column="earlyCount" property="earlyCount" jdbcType="INTEGER" />
+        <result column="startErrCount" property="startErrCount" jdbcType="INTEGER" />
+        <result column="offErrCount" property="offErrCount" jdbcType="INTEGER" />
+    </resultMap>
 
     <sql id="Base_Column_List" >
         id, user_id, date, start_time, off_time, status, leave_info, work_state, weekday, remark
@@ -51,6 +59,39 @@
         count(*)
         from tb_attence
     </select>
+
+    <select id="getAttenceDatas" resultMap="AttenceDataMap">
+        <![CDATA[
+            select username,sum(count) count from
+            (select username,1 count from `tb_attence` a
+            left join user u
+            on u.uid = a.user_id
+            where status like concat('%',#{status},'%')
+            and date >= #{start}
+            and date <= #{end}
+            union all
+            select username,0 count
+            from user) t
+            GROUP BY username
+        ]]>
+   </select>
+
+    <select id="getUserAttenceData" resultMap="AttenceDataMap">
+        <![CDATA[
+            select username,sum(count) count from
+            (select username,1 count from `tb_attence` a
+            left join user u
+            on u.uid = a.user_id
+            where username = #{name}
+            and status like concat('%',#{status},'%')
+            and date >= #{start}
+            and date <= #{end}
+            union all
+            select username,0 count
+            from user
+            where username = #{name}) t
+        ]]>
+   </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
         delete from tb_attence

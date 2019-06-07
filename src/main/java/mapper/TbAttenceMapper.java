@@ -1,6 +1,8 @@
 package mapper;
 
+import org.apache.ibatis.annotations.Param;
 import po.TbAttence;
+import po.query.AttenceData;
 
 import java.util.List;
 
@@ -26,4 +28,8 @@ public interface TbAttenceMapper {
     List<TbAttence> getAllAttence();
 
     int getAllAttenceCount();
+
+    List<AttenceData> getAttenceDatas(@Param("status") String status,@Param("start") String start,@Param("end") String end);
+
+    AttenceData getUserAttenceData(@Param("status") String status,@Param("start") String start,@Param("end") String end,@Param("name") String name);
 }

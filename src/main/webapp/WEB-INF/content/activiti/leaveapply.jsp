@@ -70,9 +70,33 @@ $(document).ready(function(){
 			LoadAjaxContent("leaveapply");
 		});
 	});
-	
-	$('#start').datepicker({setDate: new Date(), dateFormat: 'yy-mm-dd'});
-	$('#end').datepicker({setDate: new Date(), dateFormat: 'yy-mm-dd'});
+
+	$('#start').datepicker({
+		setDate: new Date(),
+		dateFormat:'yy-mm-dd',
+		onSelect: function( startDate ) {
+			let $startDate = $( "#start" );
+			let $endDate = $('#end');
+			let endDate = $endDate.datepicker( 'getDate' );
+			if(endDate < startDate){
+				$endDate.datepicker('setDate', startDate - 3600*1000*24);
+			}
+			$endDate.datepicker( "option", "minDate", startDate );
+		}
+	});
+	$('#end').datepicker({
+		setDate: new Date(),
+		dateFormat:'yy-mm-dd',
+		onSelect: function( endDate ) {
+			let $startDate = $( "#start" );
+			let $endDate = $('#end');
+			let startDate = $startDate.datepicker( "getDate" );
+			if(endDate < startDate){
+				$startDate.datepicker('setDate', startDate + 3600*1000*24);
+			}
+			$startDate.datepicker( "option", "maxDate", endDate );
+		}
+	});
 	
 });
 

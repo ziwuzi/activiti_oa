@@ -1,32 +1,26 @@
 package controller;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import pagemodel.DataGrid;
 import po.TbAttence;
-import po.TbDaily;
 import po.User;
+import po.query.AttenceData;
 import service.AttenceService;
-import service.DailyService;
 import util.DateTool;
 
 import javax.servlet.http.HttpSession;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -103,6 +97,52 @@ public class AttenceController {
 		attenceService.addAttence(attences);
 
 		return "toAllAttence";
+	}
+
+	@RequestMapping("attence/to_attence_chart")
+	public String toAttenceChart(){
+		return "attence/attence_chart";
+	}
+
+	@RequestMapping("attence/attence_chart_all")
+	@ResponseBody
+	public Object getAttenceChartAll(@RequestParam("start") String start,@RequestParam("end") String end) throws ParseException {
+		if(!StringUtils.isEmpty(start)) {
+			start = DateTool.strintToDateString1(start);
+		}
+		else{
+			start="00000000";
+		}
+		if(!StringUtils.isEmpty(end)) {
+			end = DateTool.strintToDateString1(end);
+		}
+		else{
+			end="99999999";
+		}
+		List<AttenceData> dataList = attenceService.getAllAttenceDatas(start,end);
+		return JSON.toJSON(dataList);
+	}
+
+	@RequestMapping("attence/attence_chart_name")
+	@ResponseBody
+	public Object getAttenceChartName(@RequestParam("start") String start,@RequestParam("end") String end,@RequestParam("name") String name) throws ParseException {
+		if(!StringUtils.isEmpty(end)) {
+			end = DateTool.strintToDateString1(end);
+		}
+		else{
+			end="99999999";
+		}
+		if(!StringUtils.isEmpty(start)) {
+			start = DateTool.strintToDateString1(start);
+		}
+		else{
+			start="00000000";
+		}
+		AttenceData dataList = attenceService.getUserAttenceData(start, end, name);
+		if(dataList == null){
+			return JSON.toJSONString("noName");
+		}
+		return JSON.toJSON(dataList);
 	}
 
   }
