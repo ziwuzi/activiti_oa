@@ -62,8 +62,9 @@
         $.ajax({
             type: 'GET',
             url: "system/menu_manage",
-            data: {"roleId" : 0},
+            data: {"roleId" : ${roleId}},
             success:function(data) {
+                console.log(data);
                 $.fn.zTree.init($("#zTree"), setting, data);
             }
         });
@@ -87,8 +88,9 @@
             url: "system/edit_role_menu",
             data: {"roleId" : ${roleId}, "menuString" : menuString },
             success:function() {
-                $.MsgBox.Alert("消息","保存成功");
-                LoadAjaxContent("roleadmin");
+                $.MsgBox.Alert("消息","保存成功",function () {
+                    LoadAjaxContent("roleadmin");
+                });
             }
         });
     }
