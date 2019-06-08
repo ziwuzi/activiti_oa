@@ -111,12 +111,19 @@ public class SystemController {
 	}
 	
 	@RequestMapping(value="/adduser",method=RequestMethod.POST)
-	String addUser(@ModelAttribute("user")User user,@RequestParam(value="rolename[]",required = false)String[] rolename){
-		if(rolename==null)
-			systemservice.addUser(user);
-		else
-			systemservice.addUser(user, rolename);
-		return "forward:/useradmin";
+	@ResponseBody
+	public Object addUser(@ModelAttribute("user")User user,@RequestParam(value="rolename[]",required = false)String[] rolename){
+		try {
+			if (rolename == null) {
+				systemservice.addUser(user);
+			} else {
+				systemservice.addUser(user, rolename);
+			}
+		}
+		catch (Exception e){
+			return JSON.toJSONString("error");
+		}
+		return JSON.toJSONString("success");
 	}
 	
 	@RequestMapping(value="/updateuser/{uid}",method=RequestMethod.POST)

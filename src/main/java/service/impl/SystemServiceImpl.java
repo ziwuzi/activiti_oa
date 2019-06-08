@@ -55,7 +55,6 @@ public class SystemServiceImpl implements SystemService{
 	}
 	public void deleteUser(int uid) {
 		usermapper.deleteuser(uid);
-		usermapper.deleteuserrole(uid);
 	}
 	public void addUser(User user, String[] rolenames) {
 		usermapper.adduser(user);

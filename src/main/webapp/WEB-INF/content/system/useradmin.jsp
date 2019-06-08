@@ -101,12 +101,14 @@
 				    			$.MsgBox.Alert("消息","年龄不得为空");
 				    			return false;
 				    		}
-		    	    		$.post("updateuser/"+uid,$("form").serialize(),function(data){
-		    	    			$("#userinfo").modal('hide');
-				    			$.MsgBox.Alert("消息","修改成功");
-				    			LoadAjaxContent("useradmin");
-				    			history.go(0);
-		    	    		});
+							$.MsgBox.Confirm("确认","是否保存？",function () {
+								$.post("updateuser/" + uid, $("form").serialize(), function (data) {
+									$("#userinfo").modal('hide');
+									$.MsgBox.Alert("消息", "修改成功");
+									LoadAjaxContent("useradmin");
+									history.go(0);
+								});
+							});
 		    	    	});
 	    	    	});
 	    	    	
@@ -117,13 +119,15 @@
 	  });
 	  
 	 function deleteuser(uid){
-	 	$.ajax({
-	     type: 'GET',
-	     url: "deleteuser/"+uid ,
-	     success:function(data) {  
-	             $.MsgBox.Alert("消息","删除成功！");
-	             LoadAjaxContent("useradmin");
-      	 }
+	 	$.MsgBox.Confirm("确认","是否删除？",function (){
+			$.ajax({
+				type: 'GET',
+				url: "deleteuser/"+uid ,
+				success:function(data) {
+					$.MsgBox.Alert("消息","删除成功！");
+					LoadAjaxContent("useradmin");
+				}
+			});
 		});
 	 } 
 	 
@@ -155,12 +159,19 @@
 	    			$.MsgBox.Alert("消息","年龄不得为空");
 	    			return false;
 	    		}
-	    		$.post("adduser",$("form").serialize(),function(){
-	    			$("#userinfo").modal('hide');
-	    			$.MsgBox.Alert("消息","添加成功");
-	    			LoadAjaxContent("useradmin");
-	    			history.go(0);
-	    		});
+				$.MsgBox.Confirm("确认","是否保存？",function (){
+					$.post("adduser",$("form").serialize(),function(data){
+						if(data == "success") {
+							$("#userinfo").modal('hide');
+							$.MsgBox.Alert("消息", "添加成功");
+							LoadAjaxContent("useradmin");
+							history.go(0);
+						}
+						else{
+							$.MsgBox.Alert("错误", "添加失败，用户名重复！");
+						}
+					});
+				});
 	    	});
 	    
 	  	});
@@ -203,7 +214,7 @@
 			<p>新用户初始密码为1234</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
         <button type="button" id="btn" class="btn btn-primary">保存</button>
       </div>
       </form>

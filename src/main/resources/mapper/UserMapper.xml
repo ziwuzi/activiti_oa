@@ -10,6 +10,7 @@
         <result column="password" property="password"/>
         <result column="tel" property="tel" />
         <result column="age" property="age" />
+        <result column="state" property="state" />
         <collection property="user_roles" column="userid" ofType="po.User_role">  
             <id property="urid" column="urid" />
             <association column="roleid" property="role" javaType="po.Role">
@@ -19,25 +20,27 @@
         </collection>
     </resultMap>
     <select id="getusers" resultMap="userMap">
-    	select * from user order by uid
+    	select * from user where state = 0 order by uid
     </select>
     
     <select id="getUserByid" resultMap="userMap">
     	select * from user left join user_role on user.uid=user_role.userid left join 
-    	role on user_role.roleid=role.rid where user.uid=#{uid}
+    	role on user_role.roleid=role.rid where user.uid=#{uid} and state = 0
     </select>
     
-    <delete id="deleteuser" parameterType="int">
-    	delete from user where user.uid=#{uid}
-    </delete>
+    <update id="deleteuser" parameterType="int">
+    	update user
+    	set state = 1
+    	where user.uid=#{uid}
+    </update>
     
     <delete id="deleteuserrole" parameterType="int">
     	delete from user_role where user_role.userid=#{uid}
     </delete>
     
     <insert id="adduser" useGeneratedKeys="true" keyProperty="uid" parameterType="po.User">
-    	 insert into user (username,password,tel,age)
-	  	 values (#{username},'1234',#{tel},#{age})
+    	 insert into user (username,password,tel,age,state)
+	  	 values (#{username},'1234',#{tel},#{age},0)
     </insert>
     
     <update id="updateuser" parameterType="po.User">
@@ -46,6 +49,6 @@
     	where user.uid=#{uid}
     </update>
     <select id="getUidByusername" resultType="int" parameterType="String">
-    	select uid from user where username=#{username} 
+    	select uid from user where username=#{username} and state = 0
     </select>
 </mapper>

@@ -8,6 +8,7 @@ public class User {
 	String password;
 	String tel;
 	int age;
+	private int state;
 	List<User_role> user_roles;
 	
 	public int getUid() {
@@ -52,6 +53,13 @@ public class User {
 				+ password + ", tel=" + tel + ", age=" + age + ", user_roles="
 				+ user_roles + "]";
 	}
-	
-	
+
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
 }
