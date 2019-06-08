@@ -1,6 +1,8 @@
 package mapper;
 
+import org.apache.ibatis.annotations.Param;
 import po.TbDaily;
+import po.query.DailyData;
 
 import java.util.List;
 
@@ -24,4 +26,6 @@ public interface TbDailyMapper {
     List<TbDaily> getAllDailyList();
 
     Integer getAllDailyCount();
+
+    List<DailyData> getDailyData(@Param("start") String start,@Param("end") String end);
 }

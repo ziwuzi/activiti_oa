@@ -13,6 +13,12 @@
         <result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
     </resultMap>
 
+    <resultMap id="DailyDataMap" type="po.query.DailyData" >
+        <result column="date" property="date" jdbcType="VARCHAR" />
+        <result column="count" property="count" jdbcType="INTEGER" />
+        <result column="users" property="users" jdbcType="VARCHAR" />
+    </resultMap>
+
     <sql id="Base_Column_List" >
         id, user_id, date, daily_content, plan, feedback, create_time, modify_time
     </sql>
@@ -50,6 +56,17 @@
         count(*)
         from tb_daily
         where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getDailyData" resultMap="DailyDataMap">
+        <![CDATA[
+            select date,count(1) count,GROUP_CONCAT(username ORDER BY uid) users from user,
+            (SELECT date,GROUP_CONCAT(user_id) uids FROM `tb_daily`
+            where date >= #{start} and date <= #{end}
+            GROUP BY date) t
+            where not find_in_set( uid , t.uids)
+            GROUP BY date
+        ]]>
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

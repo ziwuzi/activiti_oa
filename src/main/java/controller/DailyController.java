@@ -3,6 +3,7 @@ package controller;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pagemodel.DataGrid;
 import po.TbDaily;
 import po.User;
+import po.query.DailyData;
 import service.DailyService;
 import service.LoginService;
 import util.DateTool;
@@ -77,6 +79,25 @@ public class DailyController {
 		daily.setModifyTime(DateTool.parseDate2(new Date()));
 		dailyService.addDaily(daily);
 		return JSON.toJSONString("success");
+	}
+
+	@RequestMapping("daily/to_daily_chart")
+	public String toDailyChart(){
+		return "daily/daily_chart";
+	}
+
+	@RequestMapping("daily/daily_chart")
+	@ResponseBody
+	public DataGrid<DailyData> getDailyChart(@RequestParam("start") String start, @RequestParam("end") String end,@RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
+		if(StringUtils.isEmpty(start)){
+			start = "0000-00-00";
+		}
+		if(StringUtils.isEmpty(end)){
+			end = "9999-99-99";
+		}
+		DataGrid<DailyData> grid = new DataGrid<>(current,rowCount,0,null);
+		grid = dailyService.getDailyData(start,end,grid);
+		return grid;
 	}
 
   }
