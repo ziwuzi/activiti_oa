@@ -47,4 +47,6 @@ public interface LeaveService {
     List<LeaveData> getAllLeaveData(String start, String end);
 
     String[] getUserLeaveData(String start, String end, String name);
+
+    boolean checkExist(LeaveApply apply);
 }

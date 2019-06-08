@@ -65,6 +65,7 @@
 			where leave_type = #{leaveType}
 			and start_time<=#{end}
 			and end_time>=#{start}
+			and state in (0,1)
 			union all
 			select username,0 count
 			from user) t
@@ -80,10 +81,22 @@
 			and leave_type = #{leaveType}
 			and start_time <= #{end}
 			and end_time >= #{start}
+			and state in (0,1)
 			union all
 			select username,0 count
 			from user
 			where username = #{name}) t
+		]]>
+	</select>
+
+	<select id="checkExist" resultType="java.lang.Integer">
+		<![CDATA[
+			select count(*)
+			from LEAVEAPPLY
+			where user_id = #{user_id}
+			and state in (0,1)
+			and start_time <= #{end_time}
+			and end_time >= #{start_time}
 		]]>
 	</select>
 

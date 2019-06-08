@@ -126,7 +126,7 @@
 		    },
 		    "commands": function(column, row)
 		    {
-		            return "<button class=\"btn btn-xs btn-default ajax-link command-run1\" data-row-id=\"" + row.taskid + "\">处理</button>";
+				return "<button class=\"btn btn-xs btn-default ajax-link command-run1\" data-row-id=\"" + row.taskid + "\">处理</button>";
 		    }
 	    	}
 	    

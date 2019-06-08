@@ -54,7 +54,7 @@
 			<div class="box ui-draggable ui-droppable" id="dept">
 				<div class="box-header">
 					<div class="box-name">
-						<i class="fa fa-search"></i> <span>部门领导审批</span>
+						<i class="fa fa-search"></i> <span>人事审批</span>
 					</div>
 					<div class="box-icons">
 						<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -89,7 +89,7 @@
 						             <div class="form-group">
 						                <label>请假原因</label>
 						                 <input class="form-control" id="reason" readonly="readonly">
-						             </div>    
+						             </div>
 						             <div class="form-group">
 						                <label>hr审批意见</label>
 						                <div class="controls">
@@ -98,7 +98,7 @@
 												<option value="false">拒绝</option>
 											</select>
 										</div>
-						             </div> 
+						             </div>
 						              <button id="btn" type="button" class="btn btn-default">完成</button>
                                 </form>
 				</div>

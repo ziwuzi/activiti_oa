@@ -25,4 +25,6 @@ public interface LeaveApplyMapper {
     List<LeaveDataDetail> getLeaveData(@Param("start") String start, @Param("end") String end, @Param("leaveType") String leaveType);
 
 	LeaveDataDetail getUserLeaveData(@Param("start") String start, @Param("end") String end, @Param("leaveType") String leaveType,@Param("name") String name);
+
+	int checkExist(LeaveApply apply);
 }

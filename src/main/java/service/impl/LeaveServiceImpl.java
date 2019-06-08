@@ -50,7 +50,6 @@ public class LeaveServiceImpl implements LeaveService{
 	
 	public ProcessInstance startWorkflow(LeaveApply apply, String userid, Map<String, Object> variables) {
 		apply.setApply_time(new Date().toString());
-		apply.setUser_id(userid);
 		apply.setState(0);
 		leaveApplyMapper.save(apply);
 		String businesskey=String.valueOf(apply.getId());//使用leaveapply表的主键作为businesskey,连接业务数据和流程数据
@@ -317,6 +316,11 @@ public class LeaveServiceImpl implements LeaveService{
 			result[i] = String.valueOf(dataDetail.getCount());
 		}
 		return result;
+	}
+
+	@Override
+	public boolean checkExist(LeaveApply apply) {
+		return leaveApplyMapper.checkExist(apply) > 0;
 	}
 
 	public static void main(String args[]){

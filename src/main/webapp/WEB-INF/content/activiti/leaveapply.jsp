@@ -50,7 +50,7 @@
 						</div>
 						<div class="form-group">
 							<label>请假原因</label>
-							<textarea class="form-control" name="reason" rows="3"></textarea>
+							<textarea class="form-control" name="reason" rows="3" id="reason"></textarea>
 						</div>
 						<button id="btn" type="button" class="btn btn-primary">开始申请</button>
 						<button type="reset" class="btn btn-primary">重置</button>
@@ -65,9 +65,28 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#btn").click(function(){
-		$.post("startleave",$("form").serialize(),function(){
-			$.MsgBox.Alert("消息","申请成功");
-			LoadAjaxContent("leaveapply");
+		if($("#start").val() == "" || $("#end").val() == ""){
+			$.MsgBox.Alert("消息","请假时间不能为空！");
+			return false;
+		}
+		if($("#reason").val() == ""){
+			$.MsgBox.Alert("消息","请假理由不能为空！");
+			return false;
+		}
+		$.MsgBox.Confirm("确认","是否申请？",function () {
+			$.post("startleave", $("form").serialize(), function (data) {
+				if(data == "success") {
+					$.MsgBox.Alert("消息", "申请成功", function () {
+						LoadAjaxContent("leave/to_my_leave");
+					});
+				}
+				else if(data == "exist"){
+					$.MsgBox.Alert("错误", "申请失败，当前时间段已存在申请！");
+				}
+				else{
+					$.MsgBox.Alert("错误", "申请失败！");
+				}
+			});
 		});
 	});
 

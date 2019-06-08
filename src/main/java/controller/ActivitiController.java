@@ -176,11 +176,15 @@ public class ActivitiController {
 	@ResponseBody
 	public String startLeave(LeaveApply apply, HttpSession session){
 		String userid=(String) session.getAttribute("username");
+		apply.setUser_id(userid);
+		if(leaveService.checkExist(apply)){
+			return JSON.toJSONString("exist");
+		}
 		Map<String,Object> variables=new HashMap<String, Object>();
 		variables.put("applyuserid", userid);
 		ProcessInstance ins= leaveService.startWorkflow(apply, userid, variables);
 		System.out.println("流程id"+ins.getId()+"已启动");
-		return JSON.toJSONString("sucess");
+		return JSON.toJSONString("success");
 	}
 
 	@RequestMapping(value="/depttasklist",produces = {"application/json;charset=UTF-8"})
