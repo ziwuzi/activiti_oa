@@ -140,11 +140,17 @@ public class SystemController {
 	}
 	
 	@RequestMapping(value="addrole",method=RequestMethod.POST)
-	String addRole(@RequestParam("rolename") String rolename,@RequestParam(value="permissionname[]")String[] permissionname){
-		Role r=new Role();
-		r.setRolename(rolename);
-		systemservice.addRole(r, permissionname);
-		return "forward:/roleadmin";
+	@ResponseBody
+	public Object addRole(@RequestParam("rolename") String rolename,@RequestParam(value="permissionname[]")String[] permissionname){
+		try {
+			Role r = new Role();
+			r.setRolename(rolename);
+			systemservice.addRole(r, permissionname);
+		}
+		catch (Exception e){
+			return JSON.toJSONString("error");
+		}
+		return JSON.toJSONString("success");
 	}
 	
 	@RequestMapping(value="/deleterole/{rid}",method=RequestMethod.GET)

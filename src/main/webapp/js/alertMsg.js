@@ -24,6 +24,11 @@ $("#test2Msg").bind("click", function() {
             btnOk(); //alert只是弹出消息，因此没必要用到回调函数callback
             btnNo();
         },
+        Alert: function(title, msg, callback) {
+            GenerateHtml("alert", title, msg);
+            btnOk(callback);
+            btnNo();
+        },
         Confirm: function(title, msg, callback) {
             GenerateHtml("confirm", title, msg);
             btnOk(callback);

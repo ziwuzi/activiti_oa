@@ -90,7 +90,7 @@ public class SystemServiceImpl implements SystemService{
 		
 	}
 	public List<Role> getPageRoleInfo(int pagenum, int pagesize) {
-		PageHelper.startPage(pagenum,pagesize);
+		//PageHelper.startPage(pagenum,pagesize);
 		List<Role> l=rolemapper.getRoleinfo();
 		List<Role> result = new ArrayList<>();
 		int start = pagenum * pagesize - pagesize;

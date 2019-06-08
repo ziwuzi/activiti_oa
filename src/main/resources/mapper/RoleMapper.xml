@@ -23,6 +23,7 @@
     <select id="getRoleinfo" resultMap="roleMap">
     	select * from role left join role_permission on role.rid=role_permission.roleid left join permission 
     	on role_permission.permissionid=permission.pid
+    	order by role.rid
     </select>
     <insert id="adduserrole" useGeneratedKeys="true" keyProperty="urid" parameterType="po.User_role">
     	 insert into user_role (userid,roleid)

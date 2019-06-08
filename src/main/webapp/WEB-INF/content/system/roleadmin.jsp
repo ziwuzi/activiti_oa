@@ -109,13 +109,15 @@
 				    			$.MsgBox.Alert("消息","必须选择至少选择一个权限");
 				    			return false;
 				    		}
-	    	    		
-		    	    		$.post("updaterole/"+rid,$("form").serialize(),function(data){
-		    	    			$("#roleinfo").modal('hide');
-				    			$.MsgBox.Alert("消息","修改成功");
-				    			LoadAjaxContent("roleadmin");
-				    			history.go(0);
-		    	    		});
+							$.MsgBox.Confirm("确认","是否保存？",function () {
+								$.post("updaterole/" + rid, $("form").serialize(), function (data) {
+									$("#roleinfo").modal('hide');
+									$.MsgBox.Alert("消息", "修改成功",function () {
+										LoadAjaxContent("roleadmin");
+										history.go(0);
+									});
+								});
+							});
 		    	    	});
 	    	    	});
 	    	    	
@@ -126,14 +128,17 @@
 	  });
 	  
 	 function deleterole(rid){
-	 	$.ajax({
-	     type: 'GET',
-	     url: "deleterole/"+rid ,
-	     success:function(data) {  
-	             $.MsgBox.Alert("消息","删除成功！");
-	             LoadAjaxContent("roleadmin");
-      	 }
-		});
+		 $.MsgBox.Confirm("确认","是否删除？",function () {
+			 $.ajax({
+				 type: 'GET',
+				 url: "deleterole/" + rid,
+				 success: function (data) {
+					 $.MsgBox.Alert("消息", "删除成功！",function () {
+						 LoadAjaxContent("roleadmin");
+					 });
+				 }
+			 });
+		 });
 	 }
 
 	function editRoleMenu(rid){
@@ -168,12 +173,20 @@
 	    			$.MsgBox.Alert("消息","必须选择至少选择一个权限");
 	    			return false;
 	    		}
-	    		$.post("addrole",$("form").serialize(),function(){
-	    			$("#roleinfo").modal('hide');
-	    			$.MsgBox.Alert("消息","添加成功");
-	    			LoadAjaxContent("roleadmin");
-	    			history.go(0);
-	    		});
+				$.MsgBox.Confirm("确认","是否保存？",function () {
+					$.post("addrole", $("form").serialize(), function (data) {
+						if (data == "success") {
+							$("#roleinfo").modal('hide');
+							$.MsgBox.Alert("消息", "添加成功",function () {
+								LoadAjaxContent("roleadmin");
+								history.go(0);
+							});
+						}
+						else {
+							$.MsgBox.Alert("错误", "添加失败，角色名重复！");
+						}
+					});
+				});
 	    	});
 	    
 	  	});
