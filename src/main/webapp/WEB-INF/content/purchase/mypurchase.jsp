@@ -33,11 +33,13 @@
                     <table id="grid-data" class="table table-condensed table-hover table-striped">
                         <thead>
                         <tr>
-                            <th data-column-id="executionid">执行ID</th>
-                            <th data-column-id="processInstanceid">流程实例ID</th>
-                            <th data-column-id="activityid">当前节点</th>
-                            <th data-column-id="businesskey">业务号</th>
-                            <th data-formatter="commands">查看详情</th>
+                            <th data-column-id="applyer">申请人</th>
+                            <th data-formatter="applytime">申请时间</th>
+                            <th data-column-id="itemList">物品清单</th>
+                            <th data-column-id="total">总金额</th>
+                            <th data-column-id="taskName">任务名称</th>
+                            <th data-formatter="state">状态</th>
+                            <th data-formatter="commands">操作</th>
                         </tr>
                         </thead>
                     </table>
@@ -58,6 +60,18 @@
             ajax: true,
             url: "mypurchaseprocess",
             formatters: {
+                "applytime":function(column, row){
+                    return getLocalTime(row.applytime);
+                },
+                "state": function(column, row)
+                {
+                    switch (row.state) {
+                        case 0 : return "<span style='color:green'>审核中</span>";
+                        case 1 : return "<span style='color:green'>审核通过</span>";
+                        case 2 : return "<span style='color:red'>驳回</span>";
+                        case 3 : return "<span style='color:red'>撤销</span>";
+                    }
+                },
                 "commands": function (column, row) {
                     return "<a class=\"btn btn-xs btn-default ajax-link\" target=\"_blank\" href=\"traceprocess/" + row.processInstanceid + "\">查看详情</a>";
                 }
@@ -70,5 +84,8 @@
         });
     });
 
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/,' ');
+    }
 
 </script>

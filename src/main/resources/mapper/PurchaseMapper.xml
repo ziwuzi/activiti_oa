@@ -7,12 +7,12 @@
 		select * from purchase where id=#{id} 
 	</select>
 	<insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="po.PurchaseApply">
-	  insert into purchase (id,itemlist,total,applytime,applyer)
-	  values (#{id},#{itemlist},#{total},#{applytime},#{applyer})
+	  insert into purchase (id,process_instance_id,itemlist,total,applytime,applyer,state)
+	  values (#{id},#{process_instance_id},#{itemlist},#{total},#{applytime},#{applyer},#{state})
 	</insert>
 	<update id="update" parameterType="po.PurchaseApply">
 		update purchase set itemlist=#{itemlist},total=#{total},
-		applytime=#{applytime},applyer=#{applyer}
+		applytime=#{applytime},applyer=#{applyer},state=#{state}
 		where id=#{id}
 	</update>
 </mapper>

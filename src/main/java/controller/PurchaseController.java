@@ -35,10 +35,12 @@ import po.PurchaseApply;
 import po.Role;
 import po.User;
 import po.User_role;
+import po.query.PurchaseQuery;
 import service.PurchaseService;
 import service.SystemService;
 
 import com.alibaba.fastjson.JSON;
+import util.DateTool;
 
 @Controller
 public class PurchaseController {
@@ -106,6 +108,7 @@ public class PurchaseController {
 		purchase.setItemlist(itemlist);
 		purchase.setTotal(total);
 		purchase.setApplytime(new Date());
+		purchase.setState(0);
 		ProcessInstance ins=purchaseservice.startWorkflow(purchase, userid, variables);
 		System.out.println("流程id"+ins.getId()+"已启动");
 		return JSON.toJSONString("sucess");
@@ -113,13 +116,14 @@ public class PurchaseController {
 	//我发起的采购流程
 	@RequestMapping("mypurchaseprocess")
 	@ResponseBody
-	public DataGrid<RunningProcess> myPurchaseProcess(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+	public DataGrid<PurchaseQuery> myPurchaseProcess(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
 		ProcessInstanceQuery query = runservice.createProcessInstanceQuery();
 		int total= (int) query.count();
 		List<ProcessInstance> a = query.processDefinitionKey("purchase").involvedUser(userid).listPage(firstrow, rowCount);
 		List<RunningProcess> list=new ArrayList<RunningProcess>();
+		List<PurchaseQuery> purchaseQueryList = new ArrayList<>();
 		for(ProcessInstance p:a){
 			RunningProcess process=new RunningProcess();
 			if(p.getActivityId()==null)
@@ -136,19 +140,33 @@ public class PurchaseController {
 			process.setExecutionid(p.getId());
 			process.setProcessInstanceid(p.getProcessInstanceId());
 			PurchaseApply l=purchaseservice.getPurchase(Integer.parseInt(p.getBusinessKey()));
-			if(l.getApplyer().equals(userid))
-			list.add(process);
-			else
-			continue;
+			if(l.getApplyer().equals(userid)) {
+				PurchaseQuery purchaseQuery = getPurchaseQuery(process,l);
+				purchaseQueryList.add(purchaseQuery);
+				list.add(process);
+			}
 		}
-		DataGrid<RunningProcess> grid=new DataGrid<RunningProcess>();
+		DataGrid<PurchaseQuery> grid=new DataGrid<>();
 		grid.setCurrent(current);
 		grid.setRowCount(rowCount);
 		grid.setTotal(total);
-		grid.setRows(list);
+		grid.setRows(purchaseQueryList);
 		return grid;
 	}
-	
+
+	private PurchaseQuery getPurchaseQuery(RunningProcess process, PurchaseApply l) {
+		PurchaseQuery purchaseQuery = new PurchaseQuery();
+		purchaseQuery.setApplyer(l.getApplyer());
+		purchaseQuery.setApplytime(l.getApplytime());
+		purchaseQuery.setItemList(l.getItemlist());
+		purchaseQuery.setTotal(l.getTotal());
+		purchaseQuery.setState(l.getState());
+		if(l.getTask() != null) {
+			purchaseQuery.setTaskName(l.getTask().getName());
+		}
+		return purchaseQuery;
+	}
+
 	@RequestMapping("/mypurchase")
 	String myPurchase(){
 		return "purchase/mypurchase";

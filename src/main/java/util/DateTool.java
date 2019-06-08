@@ -163,6 +163,10 @@ public class DateTool {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(dt);
 	}
+	public static String parseDate1(Date dt) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(dt);
+	}
 	public static String parseDate2(Date dt) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		return sdf.format(dt);

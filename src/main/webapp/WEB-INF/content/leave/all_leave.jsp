@@ -68,10 +68,10 @@
                 "state": function(column, row)
                 {
                     switch (row.state) {
-                        case 0 : return "审核中";
-                        case 1 : return "审核通过";
-                        case 2 : return "驳回";
-                        case 3 : return "撤销";
+                        case 0 : return "<span style='color:green'>审核中</span>";
+                        case 1 : return "<span style='color:green'>审核通过</span>";
+                        case 2 : return "<span style='color:red'>驳回</span>";
+                        case 3 : return "<span style='color:red'>撤销</span>";
                     }
                 }
             }

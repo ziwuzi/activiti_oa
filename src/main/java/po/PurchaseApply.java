@@ -11,6 +11,10 @@ public class PurchaseApply {
 	Date applytime;
 	String applyer;
 	Task task;
+	private Integer state;
+	private String auditName;
+	private String process_instance_id;
+
 	public int getId() {
 		return id;
 	}
@@ -47,5 +51,28 @@ public class PurchaseApply {
 	public void setTask(Task task) {
 		this.task = task;
 	}
-	
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
+	public String getAuditName() {
+		return auditName;
+	}
+
+	public void setAuditName(String auditName) {
+		this.auditName = auditName;
+	}
+
+	public String getProcess_instance_id() {
+		return process_instance_id;
+	}
+
+	public void setProcess_instance_id(String process_instance_id) {
+		this.process_instance_id = process_instance_id;
+	}
 }
