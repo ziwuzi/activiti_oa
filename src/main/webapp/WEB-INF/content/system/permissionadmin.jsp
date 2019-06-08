@@ -70,14 +70,16 @@
 	  });
 	  
 	 function deletepermission(pid){
-	 	$.ajax({
-	     type: 'GET',
-	     url: "deletepermission/"+pid,
-	     success:function(data) {  
-	             $.MsgBox.Alert("消息","删除成功！");
-	             LoadAjaxContent("permissionadmin");
-      	 }
-		});
+		 $.MsgBox.Confirm("确认","是否删除？",function (){
+			 $.ajax({
+			 type: 'GET',
+			 url: "deletepermission/"+pid,
+			 success:function(data) {
+					 $.MsgBox.Alert("消息","删除成功！");
+					 LoadAjaxContent("permissionadmin");
+			 }
+			});
+		 });
 	 } 
 	 
 	  $(document).ready(function(){
@@ -90,11 +92,13 @@
 	    			$.MsgBox.Alert("消息","权限名不得为空");
 	    			return false;
 	    		}
-	    		$.post("addpermission",$("form").serialize(),function(){
-	    			$("#permissioninfo").modal('hide');
-	    			LoadAjaxContent("permissionadmin");
-	    			history.go(0);
-	    		});
+				$.MsgBox.Confirm("确认","是否保存？",function () {
+					$.post("addpermission", $("form").serialize(), function () {
+						$("#permissioninfo").modal('hide');
+						LoadAjaxContent("permissionadmin");
+						history.go(0);
+					});
+				});
 	    	});
 	    
 	  	});
@@ -119,7 +123,7 @@
         	</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
         <button type="button" id="btn" class="btn btn-primary">保存</button>
       </div>
       </form>
