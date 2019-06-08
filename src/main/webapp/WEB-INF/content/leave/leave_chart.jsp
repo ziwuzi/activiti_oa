@@ -178,7 +178,7 @@
     function queryByName() {
         $.post("leave/leave_chart_name",$('#leaveForm').serialize(),function(data){
             if(data == 'noName'){
-                alert("用户不存在");
+                $.MsgBox.Alert("消息","用户不存在");
                 return;
             }
             let xData = ["事假","病假","年假","丧假","产假"];

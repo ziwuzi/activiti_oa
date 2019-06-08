@@ -143,5 +143,6 @@
 <script src="js/jquery.bootgrid.min.js"></script>
 <!-- All functions for this theme + document.ready processing -->
 <script src="js/devoops.js"></script>
+<script src="js/alertMsg.js"></script>
 </body>
 </html>

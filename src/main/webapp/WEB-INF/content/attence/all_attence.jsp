@@ -102,7 +102,7 @@
 		$("#upload").submit(function(){
 			if($("#fileupload").val()=="")
 			{
-				alert("请选择考勤文件上传！");
+				$.MsgBox.Alert("消息","请选择考勤文件上传！");
 				return false;
 			}
 		});

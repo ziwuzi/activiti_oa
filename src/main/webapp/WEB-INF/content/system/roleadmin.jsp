@@ -106,13 +106,13 @@
 				    				flag=true;
 				    		}
 				    		if(!flag){
-				    			alert("必须选择至少选择一个权限");
+				    			$.MsgBox.Alert("消息","必须选择至少选择一个权限");
 				    			return false;
 				    		}
 	    	    		
 		    	    		$.post("updaterole/"+rid,$("form").serialize(),function(data){
 		    	    			$("#roleinfo").modal('hide');
-				    			alert("修改成功");
+				    			$.MsgBox.Alert("消息","修改成功");
 				    			LoadAjaxContent("roleadmin");
 				    			history.go(0);
 		    	    		});
@@ -130,7 +130,7 @@
 	     type: 'GET',
 	     url: "deleterole/"+rid ,
 	     success:function(data) {  
-	             alert("删除成功！");  
+	             $.MsgBox.Alert("消息","删除成功！");
 	             LoadAjaxContent("roleadmin");
       	 }
 		});
@@ -155,7 +155,7 @@
 	    	$("#btn").click(function(){
 	    		if($("#rolename").val()=="")
 	    		{
-	    			alert("角色名不得为空");
+	    			$.MsgBox.Alert("消息","角色名不得为空");
 	    			return false;
 	    		}
 	    		var a=$("input[type='checkbox']").size();
@@ -165,12 +165,12 @@
 	    				flag=true;
 	    		}
 	    		if(!flag){
-	    			alert("必须选择至少选择一个权限");
+	    			$.MsgBox.Alert("消息","必须选择至少选择一个权限");
 	    			return false;
 	    		}
 	    		$.post("addrole",$("form").serialize(),function(){
 	    			$("#roleinfo").modal('hide');
-	    			alert("添加成功");
+	    			$.MsgBox.Alert("消息","添加成功");
 	    			LoadAjaxContent("roleadmin");
 	    			history.go(0);
 	    		});

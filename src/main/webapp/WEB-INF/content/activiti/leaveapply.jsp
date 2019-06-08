@@ -66,7 +66,7 @@
 $(document).ready(function(){
 	$("#btn").click(function(){
 		$.post("startleave",$("form").serialize(),function(){
-			alert("申请成功");
+			$.MsgBox.Alert("消息","申请成功");
 			LoadAjaxContent("leaveapply");
 		});
 	});

@@ -83,7 +83,7 @@
 	  $("#upload").submit(function(){
 	    if($("#fileupload").val()=="")
 	    {
-	    	alert("请选择工作流文件上传");
+	    	$.MsgBox.Alert("消息","请选择工作流文件上传");
 	    	return false;
 	    }
 	  });
@@ -116,7 +116,7 @@
 		    grid.find(".command-delete").on("click", function(e)
 			    {
 			        $.post("deletedeploy",{deployid:$(this).data("row-id")},function(){
-			        	alert("删除成功");
+			        	$.MsgBox.Alert("消息","删除成功");
 			        	$("#grid-data").bootgrid("reload");
 			        });
 			    });

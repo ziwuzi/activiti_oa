@@ -74,7 +74,7 @@
 	     type: 'GET',
 	     url: "deletepermission/"+pid,
 	     success:function(data) {  
-	             alert("删除成功！");  
+	             $.MsgBox.Alert("消息","删除成功！");
 	             LoadAjaxContent("permissionadmin");
       	 }
 		});
@@ -87,7 +87,7 @@
 	    	$("#btn").click(function(){
 	    		if($("#permissionname").val()=="")
 	    		{
-	    			alert("权限名不得为空");
+	    			$.MsgBox.Alert("消息","权限名不得为空");
 	    			return false;
 	    		}
 	    		$.post("addpermission",$("form").serialize(),function(){

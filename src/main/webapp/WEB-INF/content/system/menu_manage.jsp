@@ -87,7 +87,7 @@
             url: "system/edit_role_menu",
             data: {"roleId" : ${roleId}, "menuString" : menuString },
             success:function() {
-                alert("保存成功");
+                $.MsgBox.Alert("消息","保存成功");
                 LoadAjaxContent("roleadmin");
             }
         });

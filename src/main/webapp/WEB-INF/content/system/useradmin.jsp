@@ -94,16 +94,16 @@
 	    	    		});
 	    	    		$("#btn").click(function(){
 				    		if($("#tel").val()==""){
-				    			alert("电话不得为空");
+				    			$.MsgBox.Alert("消息","电话不得为空");
 				    			return false;
 				    		}
 				    		if($("#age").val()==""){
-				    			alert("年龄不得为空");
+				    			$.MsgBox.Alert("消息","年龄不得为空");
 				    			return false;
 				    		}
 		    	    		$.post("updateuser/"+uid,$("form").serialize(),function(data){
 		    	    			$("#userinfo").modal('hide');
-				    			alert("修改成功");
+				    			$.MsgBox.Alert("消息","修改成功");
 				    			LoadAjaxContent("useradmin");
 				    			history.go(0);
 		    	    		});
@@ -121,7 +121,7 @@
 	     type: 'GET',
 	     url: "deleteuser/"+uid ,
 	     success:function(data) {  
-	             alert("删除成功！");  
+	             $.MsgBox.Alert("消息","删除成功！");
 	             LoadAjaxContent("useradmin");
       	 }
 		});
@@ -144,20 +144,20 @@
 	    	$("#btn").click(function(){
 	    		if($("#username").val()=="")
 	    		{
-	    			alert("用户名不得为空");
+	    			$.MsgBox.Alert("消息","用户名不得为空");
 	    			return false;
 	    		}
 	    		if($("#tel").val()==""){
-	    			alert("电话不得为空");
+	    			$.MsgBox.Alert("消息","电话不得为空");
 	    			return false;
 	    		}
 	    		if($("#age").val()==""){
-	    			alert("年龄不得为空");
+	    			$.MsgBox.Alert("消息","年龄不得为空");
 	    			return false;
 	    		}
 	    		$.post("adduser",$("form").serialize(),function(){
 	    			$("#userinfo").modal('hide');
-	    			alert("添加成功");
+	    			$.MsgBox.Alert("消息","添加成功");
 	    			LoadAjaxContent("useradmin");
 	    			history.go(0);
 	    		});

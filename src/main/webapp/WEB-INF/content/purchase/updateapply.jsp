@@ -127,7 +127,7 @@
 	    	    	$("#dept").show();
 	    	    	$("#btn").click(function(){
 	    		    	$.post("task/updateapplycomplete/"+taskid,$("form").serialize(),function(a){
-	    		    		alert("处理成功");
+	    		    		$.MsgBox.Alert("消息","处理成功");
 	    		    		LoadAjaxContent("updateapply");
 	    		    	});
 	    	    	

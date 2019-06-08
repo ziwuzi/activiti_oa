@@ -173,7 +173,7 @@
     function queryByName() {
         $.post("attence/attence_chart_name",$('#attenceForm').serialize(),function(data){
             if(data == 'noName'){
-                alert("用户不存在");
+                $.MsgBox.Alert("消息","用户不存在");
                 return;
             }
             let xData = ['迟到','早退','上班异常','下班异常'];

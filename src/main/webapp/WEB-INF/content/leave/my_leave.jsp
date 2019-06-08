@@ -91,7 +91,7 @@
 
     function cancel(id){
         $.post("leave/cancel_leave/"+id,$("form").serialize(),function(a){
-            alert("处理成功");
+            $.MsgBox.Alert("消息","处理成功");
             LoadAjaxContent("leave/to_my_leave");
         });
     }

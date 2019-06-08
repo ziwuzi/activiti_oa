@@ -50,7 +50,7 @@
 $(document).ready(function(){
 	$("#btn").click(function(){
 		$.post("startpurchase",$("form").serialize(),function(){
-			alert("申请成功");
+			$.MsgBox.Alert("消息","申请成功");
 			LoadAjaxContent("purchase");
 		});
 	});

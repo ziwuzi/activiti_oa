@@ -61,7 +61,7 @@ $(document).ready(function(){
 	$("#btn").click(function(){
 		$.post("daily/add_daily",$("form").serialize(),function(data){
 			if(data=="success"){
-				alert("申请成功");
+				$.MsgBox.Alert("消息","申请成功");
 				LoadAjaxContent("daily/my_daily");
 			}
 		});
