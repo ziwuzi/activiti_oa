@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!--Start Breadcrumb-->
+<script src="js/echart/echarts.min.js"></script>
 <div class="row">
     <div id="breadcrumb" class="col-xs-12">
         <a href="#" class="show-sidebar">
@@ -8,7 +9,7 @@
         <ol class="breadcrumb pull-left">
             <li><a href="index">首页</a></li>
             <li><a href="#">人事管理</a></li>
-            <li><a href="#">申请明细</a></li>
+            <li><a href="#">统计图表</a></li>
         </ol>
     </div>
 </div>
@@ -18,7 +19,7 @@
             <div class="box ui-draggable ui-droppable">
                 <div class="box-header">
                     <div class="box-name">
-                        <i class="fa fa-coffee"></i> <span>申请明细</span>
+                        <i class="fa fa-coffee"></i> <span>查询表单</span>
                     </div>
                     <div class="box-icons">
                         <a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -29,17 +30,66 @@
                     <div class="no-move"></div>
                 </div>
                 <div class="box-content">
-                    <table id="grid-data" class="table table-condensed table-hover table-striped">
-                        <thead>
-                        <tr>
-                            <th data-column-id="executionid">执行ID</th>
-                            <th data-column-id="processInstanceid">流程实例ID</th>
-                            <th data-column-id="activityid">当前节点</th>
-                            <th data-column-id="businesskey">业务号</th>
-                            <th data-formatter="commands">查看详情</th>
-                        </tr>
-                        </thead>
-                    </table>
+                    <form class="form-horizontal" role="form" id="leaveForm">
+                        <h4 class="page-header">查询条件</h4>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">开始时间：</label>
+                            <div class="col-xs-4">
+                                <input id="start" class="form-control" name="start" placeholder="开始时间">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">结束时间：</label>
+                            <div class="col-xs-4">
+                                <input id="end" class="form-control" name="end" placeholder="结束时间">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">姓名：</label>
+                            <div class="col-xs-4">
+                                <input id="name" class="form-control" name="name" placeholder="姓名">
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="queryType"> 按姓名查询
+                                        <i class="fa fa-square-o small"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-2 col-xs-offset-2">
+                                <button type="button" class="btn btn-primary btn-label-left" id="queryBtn">
+                                    <span><i class="fa fa-clock-o"></i></span>
+                                    查询
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box ui-draggable ui-droppable">
+                <div class="box-header">
+                    <div class="box-name">
+                        <i class="fa fa-coffee"></i> <span>统计图表</span>
+                    </div>
+                    <div class="box-icons">
+                        <a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+                        </a> <a class="expand-link"> <i class="fa fa-expand"></i>
+                    </a> <a class="close-link"> <i class="fa fa-times"></i>
+                    </a>
+                    </div>
+                    <div class="no-move"></div>
+                </div>
+                <div class="box-content">
+                    <h4>人事统计</h4>
+                    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                    <div id="chart" style="width: 800px;height:400px;"></div>
                 </div>
             </div>
         </div>
@@ -47,91 +97,109 @@
 
 </div>
 
-
 <script type="text/javascript">
     $(document).ready(function () {
-
-        $("#leave_history").click(function (){
-            LoadAjaxContent("historyprocess");
+        $('#start').datepicker({
+            setDate: new Date(),
+            dateFormat:'yy-mm-dd',
+            onSelect: function( startDate ) {
+                let $startDate = $( "#start" );
+                let $endDate = $('#end');
+                let endDate = $endDate.datepicker( 'getDate' );
+                if(endDate < startDate){
+                    $endDate.datepicker('setDate', startDate - 3600*1000*24);
+                }
+                $endDate.datepicker( "option", "minDate", startDate );
+            }
         });
+        $('#end').datepicker({
+            setDate: new Date(),
+            dateFormat:'yy-mm-dd',
+            onSelect: function( endDate ) {
+                let $startDate = $( "#start" );
+                let $endDate = $('#end');
+                let startDate = $startDate.datepicker( "getDate" );
+                if(endDate < startDate){
+                    $startDate.datepicker('setDate', startDate + 3600*1000*24);
+                }
+                $startDate.datepicker( "option", "maxDate", endDate );
+            }
+        });
+        $('#queryBtn').click(function () {
+            if($('#queryType')[0].checked){
+                queryByName();
+            }
+            else{
+                queryAll();
+            }
+        });
+
     });
 
-    var data = genData(50);
-
-    option = {
-        title : {
-            text: '同名数量统计',
-            subtext: '纯属虚构',
-            x:'center'
-        },
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-            type: 'scroll',
-            orient: 'vertical',
-            right: 10,
-            top: 20,
-            bottom: 20,
-            data: data.legendData,
-
-            selected: data.selected
-        },
-        series : [
-            {
-                name: '姓名',
-                type: 'pie',
-                radius : '55%',
-                center: ['40%', '50%'],
-                data: data.seriesData,
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+    function queryAll() {
+        $.post("leave/leave_chart",$('#leaveForm').serialize(),function(data){
+            let source = [['product']];
+            let series = [];
+            for (let i = 0; i < data.length; i++) {
+                series.push({type: 'bar'});
+                source[0].push(data[i].leaveType);
+                for (let j = 0; j < data[i].dataDetails.length; j++) {
+                    let detail = data[i].dataDetails[j];
+                    if(i == 0){
+                        source.push([detail.userName]);
                     }
+                    source[j+1].push(detail.count);
                 }
             }
-        ]
-    };
-
-
-
-
-    function genData(count) {
-        var nameList = [
-            '赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '褚', '卫', '蒋', '沈', '韩', '杨', '朱', '秦', '尤', '许', '何', '吕', '施', '张', '孔', '曹', '严', '华', '金', '魏', '陶', '姜', '戚', '谢', '邹', '喻', '柏', '水', '窦', '章', '云', '苏', '潘', '葛', '奚', '范', '彭', '郎', '鲁', '韦', '昌', '马', '苗', '凤', '花', '方', '俞', '任', '袁', '柳', '酆', '鲍', '史', '唐', '费', '廉', '岑', '薛', '雷', '贺', '倪', '汤', '滕', '殷', '罗', '毕', '郝', '邬', '安', '常', '乐', '于', '时', '傅', '皮', '卞', '齐', '康', '伍', '余', '元', '卜', '顾', '孟', '平', '黄', '和', '穆', '萧', '尹', '姚', '邵', '湛', '汪', '祁', '毛', '禹', '狄', '米', '贝', '明', '臧', '计', '伏', '成', '戴', '谈', '宋', '茅', '庞', '熊', '纪', '舒', '屈', '项', '祝', '董', '梁', '杜', '阮', '蓝', '闵', '席', '季', '麻', '强', '贾', '路', '娄', '危'
-        ];
-        var legendData = [];
-        var seriesData = [];
-        var selected = {};
-        for (var i = 0; i < 50; i++) {
-            name = Math.random() > 0.65
-                ? makeWord(4, 1) + '·' + makeWord(3, 0)
-                : makeWord(2, 1);
-            legendData.push(name);
-            seriesData.push({
-                name: name,
-                value: Math.round(Math.random() * 100000)
-            });
-            selected[name] = i < 6;
-        }
-
-        return {
-            legendData: legendData,
-            seriesData: seriesData,
-            selected: selected
-        };
-
-        function makeWord(max, min) {
-            var nameLen = Math.ceil(Math.random() * max + min);
-            var name = [];
-            for (var i = 0; i < nameLen; i++) {
-                name.push(nameList[Math.round(Math.random() * nameList.length - 1)]);
-            }
-            return name.join('');
-        }
+            console.log(source);
+            /*let xData = [];
+            let yData = [];
+            for (let i = 0; i < data.length; i++) {
+                xData.push(data[i].userName);
+                yData.push(data[i].count);
+            }*/
+            echarts.dispose(document.getElementById('chart'));
+            let myChart = echarts.init(document.getElementById('chart'));
+            let option = {
+                legend: {},
+                tooltip: {},
+                dataset: {
+                    source: source
+                },
+                xAxis: {type: 'category'},
+                yAxis: {},
+                series: series
+            };
+            myChart.setOption(option);
+            console.log(data);
+        });
     }
 
+    function queryByName() {
+        $.post("leave/leave_chart_name",$('#leaveForm').serialize(),function(data){
+            if(data == 'noName'){
+                alert("用户不存在");
+                return;
+            }
+            let xData = ["事假","病假","年假","丧假","产假"];
+            let yData = data;
+            echarts.dispose(document.getElementById('chart'));
+            let myChart = echarts.init(document.getElementById('chart'));
+            let option = {
+                xAxis: {
+                    type: 'category',
+                    data: xData
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: yData,
+                    type: 'bar'
+                }]
+            };
+            myChart.setOption(option);
+            console.log(data);
+        });
+    }
 </script>

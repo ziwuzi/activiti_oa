@@ -9,6 +9,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 
 import po.LeaveApply;
 import po.TbAttence;
+import po.query.LeaveData;
 
 public interface LeaveService {
 	public ProcessInstance startWorkflow(LeaveApply apply,String userid,Map<String,Object> variables);
@@ -42,4 +43,8 @@ public interface LeaveService {
 	void update(LeaveApply leaveApply);
 
     LeaveApply getLeaveByAttence(TbAttence attence);
+
+    List<LeaveData> getAllLeaveData(String start, String end);
+
+    String[] getUserLeaveData(String start, String end, String name);
 }

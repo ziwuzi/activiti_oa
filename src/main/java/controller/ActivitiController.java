@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.github.pagehelper.StringUtil;
-import com.mysql.jdbc.StringUtils;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
@@ -31,6 +31,7 @@ import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.image.impl.DefaultProcessDiagramGenerator;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,10 +53,12 @@ import po.Role;
 import po.Role_permission;
 import po.User;
 import po.User_role;
+import po.query.LeaveData;
 import service.LeaveService;
 import service.SystemService;
 
 import com.alibaba.fastjson.JSON;
+import util.DateTool;
 
 @Controller
 public class ActivitiController {
@@ -599,18 +602,6 @@ public class ActivitiController {
         return grid;
 	}
 
-	@RequestMapping("leave/to_leave_chart")
-	String toLeaveChart(){
-		return "leave/leaveChart";
-	}
-
-	@RequestMapping(value="leave/leave_chart",produces = {"application/json;charset=UTF-8"})
-	@ResponseBody
-	public Object getLeaveChart(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount) {
-
-		return null;
-	}
-
     @RequestMapping(value="leave/cancel_leave/{id}",produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public Object cancelLeave(@PathVariable("id") String id) {
@@ -621,4 +612,39 @@ public class ActivitiController {
 		}
 		return JSON.toJSONString("success");
     }
+
+	@RequestMapping("leave/to_leave_chart")
+	String toLeaveChart(){
+		return "leave/leave_chart";
+	}
+
+	@RequestMapping(value="leave/leave_chart",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public Object getLeaveChart(@RequestParam("start") String start,@RequestParam("end") String end){
+		if(StringUtils.isEmpty(start)) {
+			start="0000-00-00";
+		}
+		if(StringUtils.isEmpty(end)) {
+			end="9999-99-99";
+		}
+		List<LeaveData> dataList = leaveService.getAllLeaveData(start,end);
+		return JSON.toJSON(dataList);
+	}
+
+	@RequestMapping(value="leave/leave_chart_name",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public Object getLeaveChartName(@RequestParam("start") String start,@RequestParam("end") String end,@RequestParam("name") String name){
+		if(StringUtils.isEmpty(start)) {
+			start="0000-00-00";
+		}
+		if(StringUtils.isEmpty(end)) {
+			end="9999-99-99";
+		}
+		String [] dataList = leaveService.getUserLeaveData(start,end,name);
+		if(dataList == null){
+			return JSON.toJSONString("noName");
+		}
+		return JSON.toJSON(dataList);
+	}
+
 }

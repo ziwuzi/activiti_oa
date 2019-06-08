@@ -29,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import po.LeaveApply;
 import po.TbAttence;
+import po.query.LeaveData;
+import po.query.LeaveDataDetail;
 import service.LeaveService;
 import util.DateTool;
 
@@ -287,6 +289,34 @@ public class LeaveServiceImpl implements LeaveService{
 			e.printStackTrace();
 		}
 		return leaveApplyMapper.getByAttence(attence.getUserId(),date);
+	}
+
+	@Override
+	public List<LeaveData> getAllLeaveData(String start, String end) {
+		String [] leaveTypes = {"事假","病假","年假","丧假","产假"};
+		List<LeaveData> leaveDataList = new ArrayList<>();
+		for(String leaveType : leaveTypes){
+			LeaveData leaveData = new LeaveData();
+			List<LeaveDataDetail> dataDetails = leaveApplyMapper.getLeaveData(start,end,leaveType);
+			leaveData.setDataDetails(dataDetails);
+			leaveData.setLeaveType(leaveType);
+			leaveDataList.add(leaveData);
+		}
+		return leaveDataList;
+	}
+
+	@Override
+	public String[] getUserLeaveData(String start, String end, String name) {
+		String [] leaveTypes = {"事假","病假","年假","丧假","产假"};
+		String [] result = new String[leaveTypes.length];
+		for (int i = 0; i < leaveTypes.length; i++) {
+			LeaveDataDetail dataDetail = leaveApplyMapper.getUserLeaveData(start,end,leaveTypes[i],name);
+			if(dataDetail == null){
+				return null;
+			}
+			result[i] = String.valueOf(dataDetail.getCount());
+		}
+		return result;
 	}
 
 	public static void main(String args[]){
