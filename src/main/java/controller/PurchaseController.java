@@ -576,6 +576,13 @@ public class PurchaseController {
 		String userid=(String) session.getAttribute("username");
 		taskservice.claim(taskid, userid);
 		taskservice.complete(taskid);
+		Task task = ActivitiUtil.getTask(taskid);
+		String instanceid=task.getProcessInstanceId();
+		ProcessInstance ins= runservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
+		String businesskey=ins.getBusinessKey();
+		PurchaseApply a= purchaseservice.getPurchase(Integer.valueOf(businesskey));
+		a.setState(1);
+		purchaseservice.updatePurchase(a);
 		return new MSG("ok");
 	}
 

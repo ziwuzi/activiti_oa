@@ -145,7 +145,7 @@
         $.MsgBox.Confirm("确认","是否撤销？",function () {
             $.post("purchase/cancel_purchase/" + id, $("form").serialize(), function (data) {
                 $.MsgBox.Alert("消息", "处理成功", function () {
-                    LoadAjaxContent("leave/to_my_leave");
+                    LoadAjaxContent("mypurchase");
                 });
             });
         });
