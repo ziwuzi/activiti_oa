@@ -43,7 +43,7 @@ public class DailyServiceImpl implements DailyService {
 
     @Override
     public TbDaily getDaily(Integer dailyId) {
-        return null;
+        return dailyMapper.getDaily(dailyId);
     }
 
     @Override
@@ -76,5 +76,10 @@ public class DailyServiceImpl implements DailyService {
         dataGrid.setRows(dailyDataList);
         dataGrid.setTotal((int) pageInfo.getTotal());
         return dataGrid;
+    }
+
+    @Override
+    public void update(TbDaily daily) {
+        dailyMapper.updateByPrimaryKey(daily);
     }
 }

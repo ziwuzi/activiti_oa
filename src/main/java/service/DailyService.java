@@ -27,4 +27,6 @@ public interface DailyService {
     List<TbDaily> getDailyList(int pageNum, int pageSize);
 
     public DataGrid<DailyData> getDailyData(String start, String end, DataGrid<DailyData> dataGrid);
+
+    void update(TbDaily daily);
 }

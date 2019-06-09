@@ -28,4 +28,6 @@ public interface TbDailyMapper {
     Integer getAllDailyCount();
 
     List<DailyData> getDailyData(@Param("start") String start,@Param("end") String end);
+
+    TbDaily getDaily(Integer dailyId);
 }

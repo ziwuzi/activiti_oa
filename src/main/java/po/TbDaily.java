@@ -39,6 +39,11 @@ public class TbDaily {
     private String feedback;
 
     /**
+     * 评语
+     */
+    private String comment;
+
+    /**
      * 创建时间
      */
     private String createTime;
@@ -110,5 +115,13 @@ public class TbDaily {
 
     public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime == null ? null : modifyTime.trim();
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

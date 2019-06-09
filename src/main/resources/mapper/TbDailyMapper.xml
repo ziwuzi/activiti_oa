@@ -9,6 +9,7 @@
         <result column="daily_content" property="dailyContent" jdbcType="VARCHAR" />
         <result column="plan" property="plan" jdbcType="VARCHAR" />
         <result column="feedback" property="feedback" jdbcType="VARCHAR" />
+        <result column="comment" property="comment" jdbcType="VARCHAR" />
         <result column="create_time" property="createTime" jdbcType="VARCHAR" />
         <result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
     </resultMap>
@@ -20,7 +21,7 @@
     </resultMap>
 
     <sql id="Base_Column_List" >
-        id, user_id, date, daily_content, plan, feedback, create_time, modify_time
+        id, user_id, date, daily_content, plan, feedback, comment, create_time, modify_time
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -67,6 +68,10 @@
             where not find_in_set( uid , t.uids)
             GROUP BY date
         ]]>
+    </select>
+
+    <select id="getDaily" resultMap="BaseResultMap">
+        select * from tb_daily where id = #{dailyId}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -157,6 +162,9 @@
             <if test="feedback != null" >
                 feedback = #{feedback,jdbcType=VARCHAR},
             </if>
+            <if test="comment != null" >
+                comment = #{comment,jdbcType=VARCHAR},
+            </if>
             <if test="createTime != null" >
                 create_time = #{createTime,jdbcType=VARCHAR},
             </if>
@@ -174,6 +182,7 @@
             daily_content = #{dailyContent,jdbcType=VARCHAR},
             plan = #{plan,jdbcType=VARCHAR},
             feedback = #{feedback,jdbcType=VARCHAR},
+            comment = #{comment,jdbcType=VARCHAR},
             create_time = #{createTime,jdbcType=VARCHAR},
             modify_time = #{modifyTime,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
