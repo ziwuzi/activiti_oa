@@ -152,10 +152,12 @@ public class LeaveServiceImpl implements LeaveService{
 		Map<String,Object> variables=new HashMap<String,Object>();
 		variables.put("reapply", reapply);
 		if(reapply.equals("true")){
+			a.setState(0);
 			leaveApplyMapper.update(a);
 			taskService.complete(taskid,variables);
-		}else
-			taskService.complete(taskid,variables);
+		}else {
+			taskService.complete(taskid, variables);
+		}
 	}
 	
 	public List<String> getHighLightedFlows(  

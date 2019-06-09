@@ -58,6 +58,7 @@ import service.LeaveService;
 import service.SystemService;
 
 import com.alibaba.fastjson.JSON;
+import util.ActivitiUtil;
 import util.DateTool;
 
 @Controller
@@ -172,6 +173,7 @@ public class ActivitiController {
 	public String modifyApply(){
 		return "activiti/modifyapply";
 	}
+
 	@RequestMapping(value="/startleave",method=RequestMethod.POST)
 	@ResponseBody
 	public String startLeave(LeaveApply apply, HttpSession session){
@@ -358,6 +360,11 @@ public class ActivitiController {
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String,Object>();
 		String approve=req.getParameter("deptleaderapprove");
+		if(!"true".equals(approve)) {
+			LeaveApply leaveApply = leaveService.getLeaveByTaskId(taskid);
+			leaveApply.setState(2);
+			leaveService.update(leaveApply);
+		}
 		variables.put("deptleaderapprove", approve);
 		taskService.claim(taskid, userid);
 		taskService.complete(taskid, variables);
@@ -370,6 +377,11 @@ public class ActivitiController {
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String,Object>();
 		String approve=req.getParameter("hrapprove");
+		if(!"true".equals(approve)) {
+			LeaveApply leaveApply = leaveService.getLeaveByTaskId(taskid);
+			leaveApply.setState(2);
+			leaveService.update(leaveApply);
+		}
 		variables.put("hrapprove", approve);
 		taskService.claim(taskid, userid);
 		taskService.complete(taskid, variables);
@@ -608,11 +620,13 @@ public class ActivitiController {
 
     @RequestMapping(value="leave/cancel_leave/{id}",produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public Object cancelLeave(@PathVariable("id") String id) {
+    public Object cancelLeave(@PathVariable("id") String id) throws Exception {
 		if(!StringUtil.isEmpty(id)) {
 			LeaveApply leaveApply = leaveService.getLeave(Integer.valueOf(id));
 			leaveApply.setState(3);
 			leaveService.update(leaveApply);
+			Task task= ActivitiUtil.getTask(leaveApply.getProcess_instance_id());
+			ActivitiUtil.endProcess(task.getId());
 		}
 		return JSON.toJSONString("success");
     }

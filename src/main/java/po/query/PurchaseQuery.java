@@ -3,6 +3,7 @@ package po.query;
 import java.util.Date;
 
 public class PurchaseQuery {
+    private Integer id;
     private String applyer;
     private Date applytime;
     private String itemList;
@@ -56,5 +57,13 @@ public class PurchaseQuery {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

@@ -1,7 +1,9 @@
 package service.impl;
 
+import java.util.List;
 import java.util.Map;
 
+import com.github.pagehelper.PageHelper;
 import mapper.PurchaseApplyMapper;
 
 import org.activiti.engine.IdentityService;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import po.PurchaseApply;
+import po.query.PurchaseQuery;
 import service.PurchaseService;
 @Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT,timeout=5)
 @Service
@@ -49,6 +52,17 @@ public class PurchaseServiceImpl implements PurchaseService{
 
 	public void updatePurchase(PurchaseApply a) {
 		purchasemapper.update(a);
+	}
+
+	@Override
+	public List<PurchaseApply> getMyPurchase(String userName, int current, int rowCount) {
+		PageHelper.startPage(current,rowCount);
+		return purchasemapper.getMyPurchase(userName);
+	}
+
+	@Override
+	public int getMyPurchaseCount(String userName) {
+		return purchasemapper.getMyPurchaseCount(userName);
 	}
 
 }

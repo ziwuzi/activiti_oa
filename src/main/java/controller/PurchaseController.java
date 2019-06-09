@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.github.pagehelper.StringUtil;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -19,6 +20,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +42,7 @@ import service.PurchaseService;
 import service.SystemService;
 
 import com.alibaba.fastjson.JSON;
+import util.ActivitiUtil;
 import util.DateTool;
 
 @Controller
@@ -114,6 +117,22 @@ public class PurchaseController {
 		return JSON.toJSONString("sucess");
 	}
 	//我发起的采购流程
+	@RequestMapping("purchase/get_my_purchase")
+	@ResponseBody
+	public DataGrid<PurchaseQuery> getMyPurchase(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+		DataGrid<PurchaseQuery> grid = new DataGrid<>(current, rowCount);
+		String userName=(String) session.getAttribute("username");
+		List<PurchaseApply> results = purchaseservice.getMyPurchase(userName,current, rowCount);
+		List<PurchaseQuery> tasks = new ArrayList<>();
+		for(PurchaseApply apply : results) {
+			tasks.add(getPurchaseQuery(apply));
+		}
+		int totalSize = purchaseservice.getMyPurchaseCount(userName);
+		grid = new DataGrid<>(current, rowCount, totalSize, tasks);
+		return grid;
+	}
+
+	//我发起的采购流程
 	@RequestMapping("mypurchaseprocess")
 	@ResponseBody
 	public DataGrid<PurchaseQuery> myPurchaseProcess(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
@@ -141,7 +160,7 @@ public class PurchaseController {
 			process.setProcessInstanceid(p.getProcessInstanceId());
 			PurchaseApply l=purchaseservice.getPurchase(Integer.parseInt(p.getBusinessKey()));
 			if(l.getApplyer().equals(userid)) {
-				PurchaseQuery purchaseQuery = getPurchaseQuery(process,l);
+				PurchaseQuery purchaseQuery = getPurchaseQuery(l);
 				purchaseQueryList.add(purchaseQuery);
 				list.add(process);
 			}
@@ -154,8 +173,9 @@ public class PurchaseController {
 		return grid;
 	}
 
-	private PurchaseQuery getPurchaseQuery(RunningProcess process, PurchaseApply l) {
+	private PurchaseQuery getPurchaseQuery(PurchaseApply l) {
 		PurchaseQuery purchaseQuery = new PurchaseQuery();
+		purchaseQuery.setId(l.getId());
 		purchaseQuery.setApplyer(l.getApplyer());
 		purchaseQuery.setApplytime(l.getApplytime());
 		purchaseQuery.setItemList(l.getItemlist());
@@ -557,5 +577,18 @@ public class PurchaseController {
 		taskservice.claim(taskid, userid);
 		taskservice.complete(taskid);
 		return new MSG("ok");
+	}
+
+	@RequestMapping(value="purchase/cancel_purchase/{id}",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public Object cancelLeave(@PathVariable("id") String id) throws Exception {
+		if(!StringUtils.isEmpty(id)) {
+			PurchaseApply purchaseApply = purchaseservice.getPurchase(Integer.valueOf(id));
+			purchaseApply.setState(3);
+			purchaseservice.updatePurchase(purchaseApply);
+			Task task= ActivitiUtil.getTask(purchaseApply.getProcess_instance_id());
+			ActivitiUtil.endProcess(task.getId());
+		}
+		return JSON.toJSONString("success");
 	}
 }

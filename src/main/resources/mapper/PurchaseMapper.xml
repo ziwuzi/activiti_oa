@@ -6,12 +6,21 @@
 	<select id="get" resultType="po.PurchaseApply" parameterType="int">
 		select * from purchase where id=#{id} 
 	</select>
+
+	<select id="getMyPurchase" resultType="po.PurchaseApply">
+		select * from purchase where applyer = #{userName}
+	</select>
+
+	<select id="getMyPurchaseCount" resultType="java.lang.Integer">
+		select count(*) from purchase where applyer = #{userName}
+	</select>
+
 	<insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="po.PurchaseApply">
 	  insert into purchase (id,process_instance_id,itemlist,total,applytime,applyer,state)
 	  values (#{id},#{process_instance_id},#{itemlist},#{total},#{applytime},#{applyer},#{state})
 	</insert>
 	<update id="update" parameterType="po.PurchaseApply">
-		update purchase set itemlist=#{itemlist},total=#{total},
+		update purchase set process_instance_id=#{process_instance_id},itemlist=#{itemlist},total=#{total},
 		applytime=#{applytime},applyer=#{applyer},state=#{state}
 		where id=#{id}
 	</update>
