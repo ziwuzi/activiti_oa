@@ -1,6 +1,7 @@
 package controller;
 
 import com.alibaba.fastjson.JSON;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -9,8 +10,10 @@ import pagemodel.DataGrid;
 import po.TbDaily;
 import po.User;
 import po.query.DailyData;
+import po.query.DailyQuery;
 import service.DailyService;
 import service.LoginService;
+import service.SystemService;
 import util.DateTool;
 
 import javax.servlet.http.HttpSession;
@@ -23,6 +26,8 @@ import java.util.List;
 public class DailyController {
 	@Autowired
 	DailyService dailyService;
+	@Autowired
+	SystemService systemService;
 	
 	@RequestMapping("daily/my_daily")
 	public String myDaily(){
@@ -50,16 +55,27 @@ public class DailyController {
 
 	@RequestMapping("daily/get_all_daily")
 	@ResponseBody
-	DataGrid<TbDaily> getAllDaily(HttpSession session, @RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
-		User user=(User) session.getAttribute("user");
+	DataGrid<DailyQuery> getAllDaily(@RequestParam("current") int current, @RequestParam("rowCount") int rowCount){
 		List<TbDaily> dailyList = dailyService.getDailyList(current,rowCount);
+		List<DailyQuery> dailyQueryList = getDailyQuery(dailyList);
 		int total = dailyService.getDailyCount();
-		DataGrid<TbDaily> grid = new DataGrid<>();
+		DataGrid<DailyQuery> grid = new DataGrid<>();
 		grid.setRowCount(rowCount);
 		grid.setCurrent(current);
 		grid.setTotal(total);
-		grid.setRows(dailyList);
+		grid.setRows(dailyQueryList);
 		return grid;
+	}
+
+	private List<DailyQuery> getDailyQuery(List<TbDaily> dailyList) {
+		List<DailyQuery> dailyQueryList = new ArrayList<>();
+		for(TbDaily tbDaily : dailyList){
+			DailyQuery dailyQuery = new DailyQuery();
+			BeanUtils.copyProperties(tbDaily,dailyQuery);
+			dailyQuery.setUserName(systemService.getUserById(tbDaily.getUserId()).getUsername());
+			dailyQueryList.add(dailyQuery);
+		}
+		return dailyQueryList;
 	}
 
 	@RequestMapping("daily/to_add_daily")

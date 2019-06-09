@@ -37,15 +37,15 @@
 						<div class="form-group">
 							<label>工作内容
 								(工作情况描述、进展/结果、待解决问题等)：</label>
-							<textarea class="form-control" name="dailyContent" rows="3"></textarea>
+							<textarea class="form-control" name="dailyContent" rows="3" placeholder="工作内容" id="dailyContent"></textarea>
 						</div>
 						<div class="form-group">
 							<label>明日/下周计划：</label>
-							<textarea class="form-control" name="plan" rows="3"></textarea>
+							<textarea class="form-control" name="plan" rows="3" placeholder="明日/下周计划" id="plan"></textarea>
 						</div>
 						<div class="form-group">
 							<label>需反馈/支持的事项或困难：</label>
-							<textarea class="form-control" name="feedback" rows="3"></textarea>
+							<textarea class="form-control" name="feedback" rows="3" placeholder="需反馈/支持的事项或困难"></textarea>
 						</div>
 						<button id="btn" type="button" class="btn btn-primary">开始申请</button>
 						<button type="reset" class="btn btn-primary">重置</button>
@@ -59,11 +59,25 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#btn").click(function(){
-		$.post("daily/add_daily",$("form").serialize(),function(data){
-			if(data=="success"){
-				$.MsgBox.Alert("消息","申请成功");
-				LoadAjaxContent("daily/my_daily");
-			}
+		if($("#date").val() == ""){
+			$.MsgBox.Alert("消息","日期不能为空！");
+			return false;
+		}
+		if($("#dailyContent").val() == ""){
+			$.MsgBox.Alert("消息","工作内容不能为空！");
+			return false;
+		}
+		if($("#plan").val() == ""){
+			$.MsgBox.Alert("消息","明日/下周计划不能为空！");
+			return false;
+		}
+		$.MsgBox.Confirm("确认","是否提交？",function () {
+			$.post("daily/add_daily", $("form").serialize(), function (data) {
+				if (data == "success") {
+					$.MsgBox.Alert("消息", "提交成功！");
+					LoadAjaxContent("daily/my_daily");
+				}
+			});
 		});
 	});
 	

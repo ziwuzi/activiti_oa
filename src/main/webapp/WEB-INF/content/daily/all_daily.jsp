@@ -33,6 +33,7 @@
 						<thead>
 						<tr>
 							<th data-column-id="id" data-identifier="true" data-type="numeric">编号</th>
+							<th data-column-id="userName">姓名</th>
 							<th data-column-id="date">日期</th>
 							<th data-column-id="dailyContent">工作内容</th>
 							<th data-column-id="plan">明日计划</th>
@@ -68,6 +69,10 @@
 							<input class="form-control" id="dailyId" readonly="readonly">
 						</div>
 						<div class="form-group">
+							<label>姓名</label>
+							<input class="form-control" id="userName" readonly="readonly">
+						</div>
+						<div class="form-group">
 							<label>日期</label>
 							<input class="form-control" id="date" readonly="readonly">
 						</div>
@@ -85,7 +90,7 @@
 						</div>
 						<div class="form-group">
 							<label>评语</label>
-							<textarea class="form-control" id="comment"></textarea>
+							<textarea class="form-control" id="comment" placeholder="评语"></textarea>
 						</div>
 						<button id="commentBtn" type="button" class="btn btn-default">评价</button>
 						<button id="btn" type="button" class="btn btn-default" onclick="$('#dept').hide();">关闭</button>
@@ -128,12 +133,21 @@
 			if(row.id == id){
 				console.log(row);
 				$("#dailyId").val(row.id);
+				$("#userName").val(row.userName);
 				$("#date").val(row.date);
 				$("#dailyContent").val(row.dailyContent);
 				$("#plan").val(row.plan);
 				$("#feedback").val(row.feedback);
 				$("#comment").val(row.comment);
 				$("#commentBtn").click(function () {
+					if($("#comment").val() == ""){
+						$.MsgBox.Alert("消息","评语不能为空！");
+						return false;
+					}
+					if($("#comment").val() == row.comment){
+						$.MsgBox.Alert("消息","评语未修改！");
+						return false;
+					}
 					$.MsgBox.Confirm("确认","是否评价？",function () {
 						$.post("daily/comment/" + id, {"comment": $("#comment").val()}, function (data) {
 							$.MsgBox.Alert("消息", "处理成功", function () {

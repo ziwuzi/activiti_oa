@@ -35,7 +35,7 @@
         select
         <include refid="Base_Column_List" />
         from tb_daily
-        order by date desc
+        order by date desc,user_id
     </select>
 
     <select id="getAllDailyCount" resultType="java.lang.Integer">
