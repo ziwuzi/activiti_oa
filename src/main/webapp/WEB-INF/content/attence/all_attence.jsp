@@ -34,7 +34,7 @@
 							<label for="fileupload">考勤数据</label>
 							<input type="file" name="upload" class="form-control" id="fileupload">
 						</div>
-						<button type="submit" class="btn btn-primary">upload</button>
+						<button type="submit" class="btn btn-primary">上传</button>
 					</form>
 				</div>
 			</div></div>

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -53,7 +54,7 @@
 	<div class="container-fluid expanded-panel">
 		<div class="row">
 			<div id="logo" class="col-xs-12 col-sm-2">
-				<a href="index">Spring-activiti</a>
+				<a href="index">Activiti-OA</a>
 			</div>
 			<div id="top-panel" class="col-xs-12 col-sm-10">
 				<div class="row">
@@ -64,7 +65,7 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle account" data-toggle="dropdown">
 									<div class="avatar">
-										<img src="img/avatar.jpg" class="img-circle" alt="avatar" />
+										<img src="img/logo-200.png" class="img-circle" alt="avatar" />
 									</div>
 									<i class="fa fa-angle-down pull-right"></i>
 									<div class="user-mini pull-right">
@@ -94,100 +95,19 @@
 	<div class="row">
 		<div id="sidebar-left" class="col-xs-2 col-sm-2">
 			<ul class="nav main-menu">
-				<li>
-					<a href="processlist" class="active ajax-link">
-						<i class="fa fa-dashboard"></i>
-						<span class="hidden-xs">已部署的工作流</span>
-					</a>
-				</li>
-				
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle">
-						<i class="fa fa-bar-chart-o"></i>
-						<span class="hidden-xs">功能表</span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a class="ajax-link" href="leaveapply">请假OA</a></li>
-						<li><a class="ajax-link" href="purchase">物资采购</a></li>
-					</ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="fa fa-bar-chart-o"></i>
-                        <span class="hidden-xs">日报管理</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="ajax-link" href="daily/my_daily">我的日报</a></li>
-						<li><a class="ajax-link" href="daily/to_add_daily">新增日报</a></li>
-						<li><a class="ajax-link" href="daily/all_daily">员工日报</a></li>
-                    </ul>
-                </li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle">
-						<i class="fa  fa-bell"></i>
-						 <span class="hidden-xs">我的待办任务</span>
-					</a>
-					<ul class="dropdown-menu">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle">
-								<i class="fa fa-bars"></i>
-								<span class="hidden-xs">请假待办</span>
-							</a>
-							<ul class="dropdown-menu">
-								<li><a class="ajax-link" href="deptleaderaudit">部门领导审批</a></li>
-								<li><a class="ajax-link" href="hraudit">人事审批</a></li>
-								<li><a class="ajax-link" href="reportback">销假</a></li>
-								<li><a class="ajax-link" href="modifyapply">调整申请</a></li>
-							</ul>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle">
-								<i class="fa fa-phone-square"></i>
-								<span class="hidden-xs">采购待办</span>
-							</a>
-							<ul class="dropdown-menu">
-								<li><a class="ajax-link" href="purchasemanager">采购经理审批</a></li>
-								<li><a class="ajax-link" href="finance">财务审批</a></li>
-								<li><a class="ajax-link" href="manager">总经理审批</a></li>
-								<li><a class="ajax-link" href="pay">出纳付款</a></li>
-								<li><a class="ajax-link" href="updateapply">调整申请</a></li>
-								<li><a class="ajax-link" href="receiveitem">收货确认</a></li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle">
-						<i class="fa fa-truck"></i>
-						<span class="hidden-xs">运行流程进度追踪</span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a class="ajax-link" href="myleaves">我发起的请假流程</a></li>
-						<li><a class="ajax-link" href="myleaveprocess">我正在参与的请假流程</a></li>
-						<li><a class="ajax-link" href="mypurchase">我发起的采购流程</a></li>
-					</ul>
-				</li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle">
-						<i class="fa fa-power-off"></i>
-						<span class="hidden-xs">已结束流程数据查询</span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a class="ajax-link" href="historyprocess">我的请假历史</a></li>
-						<li><a class="ajax-link" href="historypurchaseprocess">我的采购历史</a></li>
-					</ul>
-				</li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle">
-						<i class="fa fa-cog"></i>
-						<span class="hidden-xs">系统管理</span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a class="ajax-link" href="useradmin">用户管理</a></li>
-						<li><a class="ajax-link" href="roleadmin">角色管理</a></li>
-						<li><a class="ajax-link" href="permissionadmin">权限管理</a></li>
-					</ul>
-				</li>
+				<c:forEach items="${menuList }" var="menus">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle">
+							<i class="fa fa-cog"></i>
+							<span class="hidden-xs">${menus[0].name}</span>
+						</a>
+						<ul class="dropdown-menu">
+							<c:forEach items="${menus}" var="menu" begin="1">
+								<li><a class="ajax-link" href="${menu.url}">${menu.name}</a></li>
+							</c:forEach>
+						</ul>
+					</li>
+				</c:forEach>
 			</ul>
 		</div>
 		<!--Start Content-->
@@ -223,5 +143,6 @@
 <script src="js/jquery.bootgrid.min.js"></script>
 <!-- All functions for this theme + document.ready processing -->
 <script src="js/devoops.js"></script>
+<script src="js/alertMsg.js"></script>
 </body>
 </html>

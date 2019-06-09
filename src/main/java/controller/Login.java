@@ -40,8 +40,8 @@ public class Login {
 			httpSession.setAttribute("username", username);
 			List<User_role> roleList = user.getUser_roles();
 			List<List<RoleMenuQuery>> menuList = menuService.getMenu(roleList,false);
-			request.setAttribute("menuList",menuList);
-			return "index2";
+			httpSession.setAttribute("menuList",menuList);
+			return "index";
 		}else
 			return "fail";
 	}

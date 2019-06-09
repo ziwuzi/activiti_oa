@@ -151,6 +151,14 @@
                     source[j+1].push(detail.count);
                 }
             }
+            /*source = [
+                ["product","事假","病假","年假","丧假","产假"],
+                ["admin",5,3,4,0,0],
+                ["小李",2,1,3,2,0],
+                ["小王",3,4,1,0,3],
+                ["小郑",4,3,5,1,0],
+                ["小明",1,1,4,0,0]
+            ];*/
             console.log(source);
             /*let xData = [];
             let yData = [];
@@ -183,6 +191,7 @@
             }
             let xData = ["事假","病假","年假","丧假","产假"];
             let yData = data;
+            //yData = [5,3,4,0,0];
             echarts.dispose(document.getElementById('chart'));
             let myChart = echarts.init(document.getElementById('chart'));
             let option = {

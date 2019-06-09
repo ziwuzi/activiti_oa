@@ -148,6 +148,14 @@
                 xData.push(data[i].userName);
                 yData.push(data[i].count);
             }*/
+            /*source = [
+                ['product', '迟到', "早退", "上班异常", "下班异常"],
+                ["admin",5,3,4,0],
+                ["小李",2,1,3,2],
+                ["小王",3,4,1,0],
+                ["小郑",4,3,5,1],
+                ["小明",1,1,4,0]
+            ];*/
             echarts.dispose(document.getElementById('chart'));
             let myChart = echarts.init(document.getElementById('chart'));
             let option = {
@@ -178,6 +186,7 @@
             }
             let xData = ['迟到','早退','上班异常','下班异常'];
             let yData = [data.lateCount,data.earlyCount,data.startErrCount,data.offErrCount];
+            //yData = [5,3,4,0];
             echarts.dispose(document.getElementById('chart'));
             let myChart = echarts.init(document.getElementById('chart'));
             let option = {

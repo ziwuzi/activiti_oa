@@ -29,7 +29,7 @@
                     <div class="no-move"></div>
                 </div>
                 <div class="box-content">
-                    <button id="leave_history" type="button" class="btn btn-primary">申请历史</button>
+                    <%--<button id="leave_history" type="button" class="btn btn-primary">申请历史</button>--%>
                     <table id="grid-data" class="table table-condensed table-hover table-striped">
                         <thead>
                         <tr>

@@ -7,7 +7,7 @@
 						</a>
 		<ol class="breadcrumb pull-left">
 			<li><a href="index">首页</a></li>
-			<li><a href="#">物资管理</a></li>
+			<li><a href="#">采购管理</a></li>
 			<li><a href="#">我的采购历史</a></li>
 		</ol>
 	</div>

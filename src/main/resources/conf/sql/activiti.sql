@@ -198,7 +198,7 @@ INSERT INTO `tb_menu` VALUES (13, 10, '员工日报', 'daily/all_daily', 3, 0, '
 INSERT INTO `tb_menu` VALUES (14, 10, '统计图表', NULL, 4, 0, '201905202250', '201905202250');
 INSERT INTO `tb_menu` VALUES (15, 5, '部门审核', 'deptleaderaudit', 2, 0, '201905202250', '201905202250');
 INSERT INTO `tb_menu` VALUES (16, 5, '人事审核', 'hraudit', 2, 0, '201905202250', '201905202250');
-INSERT INTO `tb_menu` VALUES (17, 0, '物资管理', '', 3, 0, '201905202250', '201905202250');
+INSERT INTO `tb_menu` VALUES (17, 0, '采购管理', '', 3, 0, '201905202250', '201905202250');
 INSERT INTO `tb_menu` VALUES (18, 17, '我的申请', 'mypurchase', 1, 0, '201905202250', '201905202250');
 INSERT INTO `tb_menu` VALUES (19, 17, '采购经理审核', 'purchasemanager', 2, 0, '201905202250', '201905202250');
 INSERT INTO `tb_menu` VALUES (20, 17, '财务审核', 'finance', 2, 0, '201905202250', '201905202250');
