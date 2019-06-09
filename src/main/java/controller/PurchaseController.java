@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.github.pagehelper.StringUtil;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -43,7 +42,6 @@ import service.SystemService;
 
 import com.alibaba.fastjson.JSON;
 import util.ActivitiUtil;
-import util.DateTool;
 
 @Controller
 public class PurchaseController {
@@ -402,7 +400,7 @@ public class PurchaseController {
 		Map<String,Object> variables=new HashMap<String,Object>();
 		variables.put("finance", finance);
 		if(finance.equals("true"))
-			variables.put("money", total);
+			variables.put("money", Float.valueOf(total));
 		taskservice.claim(taskid, userid);
 		taskservice.complete(taskid, variables);
 		return new MSG("ok");
@@ -574,15 +572,15 @@ public class PurchaseController {
 	@ResponseBody
 	public MSG receiveComplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String userid=(String) session.getAttribute("username");
-		taskservice.claim(taskid, userid);
-		taskservice.complete(taskid);
-		Task task = ActivitiUtil.getTask(taskid);
+		Task task = ActivitiUtil.getTaskByTaskId(taskid);
 		String instanceid=task.getProcessInstanceId();
 		ProcessInstance ins= runservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
 		String businesskey=ins.getBusinessKey();
 		PurchaseApply a= purchaseservice.getPurchase(Integer.valueOf(businesskey));
 		a.setState(1);
 		purchaseservice.updatePurchase(a);
+		taskservice.claim(taskid, userid);
+		taskservice.complete(taskid);
 		return new MSG("ok");
 	}
 
@@ -593,7 +591,7 @@ public class PurchaseController {
 			PurchaseApply purchaseApply = purchaseservice.getPurchase(Integer.valueOf(id));
 			purchaseApply.setState(3);
 			purchaseservice.updatePurchase(purchaseApply);
-			Task task= ActivitiUtil.getTask(purchaseApply.getProcess_instance_id());
+			Task task= ActivitiUtil.getTaskByProcessId(purchaseApply.getProcess_instance_id());
 			ActivitiUtil.endProcess(task.getId());
 		}
 		return JSON.toJSONString("success");

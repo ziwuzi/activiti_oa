@@ -35,7 +35,7 @@
 							                <th data-column-id="businessKey">业务号</th>
 							                <th data-formatter="applyer" data-column-id="applyer">申请人</th>
 							                <th data-formatter="itemlist" data-column-id="itemlist">采购内容</th>
-							                <th data-formatter="total" data-column-id="total">总金额</th>
+							                <th data-formatter="total" data-column-id="total">总金额（元）</th>
 							                <th data-formatter="commands">查看详情</th>
 							            </tr>
 							        </thead>

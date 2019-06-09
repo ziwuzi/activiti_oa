@@ -35,7 +35,7 @@
 							                <th data-column-id="applyer" data-identifier="true" data-type="numeric">申请人</th>
 							                <th data-column-id="applytime" data-formatter="applytime">申请时间</th>
 							                <th data-column-id="itemlist">申请内容</th>
-							                <th data-column-id="total">总金额</th>
+							                <th data-column-id="total">总金额（元）</th>
 							                <th data-column-id="taskid">任务ID</th>
 							                <th data-column-id="taskname">任务名称</th>
 							                <th data-column-id="processinstanceid" >流程实例ID</th>

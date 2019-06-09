@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.InputStream;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +58,6 @@ import service.SystemService;
 
 import com.alibaba.fastjson.JSON;
 import util.ActivitiUtil;
-import util.DateTool;
 
 @Controller
 public class ActivitiController {
@@ -625,7 +623,7 @@ public class ActivitiController {
 			LeaveApply leaveApply = leaveService.getLeave(Integer.valueOf(id));
 			leaveApply.setState(3);
 			leaveService.update(leaveApply);
-			Task task= ActivitiUtil.getTask(leaveApply.getProcess_instance_id());
+			Task task= ActivitiUtil.getTaskByProcessId(leaveApply.getProcess_instance_id());
 			ActivitiUtil.endProcess(task.getId());
 		}
 		return JSON.toJSONString("success");

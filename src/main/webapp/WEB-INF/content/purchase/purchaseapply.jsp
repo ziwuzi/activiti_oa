@@ -32,8 +32,7 @@
 					<form role="form" action="startleave" method="post">
 						<div class="form-group has-feedback">
 							<label class="control-label">物品清单</label> 
-							<textarea id="itemlist" rows="6" class="form-control" name="itemlist">
-							</textarea>
+							<textarea id="itemlist" rows="6" class="form-control" name="itemlist" placeholder="物品清单"></textarea>
 						</div>
 						<div class="form-group has-feedback">
 							<label>总金额(元)</label> <input id="total" class="form-control" name="total" placeholder="总金额">
@@ -49,9 +48,19 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#btn").click(function(){
-		$.post("startpurchase",$("form").serialize(),function(){
-			$.MsgBox.Alert("消息","申请成功");
-			LoadAjaxContent("purchase");
+		if($("#itemlist").val() == ""){
+			$.MsgBox.Alert("消息","物品清单不能为空！");
+			return false;
+		}
+		if($("#total").val() == ""){
+			$.MsgBox.Alert("消息","总金额不能为空！");
+			return false;
+		}
+		$.MsgBox.Confirm("确认","是否申请？",function () {
+			$.post("startpurchase", $("form").serialize(), function () {
+				$.MsgBox.Alert("消息", "申请成功");
+				LoadAjaxContent("purchase");
+			});
 		});
 	});
 });

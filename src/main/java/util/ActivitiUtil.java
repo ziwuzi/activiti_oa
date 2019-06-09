@@ -155,8 +155,12 @@ public class ActivitiUtil {
         commitProcess(taskId, null, endActivity.getId());
     }
 
-    public static Task getTask(String processId){
+    public static Task getTaskByProcessId(String processId){
         return taskService.createTaskQuery().processInstanceId(processId).singleResult();
+    }
+
+    public static Task getTaskByTaskId(String taskId){
+        return taskService.createTaskQuery().taskId(taskId).singleResult();
     }
 
 

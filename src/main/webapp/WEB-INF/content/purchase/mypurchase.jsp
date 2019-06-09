@@ -29,14 +29,14 @@
                     <div class="no-move"></div>
                 </div>
                 <div class="box-content">
-                    <button id="purchase_history" type="button" class="btn btn-primary">申请历史</button>
+                    <%--<button id="purchase_history" type="button" class="btn btn-primary">申请历史</button>--%>
                     <table id="grid-data" class="table table-condensed table-hover table-striped">
                         <thead>
                         <tr>
                             <th data-column-id="applyer">申请人</th>
                             <th data-formatter="applytime">申请时间</th>
                             <th data-column-id="itemList">物品清单</th>
-                            <th data-column-id="total">总金额</th>
+                            <th data-column-id="total">总金额（元）</th>
                             <th data-column-id="taskName">任务名称</th>
                             <th data-formatter="state">状态</th>
                             <th data-formatter="commands">操作</th>
